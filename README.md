@@ -1,4 +1,4 @@
-### Setting up the backend
+## Setting up the backend
 #### Note that the commands are for Linux, I cannot guarantee that these commands work in MacOS/Windows
 
 1) cd into the backend folder
@@ -41,7 +41,7 @@
   
   
   
-### Setting up frontend
+## Setting up frontend
 
 #### This will vary from system to system drastically however, there should be some common steps
 
