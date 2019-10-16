@@ -1,0 +1,30 @@
+[2019-10-13 11:19:42.708] [exthost] [info] extension host started
+[2019-10-13 11:19:42.742] [exthost] [info] ExtensionService#_doActivateExtension GrapeCity.gc-excelviewer {"startup":false,"extensionId":{"value":"GrapeCity.gc-excelviewer","_lower":"grapecity.gc-excelviewer"},"activationEvent":"onLanguage:plaintext"}
+[2019-10-13 11:19:42.743] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/mohan/.vscode/extensions/grapecity.gc-excelviewer-2.1.32/dist/extension
+[2019-10-13 11:19:42.834] [exthost] [info] ExtensionService#_doActivateExtension vscode.debug-auto-launch {"startup":true,"extensionId":{"value":"vscode.debug-auto-launch","_lower":"vscode.debug-auto-launch"},"activationEvent":"*"}
+[2019-10-13 11:19:42.834] [exthost] [info] ExtensionService#loadCommonJSModule file:///usr/share/code/resources/app/extensions/debug-auto-launch/dist/extension
+[2019-10-13 11:19:42.837] [exthost] [info] ExtensionService#_doActivateExtension vscode.emmet {"startup":true,"extensionId":{"value":"vscode.emmet","_lower":"vscode.emmet"},"activationEvent":"*"}
+[2019-10-13 11:19:42.837] [exthost] [info] ExtensionService#loadCommonJSModule file:///usr/share/code/resources/app/extensions/emmet/dist/extension
+[2019-10-13 11:19:42.864] [exthost] [info] ExtensionService#_doActivateExtension vscode.git {"startup":true,"extensionId":{"value":"vscode.git","_lower":"vscode.git"},"activationEvent":"*"}
+[2019-10-13 11:19:42.864] [exthost] [info] ExtensionService#loadCommonJSModule file:///usr/share/code/resources/app/extensions/git/dist/main
+[2019-10-13 11:19:42.921] [exthost] [info] ExtensionService#_doActivateExtension vscode.merge-conflict {"startup":true,"extensionId":{"value":"vscode.merge-conflict","_lower":"vscode.merge-conflict"},"activationEvent":"*"}
+[2019-10-13 11:19:42.922] [exthost] [info] ExtensionService#loadCommonJSModule file:///usr/share/code/resources/app/extensions/merge-conflict/dist/extension
+[2019-10-13 11:19:42.929] [exthost] [info] ExtensionService#_doActivateExtension christian-kohler.path-intellisense {"startup":true,"extensionId":{"value":"christian-kohler.path-intellisense","_lower":"christian-kohler.path-intellisense"},"activationEvent":"*"}
+[2019-10-13 11:19:42.929] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/mohan/.vscode/extensions/christian-kohler.path-intellisense-1.4.2/out/src/extension
+[2019-10-13 11:19:42.944] [exthost] [info] ExtensionService#_doActivateExtension CoenraadS.bracket-pair-colorizer {"startup":true,"extensionId":{"value":"CoenraadS.bracket-pair-colorizer","_lower":"coenraads.bracket-pair-colorizer"},"activationEvent":"*"}
+[2019-10-13 11:19:42.944] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/mohan/.vscode/extensions/coenraads.bracket-pair-colorizer-1.0.61/out/src/extension
+[2019-10-13 11:19:42.958] [exthost] [info] ExtensionService#_doActivateExtension esbenp.prettier-vscode {"startup":true,"extensionId":{"value":"esbenp.prettier-vscode","_lower":"esbenp.prettier-vscode"},"activationEvent":"*"}
+[2019-10-13 11:19:42.958] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/mohan/.vscode/extensions/esbenp.prettier-vscode-2.3.0/out/extension
+[2019-10-13 11:19:43.087] [exthost] [info] ExtensionService#_doActivateExtension formulahendry.auto-close-tag {"startup":true,"extensionId":{"value":"formulahendry.auto-close-tag","_lower":"formulahendry.auto-close-tag"},"activationEvent":"*"}
+[2019-10-13 11:19:43.087] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/mohan/.vscode/extensions/formulahendry.auto-close-tag-0.5.6/out/src/extension
+[2019-10-13 11:19:43.088] [exthost] [info] ExtensionService#_doActivateExtension monokai.theme-monokai-pro-vscode {"startup":true,"extensionId":{"value":"monokai.theme-monokai-pro-vscode","_lower":"monokai.theme-monokai-pro-vscode"},"activationEvent":"*"}
+[2019-10-13 11:19:43.088] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/mohan/.vscode/extensions/monokai.theme-monokai-pro-vscode-1.1.14/js/main
+[2019-10-13 11:19:43.092] [exthost] [info] ExtensionService#_doActivateExtension ritwickdey.LiveServer {"startup":true,"extensionId":{"value":"ritwickdey.LiveServer","_lower":"ritwickdey.liveserver"},"activationEvent":"*"}
+[2019-10-13 11:19:43.092] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/mohan/.vscode/extensions/ritwickdey.liveserver-5.6.1/out/src/extension
+[2019-10-13 11:19:43.284] [exthost] [info] ExtensionService#_doActivateExtension Shan.code-settings-sync {"startup":true,"extensionId":{"value":"Shan.code-settings-sync","_lower":"shan.code-settings-sync"},"activationEvent":"*"}
+[2019-10-13 11:19:43.284] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/mohan/.vscode/extensions/shan.code-settings-sync-3.4.3/out/extension.js
+[2019-10-13 11:19:43.397] [exthost] [info] ExtensionService#_doActivateExtension streetsidesoftware.code-spell-checker {"startup":true,"extensionId":{"value":"streetsidesoftware.code-spell-checker","_lower":"streetsidesoftware.code-spell-checker"},"activationEvent":"*"}
+[2019-10-13 11:19:43.398] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/mohan/.vscode/extensions/streetsidesoftware.code-spell-checker-1.7.18/dist/extension
+[2019-10-13 11:19:43.434] [exthost] [info] ExtensionService#_doActivateExtension Zignd.html-css-class-completion {"startup":true,"extensionId":{"value":"Zignd.html-css-class-completion","_lower":"zignd.html-css-class-completion"},"activationEvent":"*"}
+[2019-10-13 11:19:43.434] [exthost] [info] ExtensionService#loadCommonJSModule file:///home/mohan/.vscode/extensions/zignd.html-css-class-completion-1.19.0/out/src/extension
+[2019-10-13 11:19:43.749] [exthost] [info] eager extensions activated

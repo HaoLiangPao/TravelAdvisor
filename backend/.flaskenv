@@ -1,0 +1,2 @@
+FLASK_APP=planit-backend
+FLASK_ENV=development
