@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, TextInput, Alert } from "react-native";
-import { Text, Input, Button } from "react-native-elements";
+import { Text, Button } from "react-native-elements";
 import planitApi from "../api/planitApi";
 
 const SignInScreen = ({ navigation }) => {
