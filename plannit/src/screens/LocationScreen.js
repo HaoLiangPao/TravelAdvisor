@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, Text, Button } from "react-native";
+import { View, StyleSheet, Text, Button, TextInput } from "react-native";
 
 const LocationScreen = () => {
   return (
@@ -47,8 +47,7 @@ const styles = StyleSheet.create({
     top: 80,
     fontSize:40
   },
-
-  textInput:{
+  textInput: {
     backgroundColor: "#292929",
     color: "white",
     margin: 15,
