@@ -60,19 +60,25 @@ const SignInScreen = ({ navigation }) => {
           title="Sign In"
           type="clear"
           onPress={() => {
-            const my_promise = SignInApi();
-            my_promise
-              .then(result => {
-                if (result.data.success === "Success") {
-                  navigation.navigate("mainFlow");
-                } else {
-                  Alert.alert(
-                    "Invalid E-mail or password",
-                    "Please try again or create an account."
-                  );
-                }
-              })
-              .catch(error => console.error(error));
+            if (password.length > 1 && email.length > 1) {
+              const my_promise = SignInApi();
+              my_promise
+                .then(result => {
+                  if (result.data.success === "Success") {
+                    navigation.navigate("mainFlow");
+                  } else {
+                    Alert.alert(
+                      "Invalid E-mail or password",
+                      "Please try again or create an account."
+                    );
+                  }
+                })
+                .catch(error => console.error(error));
+            }else{
+              Alert.alert(
+                "Please Enter valid email and password"
+              );
+            }
           }}
         />
         <Button

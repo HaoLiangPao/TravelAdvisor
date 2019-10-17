@@ -11,7 +11,12 @@
   ```
   ##### Note that if you need to add any new dependencies please use the python virtual enviroment.
   
-3) (Optional), In order for the frontend and backend to communicate you must setup NGROK.
+3) Install requirements
+  ```
+  pip install -r requirements.txt
+  ```
+
+4) (Optional), In order for the frontend and backend to communicate you must setup NGROK.
   1) Download NGROK and create an account https://ngrok.com/
   2) Connect to NGROK 
      ```
@@ -28,13 +33,13 @@
     ```
   #### NOTE THAT THE NGROK URL EXPIRES EVERY 8 HOURS
      
-4) While your python virtual envirment is running, 
+5) While your python virtual envirment is running, 
     ```
     flask run
     ```
     This will start the flask app
     
-5) (Optional) Once you are done and no longer want to work you can exit the python virtual enviroment,
+6) (Optional) Once you are done and no longer want to work you can exit the python virtual enviroment,
   ```
   deactivate
   ```
