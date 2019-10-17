@@ -15,6 +15,11 @@
   ```
   pip install -r requirements.txt
   ```
+    1) If you need to update requirements.txt (if you added a new dependencie)
+      ```
+      pip freeze requirements.txt
+      ```
+      Please do this in the location where the requirements.txt is. This means that when you run the existing command it should replace the old requirements.txt
 
 4) (Optional), In order for the frontend and backend to communicate you must setup NGROK.
     1) Download NGROK and create an account https://ngrok.com/
