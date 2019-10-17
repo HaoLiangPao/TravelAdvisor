@@ -75,7 +75,7 @@ const SignUpScreen = ({ navigation }) => {
                   my_promise
                     .then(result => {
                       if (result.data.success === "Success") {
-                        navigation.navigate('mainFlow')
+                        navigation.navigate('location', {username})
                       }
                       else{
                         Alert.alert(
