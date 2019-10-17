@@ -17,21 +17,21 @@
   ```
 
 4) (Optional), In order for the frontend and backend to communicate you must setup NGROK.
-  1) Download NGROK and create an account https://ngrok.com/
-  2) Connect to NGROK 
-     ```
-     ./ngrok authtoken <MY_TOKEN> 
-    ```
-    You can find your token on your NGROK dashboard
-  3) Start NGROK on port 5000
-     ```
-     ./ngrok http 5000
-     ```
-  4) In the NGROK terminal there should be a http link, use this and replace the base url in the following location
-    ```
-    cd  project-cipher/plannit/src/api/planitApi.js 
-    ```
-  #### NOTE THAT THE NGROK URL EXPIRES EVERY 8 HOURS
+    1) Download NGROK and create an account https://ngrok.com/
+    2) Connect to NGROK 
+       ```
+       ./ngrok authtoken <MY_TOKEN> 
+      ```
+      You can find your token on your NGROK dashboard
+    3) Start NGROK on port 5000
+       ```
+       ./ngrok http 5000
+       ```
+    4) In the NGROK terminal there should be a http link, use this and replace the base url in the following location
+      ```
+      cd  project-cipher/plannit/src/api/planitApi.js 
+      ```
+    #### NOTE THAT THE NGROK URL EXPIRES EVERY 8 HOURS
      
 5) While your python virtual envirment is running, 
     ```
