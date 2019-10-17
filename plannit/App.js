@@ -11,7 +11,8 @@ const switchNavigator = createSwitchNavigator({
   SignIn: SignInScreen,
   SignUp: SignUpScreen,
   mainFlow: createSwitchNavigator({
-    location: LocationScreen
+    location: LocationScreen,
+    filter: filterScreen
   })
 });
 

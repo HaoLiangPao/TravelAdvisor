@@ -1,6 +1,5 @@
 from flask import Blueprint, request, jsonify
-
-
+import googlemapAPI
 from .extensions import mongo
 from .extensions import bcrypt
 
@@ -47,5 +46,17 @@ def SignIn():
     userResponse = CheckIfUserExists(email)
     if(userResponse == None or not bcrypt.check_password_hash(userResponse.get("password"), password)):
         return_message = "User Does Not Exist"
+    resp = jsonify(success=return_message)
+    return resp
+
+@main.route('/enterLocation', methods=['GET', 'POST'])
+def verifyLocation():
+    return_message = "Success"
+    content = request.get_json(silent=True)
+    print(content)
+    location = content.get('location')
+    backendResponse = googlemapAPI.validateLocation(location)
+    if(backendResponse == None):
+        return_message = "Location Does Not Exist"
     resp = jsonify(success=return_message)
     return resp
