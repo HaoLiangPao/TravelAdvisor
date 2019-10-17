@@ -1,7 +1,10 @@
 import React from "react";
 import { View, StyleSheet, Text, Button, TextInput } from "react-native";
 
-const LocationScreen = () => {
+const LocationScreen = ({ navigation }) => {
+  //how to get username and password
+  const email = navigation.getParam("email", "NO-ID");
+  console.log(email);
   return (
     <View style={styles.container}>
       <View style={styles.upperBox}>
@@ -13,19 +16,22 @@ const LocationScreen = () => {
         </Text>
       </View>
       <View style={styles.middleBox}>
-        <TextInput placeholder="Enter a location" placeholderTextColor="#fff"
-        style = {styles.textInput} />
-        <Button style={{margin: 15}} title="Next"/>
+        <TextInput
+          placeholder="Enter a location"
+          placeholderTextColor="#fff"
+          style={styles.textInput}
+        />
+        <Button style={{ margin: 15 }} title="Next" />
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container:{
-    flex:1,
-    backgroundColor: '#121212',
-  }, 
+  container: {
+    flex: 1,
+    backgroundColor: "#121212"
+  },
   middleBox: {
     flex: 4,
     flexDirection: "column",
@@ -40,12 +46,12 @@ const styles = StyleSheet.create({
   headline1: {
     color: "#FFFFFF",
     top: 80,
-    fontSize:40
+    fontSize: 40
   },
   headline2: {
     color: "#0092CC",
     top: 80,
-    fontSize:40
+    fontSize: 40
   },
   textInput: {
     backgroundColor: "#292929",
