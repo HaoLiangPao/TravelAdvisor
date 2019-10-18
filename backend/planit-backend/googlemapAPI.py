@@ -15,6 +15,10 @@ gmaps = googlemaps.Client(key=API_KEY)
 #places_result = gmaps.places_nearby(location = "43.785231, -79.187713", radius = 20000, open_now = True, type = "restaurant", keyword = 'Fried Chicken')
 # pprint.pprint(geocode_result)
 
+# result = gmaps.geocode('new york')
+# result_dict = result.pop(0)
+# print(type(result_dict["geometry"]["location"]))
+
 def validateLocation(location):
     # find a location if existed
     geocode_result = gmaps.geocode(location)

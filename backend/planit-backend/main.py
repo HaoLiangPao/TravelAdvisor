@@ -59,6 +59,8 @@ def verifyLocation():
     if(backendResponse == None):
         return_message = "Location Does Not Exist"
     else:
-        mongo.db.users.update_one({'email': email}, {'$set': {'location': backendResponse}})
+        mongo.db.users.update_one({'email': email}, {'$set': {'location': 
+            {'address': backendResponse[0], 
+            'lat': backendResponse[1]['lat'], 'lng': backendResponse[1]['lng']}}})
     resp = jsonify(success=return_message)
     return resp

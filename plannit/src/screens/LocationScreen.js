@@ -27,7 +27,8 @@ const LocationScreen = ({ navigation }) => {
           style={styles.textInput}
           onChangeText={text => setLocation(text.trim())}
         />
-        <Button style={{ margin: 15 }} title="Next" 
+        <Button style={{ margin: 15 }} title="Next"
+          type="clear"
           onPress={() => {
             const my_promise = enterLocationApi();
             my_promise
