@@ -1,10 +1,15 @@
-import React from "react";
+import React, {useState} from "react";
 import { View, StyleSheet, Text, Button, TextInput } from "react-native";
+import planitApi from "../api/planitApi";
 
 const LocationScreen = ({ navigation }) => {
   //how to get username and password
   const email = navigation.getParam("email", "NO-ID");
-  console.log(email);
+  const [location, setLocation] = useState("");
+  const enterLocationApi = () => {
+    const response = planitApi.post("/enterLocation", {email, location});
+    return response;
+  };
   return (
     <View style={styles.container}>
       <View style={styles.upperBox}>
@@ -20,8 +25,23 @@ const LocationScreen = ({ navigation }) => {
           placeholder="Enter a location"
           placeholderTextColor="#fff"
           style={styles.textInput}
+          onChangeText={text => setLocation(text.trim())}
         />
-        <Button style={{ margin: 15 }} title="Next" />
+        <Button style={{ margin: 15 }} title="Next"
+          type="clear"
+          onPress={() => {
+            const my_promise = enterLocationApi();
+            my_promise
+              .then(result => {
+                if (result.data.success == "Success") {
+                  console.log("success");
+                } else {
+                  Alert.alert("Location not found. Please try again");
+                }
+              })
+              .catch(error => console.error(error));
+          }}
+        />
       </View>
     </View>
   );
