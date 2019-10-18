@@ -41,7 +41,6 @@ def SignUp():
 def SignIn():
     return_message = "Success"
     content = request.get_json(silent=True)
-    print(content)
     email = content.get('email')
     password = content.get('password')
     userResponse = CheckIfUserExists(email)
@@ -59,5 +58,7 @@ def verifyLocation():
     backendResponse = validateLocation(location)
     if(backendResponse == None):
         return_message = "Location Does Not Exist"
+    else:
+        mongo.db.users.update_one({'email': email}, {'$set': {'location': backendResponse}})
     resp = jsonify(success=return_message)
     return resp

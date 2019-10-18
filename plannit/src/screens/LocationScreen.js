@@ -1,5 +1,6 @@
-import React from "react";
+import React, {useState} from "react";
 import { View, StyleSheet, Text, Button, TextInput } from "react-native";
+import planitApi from "../api/planitApi";
 
 const LocationScreen = ({ navigation }) => {
   //how to get username and password
