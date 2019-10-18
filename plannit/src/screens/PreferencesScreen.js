@@ -10,20 +10,22 @@ const PreferencesScreen = () => {
     
     return (
     <View style={{flex:1, backgroundColor:'black'}}>
+      <View style={styles.upperBox}>
+        <Text h1 style={styles.headline1}>
+          Plan
+        </Text>
+        <Text h1 style={styles.headline2}>
+          It
+        </Text>
+      </View>
     <Text style={styles.textStyle}>Select Preferences:</Text>
     <CheckBox
     center
     containerStyle = {styles.containerStyle}
       textStyle ={styles.TextCheck}
       title='Museums'
-      onPress={()=>{
-          setValue1(!value1);
-          if(value1==true){
-            <Text>Hey</Text>
-          }
-      }}
-      checked={value1}
-      
+      onPress={()=>{ }}
+      checked={value1}  
     />
     
     <CheckBox
@@ -63,6 +65,31 @@ const PreferencesScreen = () => {
     )};
     
     const styles = StyleSheet.create({
+      container:{
+        flex:1,
+        backgroundColor: '#121212',
+      }, 
+      middleBox: {
+        flex: 4,
+        flexDirection: "column",
+        justifyContent: "center",
+        bottom: 80
+      },
+      upperBox: {
+        flex: 2,
+        flexDirection: "row",
+        justifyContent: "center"
+      },
+      headline1: {
+        color: "#FFFFFF",
+        top: 80,
+        fontSize:40
+      },
+      headline2: {
+        color: "#0092CC",
+        top: 80,
+        fontSize:40
+      },
     textStyle: {
         fontSize: 25,
         color: 'white'
