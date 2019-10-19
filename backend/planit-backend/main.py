@@ -1,10 +1,14 @@
+import os,sys
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(CURRENT_DIR))
+
 from flask import Blueprint, request, jsonify
 from .googlemapAPI import validateLocation
 
 from .extensions import mongo
 from .extensions import bcrypt
 
-from models.User import User
+from .Models.user import User
 
 main = Blueprint('main', __name__)
 
@@ -31,8 +35,7 @@ def SignUp():
     password = content.get('password')
     user = User(email, password)
     try:
-        if(user.checkIfUserExists() == None):
-            return_message = "User Does Not Exist"
+        user.createAccount()
     except ValueError:
         return_message = "Password Does Not Exist"
     resp = jsonify(success=return_message)
