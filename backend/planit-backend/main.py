@@ -9,6 +9,7 @@ from .extensions import mongo
 from .extensions import bcrypt
 
 from .Models.user import User
+from .Models.Location import Location
 
 main = Blueprint('main', __name__)
 
@@ -62,14 +63,16 @@ def verifyLocation():
     return_message = "Success"
     content = request.get_json(silent=True)
     email = content.get('email')
-    location = content.get('location')
-    backendResponse = validateLocation(location)
+    inputLocation = content.get('location')
+    backendResponse = validateLocation(inputLocation)
+    address = backendResponse[0]
+    latitude = backendResponse[1]['lat']
+    longitude = backendResponse[1]['lng']
+    location = Location(inputLocation, address, latitude, longitude)
     if(backendResponse == None):
         return_message = "Location Does Not Exist"
     else:
-        mongo.db.users.update_one({'email': email}, {'$set': {'location': 
-            {'address': backendResponse[0], 
-            'lat': backendResponse[1]['lat'], 'lng': backendResponse[1]['lng']}}})
+       location.insert(email)
     resp = jsonify(success=return_message)
     return resp
 
