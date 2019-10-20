@@ -29,7 +29,7 @@ Sprint Backlog:<br>
     * Subtask3: generate list of activities from parsed response : **Zongda**
     * Subtask4: create the backed routes/endpoint to update preferences: **David**
 
-    total story points: 38
+    total story points: 38 <br>
     total hours: 57 hours
 
 
