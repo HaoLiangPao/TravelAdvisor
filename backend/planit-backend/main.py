@@ -65,14 +65,14 @@ def verifyLocation():
     email = content.get('email')
     inputLocation = content.get('location')
     backendResponse = validateLocation(inputLocation)
-    address = backendResponse[0]
-    latitude = backendResponse[1]['lat']
-    longitude = backendResponse[1]['lng']
-    location = Location(inputLocation, address, latitude, longitude)
     if(backendResponse == None):
         return_message = "Location Does Not Exist"
     else:
-       location.insert(email)
+        address = backendResponse[0]
+        latitude = backendResponse[1]['lat']
+        longitude = backendResponse[1]['lng']
+        location = Location(inputLocation, address, latitude, longitude)
+        location.insert(email)
     resp = jsonify(success=return_message)
     return resp
 

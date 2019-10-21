@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { View, StyleSheet, Text, Button, TextInput } from "react-native";
+import { View, StyleSheet, Text, Button, TextInput, Alert } from "react-native";
 import planitApi from "../api/planitApi";
 
 const LocationScreen = ({ navigation }) => {
