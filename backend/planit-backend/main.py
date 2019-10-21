@@ -1,9 +1,15 @@
+import os,sys
+CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(CURRENT_DIR))
+
 from flask import Blueprint, request, jsonify
 from .googlemapAPI import validateLocation
 
 from .extensions import mongo
 from .extensions import bcrypt
 
+from .Models.user import User
+from .Models.Location import Location
 
 main = Blueprint('main', __name__)
 
@@ -28,11 +34,11 @@ def SignUp():
     content = request.get_json(silent=True)
     email = content.get('email')
     password = content.get('password')
-    if(CheckIfUserExists(email) == None):
-        mongo.db.users.insert(
-            {'email': email, 'password': bcrypt.generate_password_hash(password).decode('utf-8')})
-    else:
-        return_message = "User Already exists"
+    user = User(email, password)
+    try:
+        user.createAccount()
+    except ValueError:
+        return_message = "Password Does Not Exist"
     resp = jsonify(success=return_message)
     return resp
 
@@ -43,9 +49,12 @@ def SignIn():
     content = request.get_json(silent=True)
     email = content.get('email')
     password = content.get('password')
-    userResponse = CheckIfUserExists(email)
-    if(userResponse == None or not bcrypt.check_password_hash(userResponse.get("password"), password)):
-        return_message = "User Does Not Exist"
+    user = User(email, password)
+    try:
+        if(user.checkIfUserExists() == None):
+            return_message = "User Does Not Exist"
+    except ValueError:
+        return_message = "Password Does Not Exist"
     resp = jsonify(success=return_message)
     return resp
 
@@ -54,14 +63,16 @@ def verifyLocation():
     return_message = "Success"
     content = request.get_json(silent=True)
     email = content.get('email')
-    location = content.get('location')
-    backendResponse = validateLocation(location)
+    inputLocation = content.get('location')
+    backendResponse = validateLocation(inputLocation)
     if(backendResponse == None):
         return_message = "Location Does Not Exist"
     else:
-        mongo.db.users.update_one({'email': email}, {'$set': {'location': 
-            {'address': backendResponse[0], 
-            'lat': backendResponse[1]['lat'], 'lng': backendResponse[1]['lng']}}})
+        address = backendResponse[0]
+        latitude = backendResponse[1]['lat']
+        longitude = backendResponse[1]['lng']
+        location = Location(inputLocation, address, latitude, longitude)
+        location.insert(email)
     resp = jsonify(success=return_message)
     return resp
 

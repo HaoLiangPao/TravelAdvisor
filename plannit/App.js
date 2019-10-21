@@ -5,12 +5,14 @@ import { createBottomTabNavigator } from "react-navigation-tabs";
 import LocationScreen from "./src/screens/LocationScreen";
 import SignInScreen from "./src/screens/SignInScreen";
 import SignUpScreen from "./src/screens/SignUpScreen";
+import PreferenceScreen from "./src/screens/PreferencesScreen";
 import { Provider as AuthProvider } from "./src/context/authContext";
 
 const switchNavigator = createSwitchNavigator({
   SignIn: SignInScreen,
   SignUp: SignUpScreen,
-  location: LocationScreen
+  location: LocationScreen,
+  preference: PreferenceScreen
 });
 
 const App = createAppContainer(switchNavigator);

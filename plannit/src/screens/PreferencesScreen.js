@@ -1,15 +1,30 @@
-import React from "react";
-import { View, StyleSheet, Text, Button, CheckBox, TextInput } from "react-native";
-// import 
+import React , { useState }from "react";
+import { View, StyleSheet, Button, TextInput, ScrollView, FlatList} from "react-native";
+import { Text } from "react-native-elements";
+import planitApi from "../api/planitApi";
 
-const PreferencesScreen = () => {
-    const [value1,setValue1]= useState(false);
-    const [value2,setValue2]= useState(false);
-    const [value3,setValue3]= useState(false);
-    const [value4,setValue4]= useState("");
+const PreferencesScreen = ({ navigation }) => {
+    const [preference,setPreference]= useState("");
+    const email = navigation.getParam("email", "NO-ID");
+    const enterPreferenceApi = () => {
+      const response = planitApi.post("/addPref", {preference,email});
+      return response;
+    };
+    // const getPreference = () => {
+    //   const response2 = planitApi.get("/getPref",{email});
+    //   return response2;
+    // };
+    const listPreferences = [{preference:'No preferences'}];
     
     return (
     <View style={{flex:1, backgroundColor:'black'}}>
+      <View
+        style={{
+          flex: 2,
+          flexDirection: "row",
+          justifyContent: "center"
+        }}
+      >
       <View style={styles.upperBox}>
         <Text h1 style={styles.headline1}>
           Plan
@@ -18,49 +33,51 @@ const PreferencesScreen = () => {
           It
         </Text>
       </View>
-    <Text style={styles.textStyle}>Select Preferences:</Text>
-    <CheckBox
-    center
-    containerStyle = {styles.containerStyle}
-      textStyle ={styles.TextCheck}
-      title='Museums'
-      onPress={()=>{      }}
-      checked={value1}  
-    />
-    
-    <CheckBox
-      center
-      containerStyle = {styles.containerStyle}
-      textStyle ={styles.TextCheck}
-      title='Sports'
-      onPress={()=>{
-        setValue2(!value2);
-    }}
-    checked={value2}
-    />
-    
-    <CheckBox style={styles.textInput}
-      center
-      containerStyle = {styles.containerStyle}
-      textStyle ={styles.TextCheck}
-      title='Parks'
-      onPress={()=>{
-        setValue3(!value3);
-    }}
-    checked={value3}
-    />
-    <Text style={styles.textStyle}>Additional Preferences:</Text>
+      </View>
+    <View style={styles.middleBox}>
+    <Text style={styles.textStyle}>Your Preferences:</Text>
+    <ScrollView style={styles.containerStyle}>
+    <FlatList
+      horizontal = {false}
+      keyExtractor={(Preference)=>Preference.preference}
+      data={listPreferences} 
+      renderItem={({item})=>{
+          return <Text style={styles.textStyle }>{item.preference}</Text>
+}}
+/>
+  </ScrollView>
+    <Text style={styles.textStyle}>Add Preferences:</Text>
     <TextInput style={styles.textInput}
       placeholder='Input preferences'
       autoCorrect = {false}
-      onChangeText={(newValue)=>setValue4(newValue.trim())}
-      value={value4}
+      onChangeText={(newValue)=>setPreference(newValue.trim())}
     />
     <Button
      style={{ margin: 15 }}
-      title="Save" 
-      onPress={()=>{}}
+      title="Add" 
+      type="clear"
+      onPress={()=>{
+        const my_pref = enterPreferenceApi();
+          my_pref
+            .then(result => {
+              if (result.data.success == "Success") {
+                alert("Preference Added Successfully");
+                // navigation.navigate("filter");
+                
+              }
+              else{
+                alert("Preference not added");
+              }
+            })
+      }}
     />
+    <Button 
+    style={{ margin: 15 }}
+    title="Next" 
+    type="clear"
+    // navigation.navigate("filter");
+    />
+    </View>
     </View>
     )};
     
@@ -114,10 +131,11 @@ const PreferencesScreen = () => {
       containerStyle: {
         backgroundColor: "#292929",
         margin: 15,
-        height: 50,
+        alignSelf: 'center',
         borderWidth: 2,
         borderColor: "#02DAC5",
-        borderRadius: 20
+        borderRadius: 20,
+        width: '75%'
       }
     });
 
