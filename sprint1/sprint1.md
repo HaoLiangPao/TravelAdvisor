@@ -17,8 +17,9 @@ Sprint Backlog:<br>
     * Subtask1: Sign up: **Mohan**
     * Subtask2: Log in: **Mohan**
 * As Bob, a graduate student, I want to save my preferences as sports and movies, so that I can check my preferences later. - Story points: 5, Priority:high
-    * Subtask1: Save the list of preference into db: **Soham**
-    * (todo: need to sperate more tasks for the user story, check for soham later)
+    * Subtask1: Save preferences inputed by user into db: **Soham**
+    * Subtask2: Generate the list of existing preferences from db and display. **Soham**
+    * Subtask3: Take signle preference input from user and store it. **Soham**
 * As Jack, a person who wants to travel to other places, I want to choose the location for my next trip, which is in 10 days so that I can plan my trip ahead. - Story points: 5, Priority:medium
     * Subtask1: get the location input from user: **Guikang**
     * Subtask2: validate the location using google geocoding API: **Guikang**
