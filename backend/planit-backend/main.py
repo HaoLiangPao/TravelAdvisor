@@ -86,15 +86,13 @@ def addPreference():
     #print(user)
     user_preference = user.get('preference')
     if user_preference is None:
-        mongo.db.users.update_one({'email': email}, {'$set': {'preference': preference}})
+        pref_list = [preference]
+        mongo.db.users.update_one({'email': email}, {'$set': {'preference': pref_list}})
     else:
         # check if the preference already exist in the list
-        new_pref = []
-        for type_add in preference:
-            if type_add not in user_preference:
-                new_pref.append(type_add)
-        update_pref = user_preference + new_pref
-        mongo.db.users.update_one({'email': email}, {'$set': {'preference': update_pref}})
+        if preference not in user_preference:
+            user_preference.append(preference)
+        mongo.db.users.update_one({'email': email}, {'$set': {'preference': user_preference}})
     return return_message
         
 @main.route('/deletePref', methods=['DELETE'])
@@ -106,9 +104,20 @@ def deletePreference():
     user = CheckIfUserExists(email)
     user_pre = user.get('preference')
     if user_pre is not None:
-        for want_del in del_pre:
-            if want_del in user_pre:
-                user_pre.remove(want_del)
+        if del_pre in user_pre:
+            user_pre.remove(del_pre)
         mongo.db.users.update_one({'email': email}, {'$set': {'preference': user_pre}})
     return return_message
-    
+
+@main.route('/getPref', methods=['GET', 'POST'])
+def getPreference():
+    content = request.get_json(silent=True)
+    email = content.get('email')
+    #print('before getting user')
+    user = CheckIfUserExists(email)
+    #print('after getting user')
+    result = user.get('preference')
+    if result is None:
+        result = []
+    resp = jsonify(result)
+    return resp

@@ -15,7 +15,7 @@ gmaps = googlemaps.Client(key=API_KEY)
 
 
 
-def addPlace(*prefs, location, radiusSearch):
+def addPlace(prefs, location, radiusSearch):
     # search type 1: nearSearch
     # run search one time per each pref in prefs
     for pref in prefs:
