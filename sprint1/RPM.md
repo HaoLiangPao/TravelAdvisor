@@ -1,5 +1,5 @@
 * Participation: <br>
-                **Team Members:** Mohan, Soham, Hao, Eric, David, Javie, Evan <br>
+                **Team Members:** Mohan, Soham, Hao, Guikang, David, Jingwei, Zongda <br>
                 **Product Owner:** Lora
 
 * Releasing Date: Nov.29th
