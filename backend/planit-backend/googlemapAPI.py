@@ -2,7 +2,7 @@
 # pip install prettyprint
 
 from .extensions import mongo
-
+from .Models.Location import Location
 import googlemaps
 import pprint
 import time
@@ -60,3 +60,19 @@ def validateLocation(location):
     location = result_dict["geometry"]["location"]
     result = [address, location]
     return result
+
+def crawlLocations(coordinate, preference_list, trip_filter):
+    result = []
+    for i in preference_list:
+        result = result + gmaps.places_nearby(location = coordinate, radius = trip_filter['radius'], type = "tourist_attraction", keyword = i)['results']
+    return result
+
+def parsingLocation(location_list):
+    pidTotype = dict()
+    pidToloc = dict()
+    for i in location_list:
+        query = validateLocation(i.get('name') + ' ' + i.get('vicinity'))
+        pidToloc[i.get('place_id')] = Location(i.get('name'), query[0], query[1].get('lat'), query[1].get('lng'))
+        pidTotype[i.get('place_id')] = i.get('types')
+    return pidTotype, pidToloc
+

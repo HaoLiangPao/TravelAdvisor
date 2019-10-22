@@ -24,4 +24,11 @@ class Location:
          mongo.db.users.update_one({'email': email}, {'$set': {'location': 
             {'address': self.__address, 
             'lat': self.__latitude, 'lng': self.__longitude}}})
-    
+            
+    def serialization(self):
+        result = dict()
+        result['name'] = self.__name
+        result['address'] = self.__address
+        result['latitude'] = self.__latitude
+        result['longitude'] = self.__longitude
+        return result
