@@ -1,20 +1,30 @@
-import React , { useState }from "react";
-import { View, StyleSheet, Button, TextInput, ScrollView, FlatList} from "react-native";
+import React , { useState, useEffect} from "react";
+import { View, StyleSheet, Button, TextInput, ScrollView, FlatList, Alert} from "react-native";
 import { Text } from "react-native-elements";
 import planitApi from "../api/planitApi";
 
 const PreferencesScreen = ({ navigation }) => {
+    console.disableYellowBox = true;
     const [preference,setPreference]= useState("");
+    const [listPreferences,setlistPreferences] = useState([]);
     const email = navigation.getParam("email", "NO-ID");
     const enterPreferenceApi = () => {
       const response = planitApi.post("/addPref", {preference,email});
       return response;
     };
-    // const getPreference = () => {
-    //   const response2 = planitApi.get("/getPref",{email});
-    //   return response2;
-    // };
-    const listPreferences = [{preference:'No preferences'}];
+    const getPreferenceApi = () => {
+      const response2 = planitApi.post("/getPref",{email});
+      response2.then(result2 => {
+        console.log(result2.data);
+        setlistPreferences(result2.data);
+      })
+      return response2;
+    };
+    useEffect(() => {
+      // Your code here
+      getPreferenceApi();
+    });
+   
     
     return (
     <View style={{flex:1, backgroundColor:'black'}}>
@@ -36,31 +46,38 @@ const PreferencesScreen = ({ navigation }) => {
       </View>
     <View style={styles.middleBox}>
     <Text style={styles.textStyle}>Your Preferences:</Text>
-    <ScrollView style={styles.containerStyle}>
+    <ScrollView style={styles.containerStyle} scrollEnabled={true}>
     <FlatList
       horizontal = {false}
-      keyExtractor={(Preference)=>Preference.preference}
       data={listPreferences} 
       renderItem={({item})=>{
-          return <Text style={styles.textStyle }>{item.preference}</Text>
+          return <Text style={styles.textStyle }>{item}</Text>
 }}
 />
   </ScrollView>
     <Text style={styles.textStyle}>Add Preferences:</Text>
     <TextInput style={styles.textInput}
       placeholder='Input preferences'
+      placeholderTextColor="#fff"
       autoCorrect = {false}
       onChangeText={(newValue)=>setPreference(newValue.trim())}
     />
+    
     <Button
      style={{ margin: 15 }}
       title="Add" 
       type="clear"
       onPress={()=>{
+        const get_pref = getPreferenceApi();
+        get_pref.then(result2 => {
+          console.log(result2.data);
+          setlistPreferences(result2.data);
+        })
+        if(preference.length>0){
         const my_pref = enterPreferenceApi();
           my_pref
             .then(result => {
-              if (result.data.success == "Success") {
+              if (result.data === "Success") {
                 alert("Preference Added Successfully");
                 // navigation.navigate("filter");
                 
@@ -69,8 +86,14 @@ const PreferencesScreen = ({ navigation }) => {
                 alert("Preference not added");
               }
             })
-      }}
+      }
+      else{
+        Alert.alert("Please enter a preference");
+      }
+    }
+    }
     />
+
     <Button 
     style={{ margin: 15 }}
     title="Next" 
@@ -109,7 +132,8 @@ const PreferencesScreen = ({ navigation }) => {
       },
     textStyle: {
         fontSize: 25,
-        color: 'white'
+        color: 'white',
+        textAlign: 'center'
         },
     HeaderTwo: {
         fontSize: 30
@@ -120,7 +144,7 @@ const PreferencesScreen = ({ navigation }) => {
         margin: 15,
         height: 50,
         borderWidth: 2,
-        textAlign: "center",
+        
         borderColor: "#02DAC5",
         borderRadius: 20
       },
@@ -132,11 +156,12 @@ const PreferencesScreen = ({ navigation }) => {
         backgroundColor: "#292929",
         margin: 15,
         alignSelf: 'center',
+        textAlign: 'center',
         borderWidth: 2,
         borderColor: "#02DAC5",
         borderRadius: 20,
         width: '75%'
-      }
+      },
     });
 
 

@@ -30,10 +30,11 @@ const LocationScreen = ({ navigation }) => {
         <Button style={{ margin: 15 }} title="Next"
           type="clear"
           onPress={() => {
+            if (location.length  > 0){
             const my_promise = enterLocationApi();
             my_promise
               .then(result => {
-                if (result.data.success == "Success") {
+                if (result.data.success === "Success") {
                   console.log("success");
                   navigation.navigate("preference",{email});
                 } else {
@@ -41,7 +42,10 @@ const LocationScreen = ({ navigation }) => {
                 }
               })
               .catch(error => console.error(error));
+          }else{
+            Alert.alert("Please Enter Valid Location");
           }}
+        }
         />
       </View>
     </View>
