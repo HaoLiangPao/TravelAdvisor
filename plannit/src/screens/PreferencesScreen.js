@@ -5,6 +5,7 @@ import planitApi from "../api/planitApi";
 
 const PreferencesScreen = ({ navigation }) => {
     console.disableYellowBox = true;
+    const [change,setChange] = useState(false);
     const [preference,setPreference]= useState("");
     const [listPreferences,setlistPreferences] = useState([]);
     const email = navigation.getParam("email", "NO-ID");
@@ -23,7 +24,8 @@ const PreferencesScreen = ({ navigation }) => {
     useEffect(() => {
       // Your code here
       getPreferenceApi();
-    });
+      // setChange(true);
+    },[change]);
    
     
     return (
@@ -54,13 +56,14 @@ const PreferencesScreen = ({ navigation }) => {
           return <Text style={styles.textStyle }>{item}</Text>
 }}
 />
+
   </ScrollView>
     <Text style={styles.textStyle}>Add Preferences:</Text>
     <TextInput style={styles.textInput}
       placeholder='Input preferences'
       placeholderTextColor="#fff"
       autoCorrect = {false}
-      onChangeText={(newValue)=>setPreference(newValue.trim())}
+      onChangeText={(newValue)=>setPreference(newValue.trim())}      
     />
     
     <Button
@@ -68,11 +71,13 @@ const PreferencesScreen = ({ navigation }) => {
       title="Add" 
       type="clear"
       onPress={()=>{
+        setChange(true);
+        console.log(change)
         const get_pref = getPreferenceApi();
         get_pref.then(result2 => {
-          console.log(result2.data);
           setlistPreferences(result2.data);
         })
+       
         if(preference.length>0){
         const my_pref = enterPreferenceApi();
           my_pref
@@ -80,6 +85,7 @@ const PreferencesScreen = ({ navigation }) => {
               if (result.data === "Success") {
                 alert("Preference Added Successfully");
                 // navigation.navigate("filter");
+                setPreference("");
                 
               }
               else{
