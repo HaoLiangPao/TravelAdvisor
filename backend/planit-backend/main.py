@@ -116,9 +116,9 @@ def deletePreference():
 def getPreference():
     content = request.get_json(silent=True)
     email = content.get('email')
-    #print('before getting user')
+    print('before getting user')
     user = CheckIfUserExists(email)
-    #print('after getting user')
+    print('after getting user')
     result = user.get('preference')
     if result is None:
         result = []
@@ -167,3 +167,32 @@ def generateTrip():
         resp = jsonify(result)
         return resp
     
+@main.route('/addFilter', methods=['GET', 'POST'])
+def addFilter():
+    return_message = "Success"
+    content = request.get_json(silent=True)
+    email = content.get('email')
+    content_filters = content.get('filter')
+    # print(content_filters)
+    # print(type(content_filters))
+    user = CheckIfUserExists(email)
+    user_filters = user.get('filter')
+    if user_filters is None:
+        mongo.db.users.update_one({'email': email}, {'$set': {'filter': content_filters}})
+    else:
+        # update user_filters
+        for key in content_filters:
+            user_filters[key] = content_filters[key]
+        mongo.db.users.update_one({'email': email}, {'$set': {'filter': user_filters}})
+    return return_message
+
+@main.route('/getFilter', methods=['GET', 'POST'])
+def getFilter():
+    content = request.get_json(silent=True)
+    email = content.get('email')
+    user = CheckIfUserExists(email)
+    result = user.get('filter')
+    if result is None:
+        result = {}
+    resp = jsonify(result)
+    return resp
