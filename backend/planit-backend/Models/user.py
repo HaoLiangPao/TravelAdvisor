@@ -7,7 +7,12 @@ class User:
     def __init__(self, email, password=None):
         self.email = email
         self.__password = password
-
+    
+    def getUser(self):
+          user_collection = mongo.db.users
+        user = user_collection.find_one({"email": self.email})
+    
+    
     def checkIfUserExists(self):
         user_collection = mongo.db.users
         user = user_collection.find_one({"email": self.email})
