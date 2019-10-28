@@ -12,6 +12,7 @@ from .extensions import bcrypt
 
 from .Models.user import User
 from .Models.Location import Location
+from .Models.Filter import Filter
 
 import random
 main = Blueprint('main', __name__)
@@ -173,26 +174,16 @@ def addFilter():
     content = request.get_json(silent=True)
     email = content.get('email')
     content_filters = content.get('filter')
-    # print(content_filters)
-    # print(type(content_filters))
-    user = CheckIfUserExists(email)
-    user_filters = user.get('filter')
-    if user_filters is None:
-        mongo.db.users.update_one({'email': email}, {'$set': {'filter': content_filters}})
-    else:
-        # update user_filters
-        for key in content_filters:
-            user_filters[key] = content_filters[key]
-        mongo.db.users.update_one({'email': email}, {'$set': {'filter': user_filters}})
+
+    filters = Filter(email)
+    filters.addFilters(content_filters)
+    
     return return_message
 
 @main.route('/getFilter', methods=['GET', 'POST'])
 def getFilter():
     content = request.get_json(silent=True)
     email = content.get('email')
-    user = CheckIfUserExists(email)
-    result = user.get('filter')
-    if result is None:
-        result = {}
-    resp = jsonify(result)
-    return resp
+
+    filters = Filter(email)
+    return filters.getFilters()
