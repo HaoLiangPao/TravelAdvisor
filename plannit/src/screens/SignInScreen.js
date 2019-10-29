@@ -65,7 +65,7 @@ const SignInScreen = ({ navigation }) => {
               my_promise
                 .then(result => {
                   if (result.data.success === "Success") {
-                    navigation.navigate("mainFlow");
+                    navigation.navigate("location", { email });
                   } else {
                     Alert.alert(
                       "Invalid E-mail or password",
@@ -74,10 +74,8 @@ const SignInScreen = ({ navigation }) => {
                   }
                 })
                 .catch(error => console.error(error));
-            }else{
-              Alert.alert(
-                "Please Enter valid email and password"
-              );
+            } else {
+              Alert.alert("Please Enter valid email and password");
             }
           }}
         />
