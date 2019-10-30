@@ -70,7 +70,7 @@ const ItineraryScreen = ({ navigation }) => {
 //       renderItem={({item})=>{
 //           return <Text style={styles.textStyle }>{item}</Text>
 // }}
-/>
+    />
   </ScrollView>   
     <Button 
     style={{ margin: 15 }}

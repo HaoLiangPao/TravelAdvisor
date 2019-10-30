@@ -1,12 +1,14 @@
 import React , { useState, useEffect} from "react";
 import { View, StyleSheet, Button, TextInput, ScrollView, FlatList, Alert, TouchableOpacity} from "react-native";
 import { Text, ListItem} from "react-native-elements";
-import planitApi from "../api/planitApi";
+// import planitApi from "../api/planitApi";
 
 const ItineraryDetailScreen = ({ navigation }) => {
     console.disableYellowBox = true;
     const name = navigation.getParam("name", "NO-ID");
     const email = navigation.getParam("email", "NO-ID");
+    const details = [{name: "Time"},
+                     {name:"location"}]
     const [listItinerary,setlistItinerary] = useState([]);
     // const getItineraryDetailApi = () => {
     //     const response = planitApi.post("/generateTrip",{email});
@@ -39,23 +41,39 @@ const ItineraryDetailScreen = ({ navigation }) => {
     <View style={styles.middleBox}>
     <Text style={styles.textStyle}>{name}</Text>
     <Text style={styles.textStyle}>{email}</Text>
-    <ScrollView  scrollEnabled={true}>
-
-
-  </ScrollView>   
+    <ScrollView  style={styles.containerListStyle} scrollEnabled={true}>
+        <Text style={styles.detailStyle}>Location{"\n"}</Text>
+        <Text style={styles.detailStyle}>Time{"\n"}</Text>
+        <Text style={styles.detailStyle}>Introduction</Text>
+    </ScrollView>   
     <Button 
     style={{ margin: 15 }}
-    title="Next" 
+    title="Back to the List"
+    onPress={()=>{navigation.navigate("Itinerary",{email})}} 
     type="clear"
     />
     <Button 
     style={{ margin: 15 }}
-    title="Back to the List" 
-    onPress={()=>{navigation.navigate("Itinerary",{email})}}
+    title="Delete" 
+    onPress={()=>
+      Alert.alert(
+        'Delete this activity?',
+        '',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {text: 'OK', onPress: () => console.log('OK Pressed')},
+        ],
+        {cancelable: false},
+      )
+    }
     type="clear"
     />
     </View>
-    </View>
+  </View>
     )};
     
     const styles = StyleSheet.create({
@@ -89,6 +107,11 @@ const ItineraryDetailScreen = ({ navigation }) => {
         color: 'white',
         textAlign: 'center'
         },
+    detailStyle: {
+      fontSize: 25,
+      color: 'white',
+      textAlign:"justify",
+    },
     HeaderTwo: {
         fontSize: 30
     },
@@ -98,23 +121,8 @@ const ItineraryDetailScreen = ({ navigation }) => {
         margin: 15,
         height: 50,
         borderWidth: 2,
-        
         borderColor: "#02DAC5",
         borderRadius: 20
-      },
-      TextCheck:{
-        color: 'white',
-        fontSize: 20
-      },
-      containerStyle: {
-        backgroundColor: "#292929",
-        margin: 15,
-        alignSelf: 'center',
-        textAlign: 'center',
-        borderWidth: 2,
-        borderColor: "#02DAC5",
-        borderRadius: 20,
-        width: '100%'
       },
       containerListStyle: {
         backgroundColor: "#292929",
