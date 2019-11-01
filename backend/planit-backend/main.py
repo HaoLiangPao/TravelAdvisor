@@ -125,7 +125,36 @@ def getPreference():
         result = []
     resp = jsonify(result)
     return resp
-   
+
+@main.route('/popularlist', methods=['GET','POST'])
+def popularlist():
+    # getting the popular lactivities in user's location and preference
+    content = request.get_json(silent = True)
+    # user inputs
+    email = content.get('email')
+    # trip_filter = content.get('filter')
+    user = CheckIfUserExists(email)
+    # max_activity_num = int(trip_filter.get('activity_num'))
+    trip_filter = user.get("filter")
+    if user != None:
+        # starting location, parsing into coordinate
+        location = user.get('location')
+        coordinate = str(location.get('lat')) + ", " +str(location.get('lng'))
+        # list of possible preferences
+        preference_list = user.get('preference')
+        # all the locations that fits the requirement
+        #print(preference_list)
+        #print(trip_filter)
+        result_locations = crawlLocations(coordinate, preference_list, trip_filter)
+        nameList = []
+        for i in result_locations:
+            nameList.append(i['name'])
+        print(nameList)
+        resp = jsonify(nameList)
+    else:
+        resp = None
+    return resp
+
 
 @main.route('/generateTrip', methods=['POST'])
 def generateTrip():
