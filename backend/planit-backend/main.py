@@ -12,6 +12,7 @@ from .extensions import bcrypt
 
 from .Models.user import User
 from .Models.Location import Location
+from .Models.Filter import Filter
 
 import random
 main = Blueprint('main', __name__)
@@ -89,15 +90,13 @@ def addPreference():
     #print(user)
     user_preference = user.get('preference')
     if user_preference is None:
-        mongo.db.users.update_one({'email': email}, {'$set': {'preference': preference}})
+        pref_list = [preference]
+        mongo.db.users.update_one({'email': email}, {'$set': {'preference': pref_list}})
     else:
         # check if the preference already exist in the list
-        new_pref = []
-        for type_add in preference:
-            if type_add not in user_preference:
-                new_pref.append(type_add)
-        update_pref = user_preference + new_pref
-        mongo.db.users.update_one({'email': email}, {'$set': {'preference': update_pref}})
+        if preference not in user_preference:
+            user_preference.append(preference)
+        mongo.db.users.update_one({'email': email}, {'$set': {'preference': user_preference}})
     return return_message
         
 @main.route('/deletePref', methods=['DELETE'])
@@ -109,9 +108,8 @@ def deletePreference():
     user = CheckIfUserExists(email)
     user_pre = user.get('preference')
     if user_pre is not None:
-        for want_del in del_pre:
-            if want_del in user_pre:
-                user_pre.remove(want_del)
+        if del_pre in user_pre:
+            user_pre.remove(del_pre)
         mongo.db.users.update_one({'email': email}, {'$set': {'preference': user_pre}})
     return return_message
 
@@ -119,15 +117,69 @@ def deletePreference():
 def getPreference():
     content = request.get_json(silent=True)
     email = content.get('email')
-    #print('before getting user')
+    print('before getting user')
     user = CheckIfUserExists(email)
-    #print('after getting user')
+    print('after getting user')
     result = user.get('preference')
     if result is None:
         result = []
     resp = jsonify(result)
     return resp
-   
+
+@main.route('/popularlist', methods=['GET','POST'])
+def popularlist():
+    # getting the popular lactivities in user's location and preference
+    content = request.get_json(silent = True)
+    # user inputs
+    email = content.get('email')
+    # trip_filter = content.get('filter')
+    user = CheckIfUserExists(email)
+    # max_activity_num = int(trip_filter.get('activity_num'))
+    trip_filter = user.get("filter")
+    if user != None:
+        # starting location, parsing into coordinate
+        location = user.get('location')
+        coordinate = str(location.get('lat')) + ", " +str(location.get('lng'))
+        # list of possible preferences
+        preference_list = user.get('preference')
+        # all the locations that fits the requirement
+        #print(preference_list)
+        #print(trip_filter)
+        result_locations = crawlLocations(coordinate, preference_list, trip_filter)
+        nameList = []
+        for i in result_locations:
+            nameList.append(i['name'])
+        #print(nameList)
+        mongo.db.users.update_one({'email': email}, {'$set': {'history_search': result_locations}})
+        resp = jsonify(nameList)
+    else:
+        resp = None
+    return resp
+
+@main.route('/getDetail', methods=['GET','POST'])
+def get_detail():
+    # get 'name' and 'email' contents of input
+    content = request.get_json(silent = True)
+    email = content.get('email')
+    place_name = content.get('name')
+    # get the user using email
+    user = CheckIfUserExists(email)
+    result = {}
+    if user is not None:
+        # get the search history of the user
+        search_history = user.get('history_search')
+        if search_history is not None:
+            for i in search_history:
+                if i['name'] == place_name:
+                    result['vicinity'] = i.get('vicinity')
+                    result['photos'] = i.get('photos')
+        else:
+            result = None
+    else:
+        result = None
+    resp = jsonify(result)
+    return resp
+
 @main.route('/generateTrip', methods=['POST'])
 def generateTrip():
     content = request.get_json(silent = True)
@@ -169,3 +221,22 @@ def generateTrip():
         resp = jsonify(result)
         return resp
     
+@main.route('/addFilter', methods=['GET', 'POST'])
+def addFilter():
+    return_message = "Success"
+    content = request.get_json(silent=True)
+    email = content.get('email')
+    content_filters = content.get('filter')
+
+    filters = Filter(email)
+    filters.addFilters(content_filters)
+    
+    return return_message
+
+@main.route('/getFilter', methods=['GET', 'POST'])
+def getFilter():
+    content = request.get_json(silent=True)
+    email = content.get('email')
+
+    filters = Filter(email)
+    return filters.getFilters()
