@@ -149,12 +149,36 @@ def popularlist():
         nameList = []
         for i in result_locations:
             nameList.append(i['name'])
-        print(nameList)
+        #print(nameList)
+        mongo.db.users.update_one({'email': email}, {'$set': {'history_search': result_locations}})
         resp = jsonify(nameList)
     else:
         resp = None
     return resp
 
+@main.route('/getDetail', methods=['GET','POST'])
+def get_detail():
+    # get 'name' and 'email' contents of input
+    content = request.get_json(silent = True)
+    email = content.get('email')
+    place_name = content.get('name')
+    # get the user using email
+    user = CheckIfUserExists(email)
+    result = {}
+    if user is not None:
+        # get the search history of the user
+        search_history = user.get('history_search')
+        if search_history is not None:
+            for i in search_history:
+                if i['name'] == place_name:
+                    result['vicinity'] = i.get('vicinity')
+                    result['photos'] = i.get('photos')
+        else:
+            result = None
+    else:
+        result = None
+    resp = jsonify(result)
+    return resp
 
 @main.route('/generateTrip', methods=['POST'])
 def generateTrip():
