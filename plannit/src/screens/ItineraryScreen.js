@@ -7,17 +7,6 @@ const ItineraryScreen = ({ navigation }) => {
     console.disableYellowBox = true;
     const email = navigation.getParam("email", "NO-ID");
     const [listItinerary,setlistItinerary] = useState([]);
-    const friends = [
-        {name: 'friend 1'},
-        {name: 'friend 2'},
-        {name: 'friend 3'},
-        {name: 'friend 4'}, 
-        {name: 'friend 5'},
-        {name: 'friend 6'},
-        {name: 'friend 7'},
-        {name: 'friend 8'},
-        {name: 'friend 9'}
-    ]
     const getItineraryApi = () => {
         const response = planitApi.post("/popularlist",{email});
         response.then(result => {
