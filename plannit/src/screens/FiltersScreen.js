@@ -20,7 +20,7 @@ const FiltersScreen = ({ navigation }) => {
   let filter = {
     StartDateAndTime: startDate,
     EndingDateAndTime: endDate,
-    MaxDistance: distance / 2,
+    radius: distance / 2,
     Budget: budget
   };
   let email = navigation.getParam("email", "NO-ID");
