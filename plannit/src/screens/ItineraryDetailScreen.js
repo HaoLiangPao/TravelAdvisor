@@ -49,7 +49,7 @@ const ItineraryDetailScreen = ({ navigation }) => {
     <Button 
     style={{ margin: 15 }}
     title="Back to the List"
-    onPress={()=>{navigation.navigate("Itinerary",{email})}} 
+    onPress={()=>{navigation.navigate("itinerary",{email})}} 
     type="clear"
     />
     <Button 

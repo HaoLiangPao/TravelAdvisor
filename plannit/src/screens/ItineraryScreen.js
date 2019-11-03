@@ -19,7 +19,7 @@ const ItineraryScreen = ({ navigation }) => {
         {name: 'friend 9'}
     ]
     const getItineraryApi = () => {
-        const response = planitApi.post("/generateTrip",{email});
+        const response = planitApi.post("/popularlist",{email});
         response.then(result => {
           console.log(result.data.name);
           setlistItinerary(result.data.name);
@@ -56,20 +56,15 @@ const ItineraryScreen = ({ navigation }) => {
     <ScrollView style={styles.containerStyle} scrollEnabled={true}>
     <FlatList
         horizontal = {false}
-        data={friends} 
-        keyExtractor={(friend)=>friend.name}
+        data={listItinerary}
         renderItem={({item})=>{
-        return <TouchableOpacity onPress={()=>{navigation.navigate("ItineraryDetail",{"name":item.name,email})}}>
-        <ListItem chevron title={item.name}
+        return <TouchableOpacity onPress={()=>{navigation.navigate("itineraryDetail",{"name":item,email})}}>
+        <ListItem chevron title={item}
          containerStyle={styles.containerListStyle}
          titleStyle={styles.textStyle}
          />
         </TouchableOpacity>
     }}
-//       data={listItinerary} 
-//       renderItem={({item})=>{
-//           return <Text style={styles.textStyle }>{item}</Text>
-// }}
     />
   </ScrollView>   
     <Button 

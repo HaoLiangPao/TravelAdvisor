@@ -100,7 +100,7 @@ const PreferencesScreen = ({ navigation }) => {
           style={{ margin: 15 }}
           title="Next"
           type="clear"
-          onPress={() => navigation.navigate("filters", { email })}
+          onPress={() => navigation.navigate("itinerary", { email })}
         />
       </View>
     </View>
