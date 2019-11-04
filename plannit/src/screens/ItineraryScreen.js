@@ -5,13 +5,14 @@ import planitApi from "../api/planitApi";
 
 const ItineraryScreen = ({ navigation }) => {
     console.disableYellowBox = true;
+    const [change,setChange] = useState(true);
     const email = navigation.getParam("email", "NO-ID");
     const [listItinerary,setlistItinerary] = useState([]);
     const getItineraryApi = () => {
         const response = planitApi.post("/popularlist",{email});
         response.then(result => {
-          console.log(result.data.name);
-          setlistItinerary(result.data.name);
+          console.log(result);
+          setlistItinerary(result.data);
         })
         return response;
       };
@@ -19,7 +20,7 @@ const ItineraryScreen = ({ navigation }) => {
 
     useEffect(() => {
       getItineraryApi();
-    []});
+    }, [change]);
    
     
     return (
@@ -42,6 +43,37 @@ const ItineraryScreen = ({ navigation }) => {
       </View>
     <View style={styles.middleBox}>
     <Text style={styles.textStyle}>Your Itinerary:</Text>
+    <Button 
+    style={{ margin: 15 }}
+    title="Generate Intinerary" 
+    onPress={()=>{
+        setChange(false);
+        const intinerary = getItineraryApi();
+    }}
+    type="clear"
+    />
+    <Button 
+    style={{ margin: 15 }}
+    title="Re Generate Intinerary" 
+    onPress={()=>{
+        Alert.alert(
+            'Do you want to generate a new Intinerary',
+            '',
+            [
+              {
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+              },
+              {text: 'OK', onPress: () => console.log('OK Pressed')},
+            ],
+            {cancelable: false},
+          )
+        setChange(false);
+        const intinerary = getItineraryApi();
+    }}
+    type="clear"
+    />
     <ScrollView style={styles.containerStyle} scrollEnabled={true}>
     <FlatList
         horizontal = {false}
@@ -64,7 +96,11 @@ const ItineraryScreen = ({ navigation }) => {
     <Button 
     style={{ margin: 15 }}
     title="Back to the Preferences" 
-    onPress={()=>{navigation.navigate("preference",{email})}}
+    onPress={()=>{
+        navigation.navigate("preference",{email})
+        setChange(false);
+
+    }}
     type="clear"
     />
     </View>
