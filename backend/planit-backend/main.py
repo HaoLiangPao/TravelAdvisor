@@ -146,9 +146,17 @@ def popularlist():
         #print(preference_list)
         #print(trip_filter)
         result_locations = crawlLocations(coordinate, preference_list, trip_filter)
+        # list store the duplicating place
+        duplicate = []
         nameList = []
         for i in result_locations:
-            nameList.append(i['name'])
+            if i['name'] not in nameList:
+                nameList.append(i['name'])
+            else:
+                duplicate.append(i)
+        # remove the duplicating elements in result_location
+        for j in duplicate:
+            result_locations.remove(j)
         #print(nameList)
         mongo.db.users.update_one({'email': email}, {'$set': {'history_search': result_locations}})
         resp = jsonify(nameList)
