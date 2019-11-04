@@ -169,7 +169,7 @@ const ItineraryScreen = ({ navigation }) => {
         backgroundColor: "#292929",
         margin: 15,
         alignSelf: 'center',
-        textAlign: 'center',
+        // textAlign: 'center',
         width: '100%'
       }
     });
