@@ -1,25 +1,28 @@
 import React , { useState, useEffect} from "react";
 import { View, StyleSheet, Button, TextInput, ScrollView, FlatList, Alert, TouchableOpacity} from "react-native";
 import { Text, ListItem} from "react-native-elements";
-// import planitApi from "../api/planitApi";
+import planitApi from "../api/planitApi";
 
 const ItineraryDetailScreen = ({ navigation }) => {
     console.disableYellowBox = true;
+    const [change,setChange] = useState(true);
     const name = navigation.getParam("name", "NO-ID");
     const email = navigation.getParam("email", "NO-ID");
-    const details = [{name: "Time"},
-                     {name:"location"}]
-    const [listItinerary,setlistItinerary] = useState([]);
-    // const getItineraryDetailApi = () => {
-    //     const response = planitApi.post("/generateTrip",{email});
-    //     response.then(result => {
-    //       console.log(result.data.name);
-    //       setlistItinerary(result.data.name);
-    //     })
-    //     return response;
-    //   };
+    const [detailList,setDetailList] = useState([]);
+    const getItineraryDetailApi = () => {
+        const response = planitApi.post("/getDetail",{email, name});
+        response.then(result => {
+          console.log(result);
+          setDetailList([result.data.vicinity]);
+        })
+        return response;
+      };
+
+
+    useEffect(() => {
+      getItineraryDetailApi();
+    }, [change]);
    
-    
     return (
     <View style={{flex:1, backgroundColor:'black'}}>
       <View
@@ -42,7 +45,7 @@ const ItineraryDetailScreen = ({ navigation }) => {
     <Text style={styles.textStyle}>{name}</Text>
     <Text style={styles.textStyle}>{email}</Text>
     <ScrollView  style={styles.containerListStyle} scrollEnabled={true}>
-        <Text style={styles.detailStyle}>Location{"\n"}</Text>
+        <Text style={styles.detailStyle}>Location: {detailList + "\n"}</Text>
         <Text style={styles.detailStyle}>Time{"\n"}</Text>
         <Text style={styles.detailStyle}>Introduction</Text>
     </ScrollView>   
