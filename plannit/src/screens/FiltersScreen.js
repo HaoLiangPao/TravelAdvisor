@@ -93,7 +93,7 @@ const FiltersScreen = ({ navigation }) => {
               date={startDate}
               mode="datetime"
               placeholder="select date and time"
-              format="YYYY-MM-DD HH:MM"
+              format="YYYY-MM-DD HH:mm"
               minDate="2019-11-01"
               maxDate="2025-06-01"
               confirmBtnText="Confirm"
@@ -132,8 +132,8 @@ const FiltersScreen = ({ navigation }) => {
               style={{ width: 200 }}
               date={endDate}
               mode="datetime"
-              placeholder="select date"
-              format="YYYY-MM-DD HH:MM"
+              placeholder="select date and time"
+              format="YYYY-MM-DD HH:mm"
               minDate="2019-11-01"
               maxDate="2025-06-01"
               confirmBtnText="Confirm"
