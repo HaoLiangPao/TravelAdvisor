@@ -13,8 +13,10 @@ Participation:
 * 1. What did I do yesterday that helped the development team meet the sprint goal?
    Mohan and Jingwei finished the prototype for the frontend, this way Mohan knows what he needs from the backend and Jingwei        knows what to provide
    Guikang and Soham created two different screen templates for ItineraryScreen and ItineraryDetailScreen for displaying the generated Itinerary. 
+   zongda was working on modeling of iten-gen.
 * 2. What will I do today to help the development team meet the sprint goal?
    Jingwei Will start development of filter object in backend, Mohan will begin doing research to see what new React Native components he will need, David will begin to understand the function of itineray.
    Guikang and Soham will coordinate with. david in order to fetch the list from backend
+   Zongda will plan about the time factor for iten-gen
 * 3. Do I see any impediment that prevents me or the development team from meeting the sprint goal?
     Currently No.
