@@ -11,10 +11,10 @@ Participation:
 
 * Three Questions:
 * 1. What did I do yesterday that helped the development team meet the sprint goal?
-   Jingwei fixed his bugs.
+   Jingwei fixed his bugs.Mohan finished the styling for his code for filters.
    David Completed the method of getting itinary name list,
 * 2. What will I do today to help the development team meet the sprint goal?
-   Jingwei will store the filter object into database.
+   Jingwei will store the filter object into database.Mohan will test the frontend for filters in isolation.
    David will implement second method which get the detail info when passing in name,
 * 3. Do I see any impediment that prevents me or the development team from meeting the sprint goal?
     Currently No.
