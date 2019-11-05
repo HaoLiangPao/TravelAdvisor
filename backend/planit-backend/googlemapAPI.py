@@ -6,9 +6,12 @@ from .Models.Location import Location
 import googlemaps
 import pprint
 import time
+import requests
 
-# define my api_key
+# define my api_key -- GoogleMapAPI
 API_KEY = "AIzaSyCGK-PEKgnOj4ilFbm2cw7cwi2btYwWXIQ"
+# define my api_key -- SygicAPI
+Sygic_API = "MiFCBUZaa078n2SuYEf4r6JFV5l9l0rJ1OfgyDQv"
 
 # define client
 gmaps = googlemaps.Client(key=API_KEY)
@@ -64,8 +67,25 @@ def validateLocation(location):
 def crawlLocations(coordinate, preference_list, trip_filter):
     result = []
     for i in preference_list:
+        # way to get locations from Google API
         result = result + gmaps.places_nearby(location = coordinate, radius = trip_filter['radius'], type = "tourist_attraction", keyword = i)['results']
     return result
+
+def crawlLocationsSygic(coordinate, preference_list, trip_filter):
+    result = []
+    for i in preference_list:
+        # way to get locations from Sygic API
+        SygicHeaders = {"x-api-key":Sygic_API}
+        placeListURL = 'https://api.sygictravelapi.com/1.1/en/places/list'
+        area = coordinate + "," + trip_filter['radius']
+        # Sygic has limited categories, one way we could do is put this as the options in preference setting. hardcode for now
+        categories = "sightseeing|traveling|discovering"
+        query = i
+        params = {"area":area, "categories":categories, "query":query}
+        response = requests.get(placeListURL, params=params, headers=SygicHeaders)
+        # get attributes we want
+    return result
+
 
 def parsingLocation(location_list):
     pidTotype = dict()
@@ -75,4 +95,10 @@ def parsingLocation(location_list):
         pidToloc[i.get('place_id')] = Location(i.get('name'), query[0], query[1].get('lat'), query[1].get('lng'))
         pidTotype[i.get('place_id')] = i.get('types')
     return pidTotype, pidToloc
+
+
+def parsingLocationSygic(location_list):
+    pidTotype = dict()
+    pidToloc = dict()
+    for i in location_list:
 
