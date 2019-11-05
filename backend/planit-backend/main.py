@@ -5,7 +5,7 @@ sys.path.append(os.path.dirname(CURRENT_DIR))
 from flask import Blueprint, request, jsonify
 from .googlemapAPI import validateLocation
 from .googlemapAPI import crawlLocations
-from .googlemapAPI import crawlLocationsSygic
+# from .googlemapAPI import crawlLocationsSygic
 from .googlemapAPI import parsingLocation
 
 from .extensions import mongo

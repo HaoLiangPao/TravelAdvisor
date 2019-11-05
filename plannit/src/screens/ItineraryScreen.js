@@ -18,7 +18,8 @@ const ItineraryScreen = ({ navigation }) => {
 
 
     useEffect(() => {
-      getItineraryApi();
+        Alert.alert("Please wait while we load the itinerary ")
+        getItineraryApi();
     }, [change]);
    
     
@@ -51,7 +52,7 @@ const ItineraryScreen = ({ navigation }) => {
     }}
     type="clear"
     />
-    <Button 
+    {/* <Button 
     style={{ margin: 15 }}
     title="Re Generate Intinerary" 
     onPress={()=>{
@@ -72,7 +73,7 @@ const ItineraryScreen = ({ navigation }) => {
         const intinerary = getItineraryApi();
     }}
     type="clear"
-    />
+    /> */}
     <ScrollView style={styles.containerStyle} scrollEnabled={true}>
     <FlatList
         horizontal = {false}
@@ -94,9 +95,9 @@ const ItineraryScreen = ({ navigation }) => {
     />
     <Button 
     style={{ margin: 15 }}
-    title="Back to the Preferences" 
+    title="Back to the Filters" 
     onPress={()=>{
-        navigation.navigate("preference",{email})
+        navigation.navigate("filter",{email})
         setChange(false);
 
     }}

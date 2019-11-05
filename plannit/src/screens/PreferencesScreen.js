@@ -13,6 +13,10 @@ const PreferencesScreen = ({ navigation }) => {
       const response = planitApi.post("/addPref", {preference,email});
       return response;
     };
+    const deletePreferenceApi = () => {
+      const response = planitApi.post("/deletePref", {preference,email});
+      return response;
+    };
     const getPreferenceApi = () => {
       const response2 = planitApi.post("/getPref",{email});
       response2.then(result2 => {
@@ -22,8 +26,13 @@ const PreferencesScreen = ({ navigation }) => {
       return response2;
     };
     useEffect(() => {
+      const timer = setTimeout(() => {
+        console.log('This will run after 1 second!')
+        getPreferenceApi();
+      }, 2000);
+      return () => clearTimeout(timer);
       // Your code here
-      getPreferenceApi();
+      
     }, [change]);
    
     

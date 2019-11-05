@@ -68,7 +68,7 @@ def crawlLocations(coordinate, preference_list, trip_filter):
     result = []
     for i in preference_list:
         # way to get locations from Google API
-        result = result + gmaps.places_nearby(location = coordinate, radius = trip_filter['radius'], type = "tourist_attraction", keyword = i)['results']
+        result = result + gmaps.places_nearby(location = coordinate, radius = 1000*trip_filter['radius'], type = "tourist_attraction", keyword = i)['results']
     return result
 
 def parsingLocation(location_list):
