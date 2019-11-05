@@ -1,19 +1,19 @@
 import React , { useState, useEffect} from "react";
 import { View, StyleSheet, Button, TextInput, ScrollView, FlatList, Alert, TouchableOpacity} from "react-native";
-import { Text, ListItem} from "react-native-elements";
+import { Text, Image} from "react-native-elements";
 import planitApi from "../api/planitApi";
 
 const ItineraryDetailScreen = ({ navigation }) => {
     console.disableYellowBox = true;
-    const [change,setChange] = useState(true);
     const name = navigation.getParam("name", "NO-ID");
     const email = navigation.getParam("email", "NO-ID");
-    const [detailList,setDetailList] = useState([]);
+    const [vicinity,setVicinity] = useState("");
+    const [photo,setPhoto] = useState([]);
     const getItineraryDetailApi = () => {
         const response = planitApi.post("/getDetail",{email, name});
         response.then(result => {
-          console.log(result);
-          setDetailList([result.data.vicinity]);
+          setVicinity(result.data.vicinity);
+          setPhoto(result.data.photos[0].photo_reference);
         })
         return response;
       };
@@ -21,7 +21,7 @@ const ItineraryDetailScreen = ({ navigation }) => {
 
     useEffect(() => {
       getItineraryDetailApi();
-    }, [change]);
+    }, []);
    
     return (
     <View style={{flex:1, backgroundColor:'black'}}>
@@ -45,9 +45,10 @@ const ItineraryDetailScreen = ({ navigation }) => {
     <Text style={styles.textStyle}>{name}</Text>
     <Text style={styles.textStyle}>{email}</Text>
     <ScrollView  style={styles.containerListStyle} scrollEnabled={true}>
-        <Text style={styles.detailStyle}>Location: {detailList + "\n"}</Text>
-        <Text style={styles.detailStyle}>Time{"\n"}</Text>
-        <Text style={styles.detailStyle}>Introduction</Text>
+        <Text style={styles.detailStyle}>Location: {vicinity + "\n"}</Text>
+        <Text style={styles.detailStyle}>Photo{"\n"}</Text>
+        <Image source={{uri: 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=' + photo + '&key=AIzaSyCGK-PEKgnOj4ilFbm2cw7cwi2btYwWXIQ'}}
+       style={{width: 300, height: 300, alignSelf:'center'}} />
     </ScrollView>   
     <Button 
     style={{ margin: 15 }}
@@ -130,7 +131,6 @@ const ItineraryDetailScreen = ({ navigation }) => {
       containerListStyle: {
         backgroundColor: "#292929",
         margin: 15,
-        alignSelf: 'center',
         textAlign: 'center',
         width: '100%'
       }

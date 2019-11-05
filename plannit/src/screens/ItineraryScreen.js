@@ -11,7 +11,6 @@ const ItineraryScreen = ({ navigation }) => {
     const getItineraryApi = () => {
         const response = planitApi.post("/popularlist",{email});
         response.then(result => {
-          console.log(result);
           setlistItinerary(result.data);
         })
         return response;
