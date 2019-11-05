@@ -11,8 +11,10 @@ Participation:
 
 * Three Questions:
 * 1. What did I do yesterday that helped the development team meet the sprint goal?
+Mohan Finished the outline for the frontend of filters, Jingwei finished finished writing the endpoint in main.py so that he can see results from Postman
     
 * 2. What will I do today to help the development team meet the sprint goal?
+Mohan will try to finish 40% of the frontend. Jingwei Will use mockdata to check the implementation from postman
    
 * 3. Do I see any impediment that prevents me or the development team from meeting the sprint goal?
     Currently No.
