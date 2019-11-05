@@ -11,10 +11,10 @@ Participation:
 
 * Three Questions:
 * 1. What did I do yesterday that helped the development team meet the sprint goal?
-Jingwei finished the UML updating. David fixed the bugs of itinary. Mohan Finished fixeing bugs for filters.
+Jingwei finished the UML updating. David fixed the bugs of itinary. Mohan Finished fixeing bugs for filters. Guikang fetched the name of the place sent from the backend and show it on the ItineraryDetailScreen.js
     
 * 2. What will I do today to help the development team meet the sprint goal?
-Mohan and Jingwei will continue to perform integration testing for filters to make sure the frontend and backend work as desired.As well as fix any bugs that arise. David will do more testing in itinary.
+Mohan and Jingwei will continue to perform integration testing for filters to make sure the frontend and backend work as desired.As well as fix any bugs that arise. David will do more testing in itinary. Guikang is going to put more details on the ItineraryDetailScreen.js
    
 * 3. Do I see any impediment that prevents me or the development team from meeting the sprint goal?
     Currently No.
