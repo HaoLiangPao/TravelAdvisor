@@ -77,14 +77,25 @@ def crawlLocationsSygic(coordinate, preference_list, trip_filter):
         # way to get locations from Sygic API
         SygicHeaders = {"x-api-key":Sygic_API}
         placeListURL = 'https://api.sygictravelapi.com/1.1/en/places/list'
-        area = coordinate + "," + trip_filter['radius']
         # Sygic has limited categories, one way we could do is put this as the options in preference setting. hardcode for now
         categories = "sightseeing|traveling|discovering"
         query = i
+        area = coordinate + str(int(trip_filter['radius']) * 1000) # convert km unit to m unit
         params = {"area":area, "categories":categories, "query":query}
-        response = requests.get(placeListURL, params=params, headers=SygicHeaders)
+        response = requests.get(placeListURL, params=params, headers=SygicHeaders).get("data").get("places")
         # get attributes we want
     return result
+
+
+def parsingLocationSygic(location_list):
+    pidTotype = dict()
+    pidToloc = dict()
+    for i in location_list:
+        query = validateLocation(i.get('name') + ' ' + i.get('vicinity'))
+        pidToloc[i.get('id')] = LocationSygic(i.get('name'), query[0], query[1].get('lat'), query[1].get('lng'),
+         i.get("duration"), i.get('perex'))
+        pidTotype[i.get('place_id')] = i.get('types')
+    return pidTotype, pidToloc
 
 
 def parsingLocation(location_list):

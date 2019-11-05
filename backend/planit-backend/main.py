@@ -6,6 +6,7 @@ from flask import Blueprint, request, jsonify
 from .googlemapAPI import validateLocation
 from .googlemapAPI import crawlLocations
 from .googlemapAPI import crawlLocationsSygic
+from .googlemapAPI import parsingLocationSygic
 from .googlemapAPI import parsingLocation
 
 from .extensions import mongo
@@ -169,8 +170,8 @@ def generateTrip():
         resp = jsonify(result)
         return resp
 
-@main.route('/generateTrip', methods=['POST'])
-def generateTrip():
+@main.route('/generateTripSygic', methods=['POST'])
+def generateTripSygic():
     content = request.get_json(silent = True)
     # user inputs
     email = content.get('email')
@@ -186,7 +187,7 @@ def generateTrip():
         # all the locations that fits the requirement
         result_locations = crawlLocationsSygic(coordinate, preference_list, trip_filter)
         # maps pid to their "type" and their corresponding location object
-        pidToType, pidtoloc = parsingLocation(result_locations)
+        pidToType, pidtoloc = parsingLocationSygic(result_locations)
         # maps pid to their value, higher the value, more willingness from the
         # user for that location(activity)
         pidtoval = dict()
