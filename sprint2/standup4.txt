@@ -12,10 +12,9 @@ Participation:
 * Three Questions:
 * 1. What did I do yesterday that helped the development team meet the sprint goal?
     Mohan finished the research of the conponent of React Native that he need for this sprint. Jingwei finished the development of the Filter object.
-      Hao and Zongda were reseraching another api to implement iten-gen and make it to consider the timing factor
-    
+    Guikang and Soham talked to to the backend team and started working on fetching the data for itinerary from backend.
 * 2. What will I do today to help the development team meet the sprint goal?
    Mohan is going to do the outline of filter in frontend. Jingweil will develop the endpoint for filter in main.py.
-   Hao and Zongda will keep reseraching for a suitable api to use.
+   Guikang and Soham will work on fetching the list and displaying it on itineraryScreen
 * 3. Do I see any impediment that prevents me or the development team from meeting the sprint goal?
     Currently No.
