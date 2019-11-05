@@ -1,5 +1,5 @@
 Date: 2019.10.29
-Documentation: 5 mins
+Documentation: 15 mins
 Participation:
     * Jingwei Wang    wangj589
     * Guikang Zhong   zhonggui
@@ -13,8 +13,10 @@ Participation:
 * 1. What did I do yesterday that helped the development team meet the sprint goal?
     Mohan finished the research of the conponent of React Native that he need for this sprint. Jingwei finished the development of the Filter object.
     Guikang and Soham talked to to the backend team and started working on fetching the data for itinerary from backend.
+    Hao has researched the Sygic API, it does provide duration which Google API does not
 * 2. What will I do today to help the development team meet the sprint goal?
    Mohan is going to do the outline of filter in frontend. Jingweil will develop the endpoint for filter in main.py.
    Guikang and Soham will work on fetching the list and displaying it on itineraryScreen
+   Hao is going to communicate with Sygic Organization for the API key.
 * 3. Do I see any impediment that prevents me or the development team from meeting the sprint goal?
     Currently No.

@@ -1,5 +1,5 @@
 Date: 2019.11.4
-Documentation: 5 mins
+Documentation: 20 mins
 Participation:
     * Jingwei Wang    wangj589
     * Guikang Zhong   zhonggui
@@ -11,10 +11,13 @@ Participation:
 
 * Three Questions:
 * 1. What did I do yesterday that helped the development team meet the sprint goal?
-Mohan and Jingwei will continued to perform integration testing for the filters to make sure the frontend and backend work as desired.As well as fixed any bugs that arise. David fixed the bugs in itinary. Soham helped Guikang to debug the front code for itinerary generation and Guikang Zhong was able to put the photo of place on the itinerary detail screen.
-    
+    Mohan and Jingwei will continued to perform integration testing for the filters to make sure the frontend and backend work as desired.As well as fixed any bugs that arise. 
+    David fixed the bugs in itinary. Soham helped Guikang to debug the front code for itinerary generation and Guikang Zhong was able to put the photo of place on the itinerary detail screen.
+    Hao finished the implementation of Sygic API in generateItinerary.
 * 2. What will I do today to help the development team meet the sprint goal?
-Mohan and Jingwei will finish integration testing for filters making sure any bugs have been squashed. David will participate meeting for later tasks.
+    Mohan and Jingwei will finish integration testing for filters making sure any bugs have been squashed. 
+    David will participate meeting for later tasks.
+    Hao is testing the application for demoing.
    
 * 3. Do I see any impediment that prevents me or the development team from meeting the sprint goal?
     Currently No.

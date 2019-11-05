@@ -1,5 +1,5 @@
 Date: 2019.10.24
-Documentation: 14mins
+Documentation: 14 mins
 Participation:
     * Jingwei Wang    wangj589
     * Guikang Zhong   zhonggui
@@ -11,12 +11,10 @@ Participation:
 
 * Three Questions:
 * 1. What did I do yesterday that helped the development team meet the sprint goal?
-    Mohan and Soham started working on CIP-5. He is clearly understand of what filters are going to add according to the design.
-    Jingwei and Hao went through the design we made for filters.
-    Guikang got familiar about the backend code of generateItinerary.
-    David and Zongdawent through the code of GoogleAPI.
+    Mohan and Jingwei went through the design of different modules collaborating within our app.
+    Hao, David, Soham and Guikang have divided subtasks to everybody and decided to work together for itinerary generation
 * 2. What will I do today to help the development team meet the sprint goal?
-    Mohan and Jingwei will meet up and discuss what need to be done next
-    Hao, David, Soham and Guikang are going to meet up to go over how the data are passed from frontend to backend
+    Mohan and Jingwei are going to meet up latter on to discuss about the design for filter
+    Zongda, Hao, David and Soham are going to meet up to discuss how the data are been passed from frontend to backend
 * 3. Do I see any impediment that prevents me or the development team from meeting the sprint goal?
     Currently No.

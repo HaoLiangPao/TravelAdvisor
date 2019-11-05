@@ -1,5 +1,5 @@
 Date: 2019.11.2
-Documentation: 5 mins
+Documentation: 11 mins
 Participation:
     * Jingwei Wang    wangj589
     * Guikang Zhong   zhonggui
