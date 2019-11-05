@@ -11,8 +11,8 @@ Participation:
 
 * Three Questions:
 * 1. What did I do yesterday that helped the development team meet the sprint goal?
-    
+    Jingwei tested the endpoint for filters. Mohan was able to finish 40% of the filters screen. 40% is the basic features without styling.
 * 2. What will I do today to help the development team meet the sprint goal?
-   
+   Jingwei will finish fixing bugs in his code. Mohan will finish the styling for his code.
 * 3. Do I see any impediment that prevents me or the development team from meeting the sprint goal?
     Currently No.
