@@ -13,6 +13,7 @@ Participation:
 * 1. What did I do yesterday that helped the development team meet the sprint goal?
     Mohan and Jingwei met up and finished the design of filters and the front end in a prototype form.
     Hao, David, Soham and Guikang understood how the data are going to be passed. And they decided to use dict in python as our basic info storage datatype.
+    zongda went through iten-gen code so others can use it easily.
 * 2. What will I do today to help the development team meet the sprint goal?
     Mohan and Jingwei are going to do a prototype about their design of the filters in the frontend.
     The rest of the people are going to prepare for the comming exams
