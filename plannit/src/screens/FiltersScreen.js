@@ -207,7 +207,7 @@ const FiltersScreen = ({ navigation }) => {
                 const Promise = SendFilterApi();
                 Promise.then(result => {
                   console.log(result.data === "Success");
-                  navigation.navigate("location", { email });
+                  navigation.navigate("itinerary", { email });
                 });
               }
             }}
