@@ -11,8 +11,10 @@ Participation:
 
 * Three Questions:
 * 1. What did I do yesterday that helped the development team meet the sprint goal?
+   Jingwei finished store the Filter database.
     David completed the method of getting place detail information
 * 2. What will I do today to help the development team meet the sprint goal?
+   Jingwei will update the UML for Filter object, since he realized that it's better to set a filter attribute for User object.
     David will talk with Soham and Guikang about the bug which are showing up in itinary
 * 3. Do I see any impediment that prevents me or the development team from meeting the sprint goal?
     Currently No.
