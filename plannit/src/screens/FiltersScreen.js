@@ -10,9 +10,11 @@ import {
 import { Text, Button, Slider } from "react-native-elements";
 import DatePicker from "react-native-datepicker";
 import planitApi from "../api/planitApi";
+import { max } from "moment";
 
 //budget , range, start end time, average time per activity
 const FiltersScreen = ({ navigation }) => {
+  const [maxactivity, setMaxactivity] = useState(5);
   const [budget, setBudget] = useState(300);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -21,7 +23,8 @@ const FiltersScreen = ({ navigation }) => {
     StartDateAndTime: startDate,
     EndingDateAndTime: endDate,
     radius: distance / 2,
-    Budget: budget
+    Budget: budget,
+    activity_num: maxactivity
   };
   let email = navigation.getParam("email", "NO-ID");
   const SendFilterApi = () => {
@@ -72,6 +75,22 @@ const FiltersScreen = ({ navigation }) => {
             />
             <Text h4 style={{ color: "white", textAlign: "left", margin: 5 }}>
               Budget : {budget}
+            </Text>
+          </View>
+          <View
+            style={{ alignItems: "stretch", justifyContent: "center", top: 20 }}
+          >
+            <Slider
+              value={5}
+              minimumValue={0}
+              maximumValue={10}
+              onValueChange={value => setMaxactivity(value)}
+              step={1}
+              thumbTintColor={"#02DAC5"}
+              style={{ bottom: 10 }}
+            />
+            <Text h4 style={{ color: "white", textAlign: "left", margin: 5 }}>
+              Number of activities  : {maxactivity}
             </Text>
           </View>
           <View

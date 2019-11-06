@@ -135,8 +135,8 @@ def popularlist():
     email = content.get('email')
     # trip_filter = content.get('filter')
     user = CheckIfUserExists(email)
-    # max_activity_num = int(trip_filter.get('activity_num'))
     trip_filter = user.get("filter")
+    # max_activity_num = int(trip_filter.get('activity_num'))
     if user != None:
         # starting location, parsing into coordinate
         location = user.get('location')
