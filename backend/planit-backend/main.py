@@ -143,6 +143,8 @@ def popularlist():
         coordinate = str(location.get('lat')) + ", " +str(location.get('lng'))
         # list of possible preferences
         preference_list = user.get('preference')
+        # check the max activity numbers wanted
+        max_act = user.get('filter').get('activity_num')
         # all the locations that fits the requirement
         #print(preference_list)
         #print(trip_filter)
@@ -159,8 +161,13 @@ def popularlist():
         for j in duplicate:
             result_locations.remove(j)
         #print(nameList)
+        # use the limitation of max activity numbers to chop the list
+        if (max_act is None):
+            return_list = nameList
+        else:
+            return_list = nameList[:max_act]
         mongo.db.users.update_one({'email': email}, {'$set': {'history_search': result_locations}})
-        resp = jsonify(nameList)
+        resp = jsonify(return_list)
     else:
         resp = None
     return resp
