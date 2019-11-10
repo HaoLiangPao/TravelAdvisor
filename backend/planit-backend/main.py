@@ -5,8 +5,10 @@ sys.path.append(os.path.dirname(CURRENT_DIR))
 from flask import Blueprint, request, jsonify
 from .googlemapAPI import validateLocation
 from .googlemapAPI import crawlLocations
-# from .googlemapAPI import crawlLocationsSygic
+from .googlemapAPI import crawlLocationsSygic
 from .googlemapAPI import parsingLocation
+from .googlemapAPI import TimeItineraryFactory
+from .googlemapAPI improt parsingLocationSygic
 
 from .extensions import mongo
 from .extensions import bcrypt
@@ -135,8 +137,8 @@ def popularlist():
     email = content.get('email')
     # trip_filter = content.get('filter')
     user = CheckIfUserExists(email)
-    trip_filter = user.get("filter")
     # max_activity_num = int(trip_filter.get('activity_num'))
+    trip_filter = user.get("filter")
     if user != None:
         # starting location, parsing into coordinate
         location = user.get('location')
@@ -167,7 +169,7 @@ def popularlist():
         else:
             return_list = nameList[:max_act]
         mongo.db.users.update_one({'email': email}, {'$set': {'history_search': result_locations}})
-        resp = jsonify(return_list)
+        resp = jsonify(nameList)
     else:
         resp = None
     return resp
@@ -237,6 +239,43 @@ def generateTrip():
         resp = jsonify(result)
         return resp
 
+
+@main.route('/generateItinerary', methods=['POST', 'GET'])
+def generateItinerary():
+    # getting the popular lactivities in user's location and preference
+    content = request.get_json(silent = True)
+    # user inputs
+    email = content.get('email')
+    # trip_filter = content.get('filter')
+    user = CheckIfUserExists(email)
+    # max_activity_num = int(trip_filter.get('activity_num'))
+    trip_filter = user.get("filter")
+    if user != None:
+        # starting location, parsing into coordinate
+        location = user.get('location')
+        coordinate = str(location.get('lat')) + "," +str(location.get('lng'))
+        # get the start and end date from frontend
+        start = user.get('filter').get('StartDateAndTime')
+        end = user.get('filter').get('EndingDateAndTime')
+        # list of possible preferences
+        preference_list = user.get('preference')
+        # check the max activity numbers wanted
+        max_act = user.get('filter').get('activity_num')
+        # all the locations that fits the requirement
+        print(preference_list)
+        print(trip_filter)
+        result_locations = crawlLocations(coordinate, preference_list, trip_filter)
+        # extract the information we want, change the unreasonable time duration and stored opening hours
+        parsed_list = parsingLocationSygic(result_locations, start, end)
+        # generate an Itinerary with time attributes
+        itinerary = TimeItineraryFactory(parsed_list, max_act, start, end)
+        print(itinerary)
+        mongo.db.users.update_one({'email': email}, {'$set': {'itinerary': itinerary}})
+        resp = jsonify(itinerary)
+    else:
+        resp = None
+    return resp
+   
 @main.route('/addFilter', methods=['GET', 'POST'])
 def addFilter():
     return_message = "Success"
