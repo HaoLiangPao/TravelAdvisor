@@ -8,7 +8,10 @@ from .googlemapAPI import crawlLocations
 from .googlemapAPI import crawlLocationsSygic
 from .googlemapAPI import parsingLocation
 from .googlemapAPI import TimeItineraryFactory
-from .googlemapAPI improt parsingLocationSygic
+from .googlemapAPI import parsingLocationSygic
+from .googlemapAPI import timeCalculator
+from .googlemapAPI import TimeItineraryFactory
+from .googlemapAPI import durationCalculation
 
 from .extensions import mongo
 from .extensions import bcrypt
@@ -169,7 +172,7 @@ def popularlist():
         else:
             return_list = nameList[:max_act]
         mongo.db.users.update_one({'email': email}, {'$set': {'history_search': result_locations}})
-        resp = jsonify(nameList)
+        resp = jsonify(return_list)
     else:
         resp = None
     return resp
