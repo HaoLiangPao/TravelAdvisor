@@ -272,7 +272,8 @@ def generateItinerary():
         parsed_list = parsingLocationSygic(result_locations, start, end)
         # generate an Itinerary with time attributes
         itinerary = TimeItineraryFactory(parsed_list, max_act, start, end)
-        print(itinerary)
+        # print(itinerary)
+        
         mongo.db.users.update_one({'email': email}, {'$set': {'itinerary': itinerary}})
         resp = jsonify(itinerary)
     else:
