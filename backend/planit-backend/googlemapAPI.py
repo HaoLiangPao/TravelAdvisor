@@ -7,6 +7,7 @@ import googlemaps
 import pprint
 import time
 import requests
+import random
 
 # define my api_key -- GoogleMapAPI
 API_KEY = "AIzaSyCGK-PEKgnOj4ilFbm2cw7cwi2btYwWXIQ"
@@ -14,6 +15,13 @@ API_KEY = "AIzaSyCGK-PEKgnOj4ilFbm2cw7cwi2btYwWXIQ"
 Sygic_API = "MiFCBUZaa078n2SuYEf4r6JFV5l9l0rJ1OfgyDQv"
 # way to get locations from Sygic API with requests
 SygicHeaders = {"x-api-key":Sygic_API}
+placeListURL = 'https://api.sygictravelapi.com/1.1/en/places/list'
+placeDetailURL = 'https://api.sygictravelapi.com/1.1/en/places/'
+openTimeURL = 'https://api.sygictravelapi.com/1.1/en/places/poi:530/opening-hours'
+SygicHeaders = {"x-api-key":Sygic_API}
+
+
+
 
 # define client
 gmaps = googlemaps.Client(key=API_KEY)
@@ -88,7 +96,7 @@ def crawlLocationsSygic(coordinate, preference_list, trip_filter):
         categories = "sightseeing|traveling|discovering|shopping|eating|sports|hiking|relaxing|playing|going_out"
         query = i
         area = coordinate + "," + str(int(trip_filter['radius']) * 1000) # convert km unit to m unit
-        params = {"area":area, "categories":categories, "query":query,"limit":5}
+        params = {"area":area, "categories":categories, "query":query,"limit":3} # only look for 3 iterms per preference
         response = requests.get(placeListURL, params=params, headers=SygicHeaders).json().get("data").get("places")
         # get attributes we want
         result += response
@@ -113,8 +121,8 @@ def parsingLocationSygic(places, start, end):
             perex = "Sorry! The description of this place is currently not availabel, will be implemented soon"
         else:
             perex = response.get('perex')
-        openTimeURL = 'https://api.sygictravelapi.com/1.1/en/places/poi:530/opening-hours'
         params = {"from":start[:-6], "to":end[:-6], "id":response.get("id")}
+        # get API response
         openTime = requests.get(openTimeURL, params = params, headers=SygicHeaders).json().get('data')
         parsed_place = {
             'id':response.get('id'),
@@ -174,7 +182,7 @@ def TimeItineraryFactory(parsed_list, max_act, start, end):
     Itinerary = []
     for place in listIti:
         place['startTimeTrip'] = start
-        print(start)
+        #print(start)
         if not (timeCalculator(start, place.get('duration'))) > end:
             place['endTimeTrip'] = timeCalculator(place['startTimeTrip'], place['duration'])
             start = timeCalculator(start, place.get('duration'))
@@ -185,6 +193,6 @@ def TimeItineraryFactory(parsed_list, max_act, start, end):
             place['duration'] = duration
             place['endTimeTrip'] = end
         Itinerary.append(place)
-    print(Itinerary)
+    #print(Itinerary)
     return Itinerary
 
