@@ -13,6 +13,8 @@ import random
 API_KEY = "AIzaSyCGK-PEKgnOj4ilFbm2cw7cwi2btYwWXIQ"
 # define my api_key -- SygicAPI
 Sygic_API = "MiFCBUZaa078n2SuYEf4r6JFV5l9l0rJ1OfgyDQv"
+Sygic_API2 = "GMH5swhpCA3g1mvvykU5s7worRP1GTywaNrQUC0X"
+
 # way to get locations from Sygic API with requests
 SygicHeaders = {"x-api-key":Sygic_API}
 placeListURL = 'https://api.sygictravelapi.com/1.1/en/places/list'
