@@ -91,6 +91,11 @@ const ItineraryScreen = ({ navigation }) => {
     <Button 
     style={{ margin: 15 }}
     title="Next" 
+    onPress={()=>{
+      navigation.navigate("Comment",{email})
+      setChange(false);
+
+  }}
     type="clear"
     />
     <Button 

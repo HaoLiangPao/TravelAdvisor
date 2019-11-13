@@ -9,9 +9,11 @@ import ItineraryDetailScreen from "./src/screens/ItineraryDetailScreen";
 import SignUpScreen from "./src/screens/SignUpScreen";
 import PreferenceScreen from "./src/screens/PreferencesScreen";
 import FiltersScreen from "./src/screens/FiltersScreen";
+import CommentScreen from "./src/screens/CommentScreen";
 import { Provider as AuthProvider } from "./src/context/authContext";
 
 const switchNavigator = createSwitchNavigator({
+  Comment: CommentScreen,
   SignIn: SignInScreen,
   SignUp: SignUpScreen,
   location: LocationScreen,
