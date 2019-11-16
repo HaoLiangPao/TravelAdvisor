@@ -99,7 +99,7 @@ def crawlLocationsSygic(coordinate, preference_list, trip_filter, max_act):
         categories = "sightseeing|traveling|discovering|shopping|eating|sports|hiking|relaxing|playing|going_out"
         query = i
         area = coordinate + "," + str(int(trip_filter['radius']) * 1000) # convert km unit to m unit
-        params = {"area":area, "categories":categories, "query":query,"limit":3} # only look for 3 iterms per preference
+        params = {"area":area, "categories":categories, "query":query,"limit":20} # only look for 3 iterms per preference
         response = requests.get(placeListURL, params=params, headers=SygicHeadersOld).json().get("data").get("places")
         # get attributes we want
         result += response
@@ -107,8 +107,7 @@ def crawlLocationsSygic(coordinate, preference_list, trip_filter, max_act):
     random.shuffle(result)
     places = result[:max_act]
     subPlaces = result[max_act:]
-    print('crawl palces finished')
-    print(len(places))
+    print('crawl palces finished...')
     return places, subPlaces
 
 def parsingLocationSygic(places, start, end):
@@ -148,7 +147,7 @@ def parsingLocationSygic(places, start, end):
             'close':openTime.get('opening_hours').get(start[:-6])[0].get('closing')
         }
         parsed_list.append(parsed_place)
-    print('parsinglocation finished')
+    print('parsinglocation finished...')
     return parsed_list
 
 def durationCalculation(time1, time2):
@@ -221,4 +220,5 @@ def TimeItineraryFactory(parsed_list, start, end):
             place['endTimeTrip'] = end
         Itinerary.append(place)
     #print(Itinerary)
+    print('TimeItineraryFactory finished...')
     return Itinerary
