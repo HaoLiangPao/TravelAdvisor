@@ -131,7 +131,7 @@ def getPreference():
         result = []
     resp = jsonify(result)
     return resp
-
+'''
 @main.route('/popularlist', methods=['GET','POST'])
 def popularlist():
     # getting the popular lactivities in user's location and preference
@@ -176,6 +176,36 @@ def popularlist():
     else:
         resp = None
     return resp
+'''
+@main.route('/getAPIList', methods=['GET','POST'])
+def getAPIList():
+    # call generateItinery to get list from api
+    APIlist = generateItinerary()
+    # get the name of list
+    result = []
+    for i in APIlist:
+        result.append(i.get("name"))
+    resp = jsonify(result)
+    return resp
+
+
+@main.route('/getname', methods=['GET','POST'])
+def getNameList():
+    content = request.get_json(silent = True)
+    # user inputs, get user from the input of the user
+    email = content.get('email')
+    user = CheckIfUserExists(email)
+    if user is not None:
+        # if the user is not none, get the itinerary list in the user
+        itinerarylist = user.get("itinerary")
+        result = []
+        # if the user does not have itinerary list, result is empty list
+        if itinerarylist is not None:
+            # else, result is all the name in itinerary list
+            for i in itinerarylist:
+                result.append(i.get('name'))
+        resp = jsonify(result)
+        return resp
 
 @main.route('/getDetail', methods=['GET','POST'])
 def get_detail():
@@ -188,7 +218,7 @@ def get_detail():
     result = {}
     if user is not None:
         # get the search history of the user
-        search_history = user.get('history_search')
+        search_history = user.get('itinerary')
         if search_history is not None:
             for i in search_history:
                 if i['name'] == place_name:
@@ -200,7 +230,7 @@ def get_detail():
         result = None
     resp = jsonify(result)
     return resp
-
+'''
 @main.route('/generateTrip', methods=['POST'])
 def generateTrip():
     content = request.get_json(silent = True)
@@ -241,7 +271,7 @@ def generateTrip():
                 pidtoval.pop(max_pid)
         resp = jsonify(result)
         return resp
-
+'''
 
 @main.route('/generateItinerary', methods=['POST', 'GET'])
 def generateItinerary():
@@ -269,6 +299,7 @@ def generateItinerary():
         print(trip_filter)
         result_locations = crawlLocations(coordinate, preference_list, trip_filter)
         # extract the information we want, change the unreasonable time duration and stored opening hours
+        print(result_locations)
         parsed_list = parsingLocationSygic(result_locations, start, end)
         # generate an Itinerary with time attributes
         itinerary = TimeItineraryFactory(parsed_list, max_act, start, end)

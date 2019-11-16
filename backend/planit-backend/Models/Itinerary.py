@@ -34,7 +34,7 @@ class Itinerary:
         for i in self.__schedule:
             if i.name == name:
                 time = self.__locationtotime.get(i)
-                self.schedule.remove(i)
+                self.__schedule.remove(i)
                 break
         return time
 
