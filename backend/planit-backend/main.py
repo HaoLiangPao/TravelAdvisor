@@ -1,21 +1,24 @@
-import os,sys
+import random
+from .Models.Filter import Filter
+from .Models.Location import Location
+from .Models.user import User
+from .extensions import bcrypt
+from .extensions import mongo
+from .googlemapAPI import durationCalculation
+from .googlemapAPI import timeCalculator
+from .googlemapAPI import parsingLocationSygic
+from .googlemapAPI import TimeItineraryFactory
+from .googlemapAPI import parsingLocation
+from .googlemapAPI import crawlLocationsSygic
+from .googlemapAPI import crawlLocations
+from .googlemapAPI import validateLocation
+from flask import Blueprint, request, jsonify
+import os
+import sys
 CURRENT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.dirname(CURRENT_DIR))
 
-from flask import Blueprint, request, jsonify
-from .googlemapAPI import validateLocation
-from .googlemapAPI import crawlLocations
-# from .googlemapAPI import crawlLocationsSygic
-from .googlemapAPI import parsingLocation
 
-from .extensions import mongo
-from .extensions import bcrypt
-
-from .Models.user import User
-from .Models.Location import Location
-from .Models.Filter import Filter
-
-import random
 main = Blueprint('main', __name__)
 
 
@@ -63,6 +66,7 @@ def SignIn():
     resp = jsonify(success=return_message)
     return resp
 
+
 @main.route('/enterLocation', methods=['GET', 'POST'])
 def verifyLocation():
     return_message = "Success"
@@ -81,6 +85,7 @@ def verifyLocation():
     resp = jsonify(success=return_message)
     return resp
 
+
 @main.route('/addPref', methods=['GET', 'POST'])
 def addPreference():
     return_message = "Success"
@@ -88,18 +93,21 @@ def addPreference():
     email = content.get('email')
     preference = content.get('preference')
     user = CheckIfUserExists(email)
-    #print(user)
+    # print(user)
     user_preference = user.get('preference')
     if user_preference is None:
         pref_list = [preference]
-        mongo.db.users.update_one({'email': email}, {'$set': {'preference': pref_list}})
+        mongo.db.users.update_one(
+            {'email': email}, {'$set': {'preference': pref_list}})
     else:
         # check if the preference already exist in the list
         if preference not in user_preference:
             user_preference.append(preference)
-        mongo.db.users.update_one({'email': email}, {'$set': {'preference': user_preference}})
+        mongo.db.users.update_one(
+            {'email': email}, {'$set': {'preference': user_preference}})
     return return_message
-        
+
+
 @main.route('/deletePref', methods=['DELETE'])
 def deletePreference():
     return_message = "Success"
@@ -111,8 +119,10 @@ def deletePreference():
     if user_pre is not None:
         if del_pre in user_pre:
             user_pre.remove(del_pre)
-        mongo.db.users.update_one({'email': email}, {'$set': {'preference': user_pre}})
+        mongo.db.users.update_one(
+            {'email': email}, {'$set': {'preference': user_pre}})
     return return_message
+
 
 @main.route('/getPref', methods=['GET', 'POST'])
 def getPreference():
@@ -127,28 +137,32 @@ def getPreference():
     resp = jsonify(result)
     return resp
 
-@main.route('/popularlist', methods=['GET','POST'])
+
+@main.route('/popularlist', methods=['GET', 'POST'])
 def popularlist():
     # getting the popular lactivities in user's location and preference
-    content = request.get_json(silent = True)
+    content = request.get_json(silent=True)
     # user inputs
     email = content.get('email')
     # trip_filter = content.get('filter')
     user = CheckIfUserExists(email)
-    trip_filter = user.get("filter")
     # max_activity_num = int(trip_filter.get('activity_num'))
+    trip_filter = user.get("filter")
     if user != None:
         # starting location, parsing into coordinate
         location = user.get('location')
-        coordinate = str(location.get('lat')) + ", " +str(location.get('lng'))
+        coordinate = str(location.get('lat')) + ", " + str(location.get('lng'))
         # list of possible preferences
         preference_list = user.get('preference')
         # check the max activity numbers wanted
-        max_act = user.get('filter').get('activity_num')
+        max_act = int(user.get('filter').get('activity_num'))
+        print(max_act)
+
         # all the locations that fits the requirement
-        #print(preference_list)
-        #print(trip_filter)
-        result_locations = crawlLocations(coordinate, preference_list, trip_filter)
+        # print(preference_list)
+        # print(trip_filter)
+        result_locations = crawlLocations(
+            coordinate, preference_list, trip_filter)
         # list store the duplicating place
         duplicate = []
         nameList = []
@@ -160,22 +174,24 @@ def popularlist():
         # remove the duplicating elements in result_location
         for j in duplicate:
             result_locations.remove(j)
-        #print(nameList)
+        # print(nameList)
         # use the limitation of max activity numbers to chop the list
         if (max_act is None):
             return_list = nameList
         else:
             return_list = nameList[:max_act]
-        mongo.db.users.update_one({'email': email}, {'$set': {'history_search': result_locations}})
+        mongo.db.users.update_one(
+            {'email': email}, {'$set': {'history_search': result_locations}})
         resp = jsonify(return_list)
     else:
         resp = None
     return resp
 
-@main.route('/getDetail', methods=['GET','POST'])
+
+@main.route('/getDetail', methods=['GET', 'POST'])
 def get_detail():
     # get 'name' and 'email' contents of input
-    content = request.get_json(silent = True)
+    content = request.get_json(silent=True)
     email = content.get('email')
     place_name = content.get('name')
     # get the user using email
@@ -196,9 +212,10 @@ def get_detail():
     resp = jsonify(result)
     return resp
 
+
 @main.route('/generateTrip', methods=['POST'])
 def generateTrip():
-    content = request.get_json(silent = True)
+    content = request.get_json(silent=True)
     # user inputs
     email = content.get('email')
     trip_filter = content.get('filter')
@@ -207,11 +224,12 @@ def generateTrip():
     if user != None:
         # starting location, parsing into coordinate
         location = user.get('location')
-        coordinate = str(location.get('lat')) + ", " +str(location.get('lng'))
+        coordinate = str(location.get('lat')) + ", " + str(location.get('lng'))
         # list of possible preferences
         preference_list = user.get('preference')
         # all the locations that fits the requirement
-        result_locations = crawlLocations(coordinate, preference_list, trip_filter)
+        result_locations = crawlLocations(
+            coordinate, preference_list, trip_filter)
         # maps pid to their "type" and their corresponding location object
         pidToType, pidtoloc = parsingLocation(result_locations)
         # maps pid to their value, higher the value, more willingness from the
@@ -231,11 +249,58 @@ def generateTrip():
         # get top results
         if max_activity_num < len(pidtoloc.keys()):
             while len(result) < max_activity_num:
-                max_pid = max(pidtoval.items(), key = lambda x: x[1])[0]
+                max_pid = max(pidtoval.items(), key=lambda x: x[1])[0]
                 result.append(pidtoloc[max_pid].serialization())
                 pidtoval.pop(max_pid)
         resp = jsonify(result)
         return resp
+
+
+@main.route('/generateItinerary', methods=['POST', 'GET'])
+def generateItinerary():
+    # getting the popular lactivities in user's location and preference
+    content = request.get_json(silent=True)
+    # user inputs
+    email = content.get('email')
+    # trip_filter = content.get('filter')
+    user = CheckIfUserExists(email)
+    # max_activity_num = int(trip_filter.get('activity_num'))
+    trip_filter = user.get("filter")
+    if user != None:
+        # starting location, parsing into coordinate
+        location = user.get('location')
+        coordinate = str(location.get('lat')) + "," + str(location.get('lng'))
+        # get the start and end date from frontend
+        start = user.get('filter').get('StartDateAndTime')
+        end = user.get('filter').get('EndingDateAndTime')
+        # list of possible preferences
+        preference_list = user.get('preference')
+        # check the max activity numbers wanted
+        max_act = user.get('filter').get('activity_num')
+        # all the locations that fits the requirement
+<<<<<<< HEAD
+        print(preference_list)
+        print(trip_filter)
+        result_locations = crawlLocations(
+            coordinate, preference_list, trip_filter)
+=======
+        #print(preference_list)
+        #print(trip_filter)
+        result_locations, result_locations_sub = crawlLocations(coordinate, preference_list, trip_filter, max_act)
+>>>>>>> 5ed6c72adb2369b9bddda9f203fd83ad690830ad
+        # extract the information we want, change the unreasonable time duration and stored opening hours
+        parsed_list = parsingLocationSygic(result_locations, start, end)
+        # generate an Itinerary with time attributes
+        itinerary = TimeItineraryFactory(parsed_list, start, end)
+        # print(itinerary)
+
+        mongo.db.users.update_one(
+            {'email': email}, {'$set': {'itinerary': itinerary}})
+        resp = jsonify(itinerary)
+    else:
+        resp = None
+    return resp
+
 
 @main.route('/addFilter', methods=['GET', 'POST'])
 def addFilter():
@@ -246,13 +311,29 @@ def addFilter():
 
     filters = Filter(email)
     filters.addFilters(content_filters)
-    
+
     return return_message
+
 
 @main.route('/getFilter', methods=['GET', 'POST'])
 def getFilter():
     content = request.get_json(silent=True)
+    print(content)
     email = content.get('email')
 
     filters = Filter(email)
     return filters.getFilters()
+
+
+@main.route('/getLatLong', methods=['GET', 'POST'])
+def getLatAndLong():
+    content = request.get_json(silent=True)
+    location = content.get('vicinity')
+    print(location)
+    backendResponse = validateLocation(location)
+    print(backendResponse)
+    latitude = backendResponse[1]['lat']
+    longitude = backendResponse[1]['lng']
+    addressList = {"latitude": latitude, "longitude": longitude}
+    resp = jsonify(addressList)
+    return resp
