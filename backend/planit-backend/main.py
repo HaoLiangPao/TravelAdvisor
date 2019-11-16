@@ -265,9 +265,9 @@ def generateItinerary():
         # check the max activity numbers wanted
         max_act = user.get('filter').get('activity_num')
         # all the locations that fits the requirement
-        print(preference_list)
-        print(trip_filter)
-        result_locations = crawlLocations(coordinate, preference_list, trip_filter)
+        #print(preference_list)
+        #print(trip_filter)
+        result_locations, result_locations_sub = crawlLocations(coordinate, preference_list, trip_filter)
         # extract the information we want, change the unreasonable time duration and stored opening hours
         parsed_list = parsingLocationSygic(result_locations, start, end)
         # generate an Itinerary with time attributes
