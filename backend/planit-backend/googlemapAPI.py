@@ -13,12 +13,15 @@ import random
 API_KEY = "AIzaSyCGK-PEKgnOj4ilFbm2cw7cwi2btYwWXIQ"
 # define my api_key -- SygicAPI
 Sygic_API = "MiFCBUZaa078n2SuYEf4r6JFV5l9l0rJ1OfgyDQv"
+Sygic_API2 = "GMH5swhpCA3g1mvvykU5s7worRP1GTywaNrQUC0X"
+
 # way to get locations from Sygic API with requests
 SygicHeaders = {"x-api-key":Sygic_API}
 placeListURL = 'https://api.sygictravelapi.com/1.1/en/places/list'
 placeDetailURL = 'https://api.sygictravelapi.com/1.1/en/places/'
 openTimeURL = 'https://api.sygictravelapi.com/1.1/en/places/poi:530/opening-hours'
-SygicHeaders = {"x-api-key":Sygic_API}
+SygicHeadersOld = {"x-api-key":Sygic_API}
+SygicHeadersNew = {"x-api-key":Sygic_API2}
 
 
 
@@ -89,21 +92,23 @@ def parsingLocation(location_list):
         pidToloc[i.get('place_id')] = Location(i.get('name'), query[0], query[1].get('lat'), query[1].get('lng'))
         pidTotype[i.get('place_id')] = i.get('types')
 
-def crawlLocationsSygic(coordinate, preference_list, trip_filter):
+def crawlLocationsSygic(coordinate, preference_list, trip_filter, max_act):
     result = []
     for i in preference_list:
         # Sygic has limited categories, one way we could do is put this as the options in preference setting. hardcode for now
         categories = "sightseeing|traveling|discovering|shopping|eating|sports|hiking|relaxing|playing|going_out"
         query = i
         area = coordinate + "," + str(int(trip_filter['radius']) * 1000) # convert km unit to m unit
-        params = {"area":area, "categories":categories, "query":query,"limit":3} # only look for 3 iterms per preference
-        response = requests.get(placeListURL, params=params, headers=SygicHeaders).json().get("data").get("places")
+        params = {"area":area, "categories":categories, "query":query,"limit":20} # only look for 3 iterms per preference
+        response = requests.get(placeListURL, params=params, headers=SygicHeadersOld).json().get("data").get("places")
         # get attributes we want
         result += response
+    # we could use some random algorithum or optimize algorithum (such as: seperate restaruent with others etc.)
     random.shuffle(result)
-    print('crawl palces finished')
-    print(len(result))
-    return result
+    places = result[:max_act]
+    subPlaces = result[max_act:]
+    print('crawl palces finished...')
+    return places, subPlaces
 
 def parsingLocationSygic(places, start, end):
     parsed_list = []
@@ -123,7 +128,7 @@ def parsingLocationSygic(places, start, end):
             perex = response.get('perex')
         params = {"from":start[:-6], "to":end[:-6], "id":response.get("id")}
         # get API response
-        openTime = requests.get(openTimeURL, params = params, headers=SygicHeaders).json().get('data')
+        openTime = requests.get(openTimeURL, params = params, headers=SygicHeadersOld).json().get('data')
         parsed_place = {
             'id':response.get('id'),
             'name':response.get('name'),
@@ -142,7 +147,7 @@ def parsingLocationSygic(places, start, end):
             'close':openTime.get('opening_hours').get(start[:-6])[0].get('closing')
         }
         parsed_list.append(parsed_place)
-    print('parsinglocation finished')
+    print('parsinglocation finished...')
     return parsed_list
 
 def durationCalculation(time1, time2):
@@ -164,35 +169,56 @@ def durationCalculation(time1, time2):
         result = hour * 3600 - minu * 60
     return result
 
+#help function
+def timeFormatConverter(t):
+    '''(int) -> string
+    given a time t < 10, return a string with '0t'
+    otherwise, return 't'
+    '''
+    if t < 10:
+        result = '0' + str(t)
+    else:
+        result = str(t)
+    return result
+
 #help function, to add duration (in seconds) to start-over time in format hh:mm
 # input format: "yyyy-mm-dd hh:mm"
 def timeCalculator(time, duration):
+    date = int(time[8:11])
     minu = (duration // 60 ) % 60
     hours = (duration // 60) // 60
     timeHour = int(time[11:-3])
     timeMinu = int(time[-2:])
     timeHour += hours
     timeMinu += minu
-    return time[:10] + " " + str(timeHour) + ":" + str(timeMinu)
+    # 60 minutes is 1 hour
+    if (timeMinu >= 60):
+        timeHour += timeMinu // 60
+        timeMinu = timeMinu % 60
+    if (timeHour > 24):
+        timeHour = timeHour % 24
+        date += timeHour // 24
+    # keep time format consistent
+    timeHourStr = timeFormatConverter(timeHour)
+    timeMinuStr = timeFormatConverter(timeMinu)
+    dateStr = time[:8] + timeFormatConverter(date)
+    return dateStr + " " + timeHourStr + ":" + timeMinuStr
 
-def TimeItineraryFactory(parsed_list, max_act, start, end):
-    # we could use some random algorithum or optimize algorithum (such as: seperate restaruent with others etc.)
-    listIti = parsed_list[:max_act]
+def TimeItineraryFactory(parsed_list, start, end):
     # final Itinerary with time attributes and other info about the place
     Itinerary = []
-    for place in listIti:
+    print('123')
+    for place in parsed_list:
         place['startTimeTrip'] = start
-        #print(start)
+        print(start)
         if not (timeCalculator(start, place.get('duration'))) > end:
             place['endTimeTrip'] = timeCalculator(place['startTimeTrip'], place['duration'])
             start = timeCalculator(start, place.get('duration'))
         else:
-            print(start)
-            print(end)
-            duration = durationCalculation(start[-6:], end)
+            duration = durationCalculation(start, end)
             place['duration'] = duration
             place['endTimeTrip'] = end
         Itinerary.append(place)
     #print(Itinerary)
+    print('TimeItineraryFactory finished...')
     return Itinerary
-

@@ -278,14 +278,20 @@ def generateItinerary():
         # check the max activity numbers wanted
         max_act = user.get('filter').get('activity_num')
         # all the locations that fits the requirement
+<<<<<<< HEAD
         print(preference_list)
         print(trip_filter)
         result_locations = crawlLocations(
             coordinate, preference_list, trip_filter)
+=======
+        #print(preference_list)
+        #print(trip_filter)
+        result_locations, result_locations_sub = crawlLocations(coordinate, preference_list, trip_filter, max_act)
+>>>>>>> 5ed6c72adb2369b9bddda9f203fd83ad690830ad
         # extract the information we want, change the unreasonable time duration and stored opening hours
         parsed_list = parsingLocationSygic(result_locations, start, end)
         # generate an Itinerary with time attributes
-        itinerary = TimeItineraryFactory(parsed_list, max_act, start, end)
+        itinerary = TimeItineraryFactory(parsed_list, start, end)
         # print(itinerary)
 
         mongo.db.users.update_one(
