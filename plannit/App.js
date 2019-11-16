@@ -10,9 +10,11 @@ import SignUpScreen from "./src/screens/SignUpScreen";
 import PreferenceScreen from "./src/screens/PreferencesScreen";
 import FiltersScreen from "./src/screens/FiltersScreen";
 import CommentScreen from "./src/screens/CommentScreen";
+import RatingScreen from "./src/screens/RatingScreen";
 import { Provider as AuthProvider } from "./src/context/authContext";
 
 const switchNavigator = createSwitchNavigator({
+  Rating: RatingScreen,
   Comment: CommentScreen,
   SignIn: SignInScreen,
   SignUp: SignUpScreen,

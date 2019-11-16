@@ -6,7 +6,8 @@ import planitApi from "../api/planitApi";
 const CommentScreen = ({ navigation }) => {
     //how to get username and password
     const email = navigation.getParam("email", "NO-ID");
-    const [input, setInput] = useState("");
+    const rating = navigation.getParam("input");
+    const [comment, setComment] = useState("");
 
     const DismissKeyboard = ({children}) => (
         <TouchableWithoutFeedback onPress={()=>Keyboard.dismiss()}>
@@ -20,7 +21,7 @@ const CommentScreen = ({ navigation }) => {
             <View>
                 <StatusBar backgroundColor="#121212" barStyle="light-content" />
             </View>
-            <Text h1 style={styles.textStyle}>Comment below</Text>
+            <Text style={styles.textStyle}>Comment below</Text>
             <View style={styles.textAreaContainer} >
                 <TextInput
                     style={styles.textArea}
@@ -33,7 +34,7 @@ const CommentScreen = ({ navigation }) => {
             </View>
             <View style={{top:200}}>
                 <Button 
-                    style={{ margin: 5}}
+                    style={{ margin: 5, alignSelf:"center"}}
                     title="Submit" 
                     onPress={()=>{
                         
@@ -41,9 +42,10 @@ const CommentScreen = ({ navigation }) => {
                     type="clear"
                 />
                 <Button 
-                    title="Back to starring" 
+                    style={{ margin: 5, alignSelf:"center"}}
+                    title="Back to rating" 
                     onPress={()=>{
-                        
+                        navigation.navigate("Rating",{email});
                     }}
                     type="clear"
                 />
@@ -58,7 +60,7 @@ const styles = StyleSheet.create({
       backgroundColor: "#121212"
     },
     textStyle: {
-        fontSize:20,
+        fontSize:30,
         color: 'white',
         textAlign: 'center',
         top: 80,

@@ -36,7 +36,6 @@ const LocationScreen = ({ navigation }) => {
             my_promise
               .then(result => {
                 if (result.data.success === "Success") {
-                  console.log("success");
                   navigation.navigate("preference",{email});
                 } else {
                   Alert.alert("Location not found. Please try again");
