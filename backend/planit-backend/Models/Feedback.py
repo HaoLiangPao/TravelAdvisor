@@ -11,5 +11,5 @@ class Feedback:
         self.user_comment = comment
     
     def addFeedback(self):
-        mongo.db.users.insert_one({'email': self.user_email, 'rating': self.user_rating, 'comment': self.user_comment})
+        mongo.db.Feedback.insert_one({'email': self.user_email, 'rating': self.user_rating, 'comment': self.user_comment})
     

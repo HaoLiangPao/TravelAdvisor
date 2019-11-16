@@ -14,6 +14,7 @@ from .extensions import bcrypt
 from .Models.user import User
 from .Models.Location import Location
 from .Models.Filter import Filter
+from .Models.Feedback import Feedback
 
 import random
 main = Blueprint('main', __name__)
@@ -256,3 +257,17 @@ def getFilter():
 
     filters = Filter(email)
     return filters.getFilters()
+
+@main.route('/addFeedback', methods=['GET', 'POST'])
+def addFeedback():
+    return_message = "Success"
+
+    content = request.get_json(silent=True)
+    email = content.get('email')
+    rating = content.get('rating')
+    comment = content.get('comment')
+
+    feedback = Feedback(email, rating, comment)
+    feedback.addFeedback()
+
+    return return_message
