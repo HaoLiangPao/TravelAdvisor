@@ -5,26 +5,30 @@ import {
   TextInput,
   ScrollView,
   FlatList,
-  Alert
+  Alert,
+  Picker
 } from "react-native";
 import { Text, Button, Slider } from "react-native-elements";
 import DatePicker from "react-native-datepicker";
 import planitApi from "../api/planitApi";
 import { max } from "moment";
+import RNPickerSelect from "react-native-picker-select";
 
 //budget , range, start end time, average time per activity
 const FiltersScreen = ({ navigation }) => {
-  const [maxactivity, setMaxactivity] = useState(5);
+  const [maxactivity, setMaxactivity] = useState("5");
   const [budget, setBudget] = useState(300);
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
   const [distance, setDistance] = useState(50);
+  const [transport, setTransport] = useState("driving");
   let filter = {
     StartDateAndTime: startDate,
     EndingDateAndTime: endDate,
     radius: distance / 2,
     Budget: budget,
-    activity_num: maxactivity
+    activity_num: maxactivity,
+    transport_method: transport
   };
   let email = navigation.getParam("email", "NO-ID");
   const SendFilterApi = () => {
@@ -73,25 +77,44 @@ const FiltersScreen = ({ navigation }) => {
               thumbTintColor={"#02DAC5"}
               style={{ bottom: 10 }}
             />
-            <Text h4 style={{ color: "white", textAlign: "left", margin: 5 }}>
+            <Text
+              h4
+              style={{
+                color: "white",
+                textAlign: "left",
+                margin: 5,
+                bottom: 5
+              }}
+            >
               Budget : {budget}
             </Text>
           </View>
           <View
-            style={{ alignItems: "stretch", justifyContent: "center", top: 20 }}
+            style={{
+              top: 20,
+              borderBottomColor: "white",
+              borderBottomWidth: 2
+            }}
+          />
+          <View
+            style={{
+              alignSelf: "flex-start",
+
+              top: 20,
+              flexDirection: "row"
+            }}
           >
-            <Slider
-              value={5}
-              minimumValue={0}
-              maximumValue={10}
-              onValueChange={value => setMaxactivity(value)}
-              step={1}
-              thumbTintColor={"#02DAC5"}
-              style={{ bottom: 10 }}
-            />
-            <Text h4 style={{ color: "white", textAlign: "left", margin: 5 }}>
-              Number of activities  : {maxactivity}
+            <Text h4 style={{ color: "white", textAlign: "left", margin: 3 }}>
+              Number of activities:
             </Text>
+            <TextInput
+              style={styles.textInput}
+              onChangeText={value => {
+                console.log(value);
+                setMaxactivity(value);
+              }}
+              placeholder="Enter Number"
+            />
           </View>
           <View
             style={{
@@ -197,7 +220,7 @@ const FiltersScreen = ({ navigation }) => {
               onValueChange={value => setDistance(value)}
               step={5}
               thumbTintColor={"#02DAC5"}
-              style={{ bottom: 10 }}
+              style={{ bottom: 30 }}
             />
             <Text
               h4
@@ -206,13 +229,46 @@ const FiltersScreen = ({ navigation }) => {
                 textAlign: "left",
                 bottom: 15,
                 margin: 3,
-                padding: 3
+                padding: 3,
+                bottom: 30
               }}
             >
               Max Distance : {distance}Km
             </Text>
           </View>
+          <View
+            style={{
+              top: 26,
+              borderBottomColor: "white",
+              borderBottomWidth: 2
+            }}
+          />
+          <View style={{ top: 20 }}>
+            <Text
+              h4
+              style={{
+                top: 10,
+                color: "white",
+                textAlign: "center"
+              }}
+            >
+              Choose Transportation Method:
+            </Text>
+          </View>
+          <View style={{ top: 20, flex: 1 }}>
+            <Picker
+              selectedValue={transport}
+              style={styles.picker}
+              onValueChange={value => setTransport(value)}
+            >
+              <Picker.Item label="Car" value="driving" />
+              <Picker.Item label="Public Transport" value="transit" />
+              <Picker.Item label="Walk" value="walking" />
+              <Picker.Item label="Bicycling" value="bicycling" />
+            </Picker>
+          </View>
         </View>
+
         <View style={{ top: 20 }}>
           <Button
             title="Next"
@@ -222,6 +278,8 @@ const FiltersScreen = ({ navigation }) => {
                 Alert.alert("Please fill Start and End date");
               } else if (startDate > endDate) {
                 Alert.alert("Start date must come before end date");
+              } else if (transport === "") {
+                Alert.alert("Please enter transport method");
               } else {
                 const Promise = SendFilterApi();
                 Promise.then(result => {
@@ -233,6 +291,26 @@ const FiltersScreen = ({ navigation }) => {
           />
         </View>
       </View>
+      <View
+        style={{ position: "absolute", bottom: 0, alignSelf: "flex-start" }}
+      >
+        <Button
+          title="Go Back"
+          type="clear"
+          onPress={() => {
+            navigation.navigate("preference", { email });
+          }}
+        />
+      </View>
+      <View style={{ position: "absolute", bottom: 0, alignSelf: "flex-end" }}>
+        <Button
+          title="Sign Out"
+          type="clear"
+          onPress={() => {
+            navigation.navigate("SignIn");
+          }}
+        />
+      </View>
     </View>
   );
 };
@@ -240,35 +318,39 @@ const FiltersScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   headline1: {
     color: "#FFFFFF",
-    top: 100
+    top: 40
   },
   headline2: {
     color: "#0092CC",
-    top: 100
+    top: 40
   },
   headline3: {
     color: "#FFFFFF"
   },
   textInput: {
-    backgroundColor: "#292929",
     color: "white",
-    margin: 15,
-    height: 40,
-    borderWidth: 2,
     textAlign: "center",
-    borderColor: "#02DAC5",
-    borderRadius: 20
+    fontWeight: "bold",
+    fontSize: 18
   },
   centerBox: {
     backgroundColor: "#292929",
-    flex: 1,
+    // flex: 1,
     margin: 15,
-    height: 100,
+    height: 500,
     borderWidth: 2,
     borderColor: "#02DAC5",
     borderRadius: 20,
     flexDirection: "column",
-    color: "white"
+    color: "white",
+    bottom: 40,
+    top: 10
+  },
+  picker: {
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 30,
+    color: "#FFFFFF"
   }
 });
 
