@@ -23,7 +23,7 @@ const RatingScreen = ({ navigation }) => {
                 onFinishRating={rating => {setInput(rating)}}
             />
             <Button style={{ margin: 15, alignSelf:"center" }} title="Next" type="clear"
-                onPress={()=>navigation.navigate("Comment",{email,input})}
+                onPress={()=>navigation.navigate("comment",{email,input})}
             />
             </View>
         </View>

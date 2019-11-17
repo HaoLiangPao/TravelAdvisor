@@ -75,7 +75,7 @@ const SignUpScreen = ({ navigation }) => {
                   my_promise
                     .then(result => {
                       if (result.data.success === "Success") {
-                        navigation.navigate('location', {email})
+                        navigation.navigate('preference', {email})
                       }
                       else{
                         Alert.alert(

@@ -8,6 +8,10 @@ const CommentScreen = ({ navigation }) => {
     const email = navigation.getParam("email", "NO-ID");
     const rating = navigation.getParam("input");
     const [comment, setComment] = useState("");
+    const addFeedbackAPI = () => {
+        const response = planitApi.post("/addFeedback", {email, rating, comment});
+        return response;
+      };
 
     const DismissKeyboard = ({children}) => (
         <TouchableWithoutFeedback onPress={()=>Keyboard.dismiss()}>
@@ -16,7 +20,7 @@ const CommentScreen = ({ navigation }) => {
     );
 
     return (
-        <DismissKeyboard>
+        // <DismissKeyboard>
         <View style={styles.container}>
             <View>
                 <StatusBar backgroundColor="#121212" barStyle="light-content" />
@@ -30,6 +34,7 @@ const CommentScreen = ({ navigation }) => {
                     placeholderTextColor="grey"
                     numberOfLines={10}
                     multiline={true}
+                    onChangeText={text => setComment(text)}
                 />
             </View>
             <View style={{top:200}}>
@@ -37,8 +42,12 @@ const CommentScreen = ({ navigation }) => {
                     style={{ margin: 5, alignSelf:"center"}}
                     title="Submit" 
                     onPress={()=>{
-                        
-                    }}
+                        const my_promise = addFeedbackAPI();
+                        my_promise.then(result => {
+                            navigation.navigate("preference",{email});
+                            })
+                          }
+                    }
                     type="clear"
                 />
                 <Button 
@@ -51,7 +60,7 @@ const CommentScreen = ({ navigation }) => {
                 />
             </View>
         </View>
-        </DismissKeyboard>
+        // </DismissKeyboard>
 )};
 
 const styles = StyleSheet.create({
