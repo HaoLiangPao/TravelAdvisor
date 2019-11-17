@@ -1,12 +1,13 @@
 import React , { useState, useEffect} from "react";
-import { View, StyleSheet, Button, TextInput, ScrollView, FlatList, Alert} from "react-native";
-import { Text } from "react-native-elements";
+import { View, StyleSheet, Button, TextInput, ScrollView, FlatList, Alert,TouchableOpacity } from "react-native";
+import { Text ,ListItem} from "react-native-elements";
 import planitApi from "../api/planitApi";
 
 const PreferencesScreen = ({ navigation }) => {
     console.disableYellowBox = true;
     const [change,setChange] = useState(true);
     const [preference,setPreference]= useState("");
+    const [delpreference,setdelPreference]= useState("");
     const [listPreferences,setlistPreferences] = useState([]);
     const email = navigation.getParam("email", "NO-ID");
     const enterPreferenceApi = () => {
@@ -14,22 +15,22 @@ const PreferencesScreen = ({ navigation }) => {
       return response;
     };
     const deletePreferenceApi = () => {
-      const response = planitApi.post("/deletePref", {preference,email});
-      return response;
+      const responseDel = planitApi.post("/deletePref", {delpreference,email});
+      // console.log(delpreference);
+      return responseDel;
     };
     const getPreferenceApi = () => {
       const response2 = planitApi.post("/getPref",{email});
       response2.then(result2 => {
-        // console.log(result2.data);
+        console.log(result2.data);
         setlistPreferences(result2.data);
       })
       return response2;
     };
     useEffect(() => {
       const timer = setTimeout(() => {
-        console.log('This will run after 1 second!')
         getPreferenceApi();
-      }, 2000);
+      }, 5000);
       return () => clearTimeout(timer);
       // Your code here
       
@@ -61,8 +62,39 @@ const PreferencesScreen = ({ navigation }) => {
       horizontal = {false}
       data={listPreferences} 
       renderItem={({item})=>{
-          return <Text style={styles.textStyle }>{item}</Text>
-}}
+        return <TouchableOpacity onPress={()=>{
+          setdelPreference(item);
+          console.log(item);
+          setChange(false);
+          // deletePreferenceApi();
+          Alert.alert(
+            'Do you want to delete this preference',
+            '',
+            [
+              {
+                text: 'Cancel',
+                onPress: () => console.log('Cancel Pressed'),
+                style: 'cancel',
+              },
+              {text: 'OK', onPress: () => {console.log('OK Pressed');
+              const del = deletePreferenceApi();
+             del
+              .then(result => {
+              if(result.data=="Success"){
+              Alert.alert("Preference deleted succesfully");
+              getPreferenceApi();
+              }
+              })
+            }},
+            ],
+            {cancelable: false},
+          )
+        }}>
+        <ListItem chevron title={item}
+         containerStyle={styles.containerListStyle}
+         titleStyle={styles.textStyle}
+         />
+        </TouchableOpacity>}}
 />
   </ScrollView>
     <Text style={styles.textStyle}>Add Preferences:</Text>
@@ -104,7 +136,6 @@ const PreferencesScreen = ({ navigation }) => {
     }
     }
     />
-
     <Button 
     style={{ margin: 15 }}
     title="Next" 
@@ -181,6 +212,13 @@ const PreferencesScreen = ({ navigation }) => {
         borderRadius: 20,
         width: '75%'
       },
+      containerListStyle: {
+        backgroundColor: "#292929",
+        margin: 15,
+        alignSelf: 'center',
+        // textAlign: 'center',
+        width: '100%'
+      }
     });
 
 

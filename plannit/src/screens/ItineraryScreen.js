@@ -2,12 +2,18 @@ import React , { useState, useEffect} from "react";
 import { View, StyleSheet, Button, TextInput, ScrollView, FlatList, Alert, TouchableOpacity} from "react-native";
 import { Text, ListItem} from "react-native-elements";
 import planitApi from "../api/planitApi";
+import * as calendar from "react-native-add-calendar-event";
+import * as CalendarExpo from 'expo-calendar';
+import moment from 'moment';
 
 const ItineraryScreen = ({ navigation }) => {
     console.disableYellowBox = true;
+    const [title,setTitle] = useState("");
+    const [startDate,setTtartDate] = useState("");
     const [change,setChange] = useState(true);
     const email = navigation.getParam("email", "NO-ID");
     const [listItinerary,setlistItinerary] = useState([]);
+    const TIME_NOW_IN_UTC = moment.utc();
     const getItineraryApi = () => {
         const response = planitApi.post("/popularlist",{email});
         response.then(result => {
@@ -15,11 +21,37 @@ const ItineraryScreen = ({ navigation }) => {
         })
         return response;
       };
-
-
+      const getItineraryDB = () => {
+        const response = planitApi.post("/popularlist",{email});
+        response.then(result => {
+          setlistItinerary(result.data);
+        })
+        return response;
+      }; 
+      const utcDateToString = (momentInUTC) => {
+        let s = moment.utc(momentInUTC).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+        return s;
+      }
+     const addEventCalender = (eventConfig) => {
+      
+      console.log(eventConfig);
+      calendar.presentEventCreatingDialog(eventConfig)
+      .then(
+        (eventInfo) => {
+          alert('eventInfo -> ' + JSON.stringify(eventInfo));
+        }
+      )
+      .catch((error) => {
+        // handle error such as when user rejected permissions
+        alert('Error -> ' + error);
+      });
+     };
     useEffect(() => {
         Alert.alert("Please wait while we load the itinerary ")
-        getItineraryApi();
+        getItineraryDB();
+        const promise = CalendarExpo.requestRemindersPermissionsAsync()
+        console.log(promise);
+        
     }, [change]);
    
     
@@ -52,33 +84,19 @@ const ItineraryScreen = ({ navigation }) => {
     }}
     type="clear"
     />
-    {/* <Button 
-    style={{ margin: 15 }}
-    title="Re Generate Intinerary" 
-    onPress={()=>{
-        Alert.alert(
-            'Do you want to generate a new Intinerary',
-            '',
-            [
-              {
-                text: 'Cancel',
-                onPress: () => console.log('Cancel Pressed'),
-                style: 'cancel',
-              },
-              {text: 'OK', onPress: () => console.log('OK Pressed')},
-            ],
-            {cancelable: false},
-          )
-        setChange(false);
-        const intinerary = getItineraryApi();
-    }}
-    type="clear"
-    /> */}
     <ScrollView style={styles.containerStyle} scrollEnabled={true}>
     <FlatList
         horizontal = {false}
         data={listItinerary}
         renderItem={({item})=>{
+          // setTitle(item);
+          const eventConfig = {
+            item,
+            startDate: utcDateToString(TIME_NOW_IN_UTC),
+            endDate: utcDateToString(TIME_NOW_IN_UTC),
+          };
+          
+          addEventCalender(eventConfig);
         return <TouchableOpacity onPress={()=>{navigation.navigate("itineraryDetail",{"name":item,email})}}>
         <ListItem chevron title={item}
          containerStyle={styles.containerListStyle}
@@ -87,7 +105,17 @@ const ItineraryScreen = ({ navigation }) => {
         </TouchableOpacity>
     }}
     />
-  </ScrollView>   
+  </ScrollView> 
+  <Button 
+    style={{ margin: 15 }}
+    title="Export calendar for itinerary" 
+    onPress={()=>{
+      // addEventCalender();
+        setChange(false);
+
+    }}
+    type="clear"
+    />  
     <Button 
     style={{ margin: 15 }}
     title="Next" 

@@ -1,7 +1,11 @@
 import React , { useState, useEffect} from "react";
 import { View, StyleSheet, Button, TextInput, ScrollView, FlatList, Alert, TouchableOpacity} from "react-native";
 import { Text, Image} from "react-native-elements";
+import * as calendar from "react-native-add-calendar-event";
+import * as Calendar from 'expo-calendar';
 import planitApi from "../api/planitApi";
+import moment from 'moment';
+
 
 const ItineraryDetailScreen = ({ navigation }) => {
     console.disableYellowBox = true;
@@ -9,6 +13,7 @@ const ItineraryDetailScreen = ({ navigation }) => {
     const email = navigation.getParam("email", "NO-ID");
     const [vicinity,setVicinity] = useState("");
     const [photo,setPhoto] = useState([]);
+    const TIME_NOW_IN_UTC = moment.utc();
     const getItineraryDetailApi = () => {
         const response = planitApi.post("/getDetail",{email, name});
         response.then(result => {
@@ -17,7 +22,23 @@ const ItineraryDetailScreen = ({ navigation }) => {
         })
         return response;
       };
-
+      const utcDateToString = (momentInUTC) => {
+        let s = moment.utc(momentInUTC).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+        return s;
+      }
+    const addEventCalender = (eventConfig) => {
+      console.log(eventConfig);
+      calendar.presentEventCreatingDialog(eventConfig)
+      .then(
+        (eventInfo) => {
+          alert('eventInfo -> ' + JSON.stringify(eventInfo));
+        }
+      )
+      .catch((error) => {
+        // handle error such as when user rejected permissions
+        alert('Error -> ' + error);
+      });
+      };
 
     useEffect(() => {
       getItineraryDetailApi();
@@ -54,6 +75,19 @@ const ItineraryDetailScreen = ({ navigation }) => {
     style={{ margin: 15 }}
     title="Back to the List"
     onPress={()=>{navigation.navigate("itinerary",{email})}} 
+    type="clear"
+    />
+     <Button 
+    style={{ margin: 15 }}
+    title="Create Event"
+    onPress={()=>{
+      const eventConfig = {
+        name,
+        startDate: utcDateToString(TIME_NOW_IN_UTC),
+        endDate: utcDateToString(TIME_NOW_IN_UTC.add(1, 'hours')),
+      };
+      addEventCalender(eventConfig);
+    }} 
     type="clear"
     />
     <Button 
