@@ -106,21 +106,13 @@ const PreferencesScreen = ({ navigation }) => {
           }}
         />
 
-        <Button
+        <Button 
           style={{ margin: 15 }}
-          title="Next"
+          title="Next" 
           type="clear"
-          onPress={() => {
-            navigation.navigate("filter", { email });
+          onPress={()=>{
+            navigation.navigate("location",{email});
           }}
-        />
-        <Button
-          style={{ margin: 15 }}
-          title="Back to the Location"
-          onPress={() => {
-            navigation.navigate("location", { email });
-          }}
-          type="clear"
         />
       </View>
     </View>
