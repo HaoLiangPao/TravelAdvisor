@@ -187,6 +187,36 @@ def popularlist():
         resp = None
     return resp
 
+@main.route('/getAPIList', methods=['GET','POST'])
+def getAPIList():
+    # call generateItinery to get list from api
+    APIlist = generateItinerary()
+    # get the name of list
+    result = []
+    for i in APIlist:
+        result.append(i.get("name"))
+    resp = jsonify(result)
+    return resp
+
+
+@main.route('/getname', methods=['GET','POST'])
+def getNameList():
+    content = request.get_json(silent = True)
+    # user inputs, get user from the input of the user
+    email = content.get('email')
+    user = CheckIfUserExists(email)
+    if user is not None:
+        # if the user is not none, get the itinerary list in the user
+        itinerarylist = user.get("itinerary")
+        result = []
+        # if the user does not have itinerary list, result is empty list
+        if itinerarylist is not None:
+            # else, result is all the name in itinerary list
+            for i in itinerarylist:
+                result.append(i.get('name'))
+        resp = jsonify(result)
+        return resp
+
 
 @main.route('/getDetail', methods=['GET', 'POST'])
 def get_detail():
@@ -199,7 +229,7 @@ def get_detail():
     result = {}
     if user is not None:
         # get the search history of the user
-        search_history = user.get('history_search')
+        search_history = user.get('itinerary')
         if search_history is not None:
             for i in search_history:
                 if i['name'] == place_name:
@@ -212,7 +242,7 @@ def get_detail():
     resp = jsonify(result)
     return resp
 
-
+'''
 @main.route('/generateTrip', methods=['POST'])
 def generateTrip():
     content = request.get_json(silent=True)
@@ -254,7 +284,7 @@ def generateTrip():
                 pidtoval.pop(max_pid)
         resp = jsonify(result)
         return resp
-
+'''
 
 @main.route('/generateItinerary', methods=['POST', 'GET'])
 def generateItinerary():
@@ -278,22 +308,19 @@ def generateItinerary():
         # check the max activity numbers wanted
         max_act = user.get('filter').get('activity_num')
         # all the locations that fits the requirement
-<<<<<<< HEAD
         print(preference_list)
         print(trip_filter)
-        result_locations = crawlLocations(
-            coordinate, preference_list, trip_filter)
-=======
+        result_locations = crawlLocations(coordinate, preference_list, trip_filter)
         #print(preference_list)
         #print(trip_filter)
-        result_locations, result_locations_sub = crawlLocations(coordinate, preference_list, trip_filter, max_act)
->>>>>>> 5ed6c72adb2369b9bddda9f203fd83ad690830ad
+        result_locations = crawlLocationsSygic(coordinate, preference_list, trip_filter, max_act)
         # extract the information we want, change the unreasonable time duration and stored opening hours
+        print(result_locations)
         parsed_list = parsingLocationSygic(result_locations, start, end)
+        print(parsed_list)
         # generate an Itinerary with time attributes
         itinerary = TimeItineraryFactory(parsed_list, start, end)
         # print(itinerary)
-
         mongo.db.users.update_one(
             {'email': email}, {'$set': {'itinerary': itinerary}})
         resp = jsonify(itinerary)
