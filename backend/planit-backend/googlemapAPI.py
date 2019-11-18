@@ -91,6 +91,7 @@ def parsingLocation(location_list):
         query = validateLocation(i.get('name') + ' ' + i.get('vicinity'))
         pidToloc[i.get('place_id')] = Location(i.get('name'), query[0], query[1].get('lat'), query[1].get('lng'))
         pidTotype[i.get('place_id')] = i.get('types')
+    return pidTotype, pidToloc
 
 def crawlLocationsSygic(coordinate, preference_list, trip_filter, max_act):
     result = []
