@@ -12,10 +12,10 @@ Participation:
 * Three Questions:
 * 1. What did I do yesterday that helped the development team meet the sprint goal?
     Hao added time attributes to the itinerary.
-    
+    Jingwei merge his branch with Guikang's and finished intergration testing
     
 * 2. What will I do today to help the development team meet the sprint goal?
     Hao is going to complete the commenting and store sample response in a JSON file for other team members
-
+   Jingwei will talk with Moham about the design update in this sprint.
 * 3. Do I see any impediment that prevents me or the development team from meeting the sprint goal?
     Currently No.
