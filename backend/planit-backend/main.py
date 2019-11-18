@@ -275,7 +275,8 @@ def generateTrip():
 
 @main.route('/generateItinerary', methods=['POST', 'GET'])
 def generateItinerary():
-    # getting the popular lactivities in user's location and preference
+    # getting the popular lactivities i
+    # n user's location and preference
     content = request.get_json(silent = True)
     # user inputs
     email = content.get('email')
@@ -297,10 +298,11 @@ def generateItinerary():
         # all the locations that fits the requirement
         print(preference_list)
         print(trip_filter)
-        result_locations = crawlLocations(coordinate, preference_list, trip_filter)
+        result_locations = crawlLocationsSygic(coordinate, preference_list, trip_filter)
         # extract the information we want, change the unreasonable time duration and stored opening hours
         print(result_locations)
         parsed_list = parsingLocationSygic(result_locations, start, end)
+        print(parsed_list)
         # generate an Itinerary with time attributes
         itinerary = TimeItineraryFactory(parsed_list, max_act, start, end)
         # print(itinerary)

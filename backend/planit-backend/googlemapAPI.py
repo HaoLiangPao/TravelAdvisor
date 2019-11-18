@@ -187,7 +187,9 @@ def TimeItineraryFactory(parsed_list, max_act, start, end):
             place['endTimeTrip'] = timeCalculator(place['startTimeTrip'], place['duration'])
             start = timeCalculator(start, place.get('duration'))
         else:
+            print("start time is:")
             print(start)
+            print("end time is:")
             print(end)
             duration = durationCalculation(start[-6:], end)
             place['duration'] = duration
