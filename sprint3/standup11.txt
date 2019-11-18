@@ -19,4 +19,4 @@ Participation:
     Hao will stay alert for any design changes from the frontend and change the backend accordingly.
 
 * 3. Do I see any impediment that prevents me or the development team from meeting the sprint goal?
-    
+    Currently No.
