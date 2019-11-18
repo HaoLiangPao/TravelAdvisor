@@ -16,7 +16,7 @@ Participation:
     
 * 2. What will I do today to help the development team meet the sprint goal?
     Hao is going to add duration and start/end time to the generated itinerary.
-    Jingwei will merge the branch with eric's and do intergration testings.
+    Jingwei will merge the branch with Guikang's and do intergration testings.
     
 * 3. Do I see any impediment that prevents me or the development team from meeting the sprint goal?
     Currently No.
