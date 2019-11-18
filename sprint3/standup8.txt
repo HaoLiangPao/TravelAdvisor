@@ -14,10 +14,12 @@ Participation:
     The team acted as a whole to send different requests to Sygic for another API key so that we dont have to pay.
     Guikang finished the comment screen.
     Jingwei found all required design updates.
+    Mohan finished the frontend navigation skeleton
     
 * 2. What will I do today to help the development team meet the sprint goal?
     Hao is going to assists David with follow up emails between us and Sygic team.
     Guikang will create a rating screen and link it to the comment screen.
     Jingwei will finish the design update document taday.
+    Mohan will finish adding styling to the skeleton
 * 3. Do I see any impediment that prevents me or the development team from meeting the sprint goal?
     Still waiting for the response from Sygic.
