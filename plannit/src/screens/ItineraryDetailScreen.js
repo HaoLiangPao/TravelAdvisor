@@ -202,14 +202,7 @@ const ItineraryDetailScreen = ({ navigation }) => {
           }}
           type="clear"
         />
-      </View>  
-    <Button 
-    style={{ margin: 15 }}
-    title="Back to the List"
-    onPress={()=>{navigation.navigate("itinerary",{email})}} 
-    type="clear"
-    />
-     <Button 
+         <Button 
     style={{ margin: 15 }}
     title="Create Event"
     onPress={()=>{
@@ -217,26 +210,8 @@ const ItineraryDetailScreen = ({ navigation }) => {
     }} 
     type="clear"
     />
-    <Button 
-    style={{ margin: 15 }}
-    title="Delete" 
-    onPress={()=>
-      Alert.alert(
-        'Delete this activity?',
-        '',
-        [
-          {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-          },
-          {text: 'OK', onPress: () => console.log('OK Pressed')},
-        ],
-        {cancelable: false},
-      )
-    }
-    type="clear"
-    />
+      </View>  
+    
     </View>
   );
 };
