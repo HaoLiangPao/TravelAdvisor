@@ -3,7 +3,7 @@ import { View, StyleSheet, Button, TextInput, ScrollView, FlatList, Alert, Touch
 import { Text, Image} from "react-native-elements";
 import * as Calendar from 'expo-calendar';
 import planitApi from "../api/planitApi";
-import moment from 'moment';
+import getDirections from "react-native-google-maps-directions";
 
 
 const ItineraryDetailScreen = ({ navigation }) => {
