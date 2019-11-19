@@ -8,7 +8,7 @@ class Filter:
     def __init__(self, email):
         self.user_email = email
         self.user_filters = mongo.db.users.find_one({"email": email}).get('filter')
-    
+
     def addFilters(self, content_filters):
         user_filters = self.user_filters
         if user_filters is None:
@@ -19,6 +19,9 @@ class Filter:
                 user_filters[key] = content_filters[key]
             mongo.db.users.update_one({'email': self.user_email}, {'$set': {'filter': user_filters}})
     
+    def getEmail(self):
+        return self.user_email
+
     def getFilters(self):
         res = self.user_filters
         if res is None:
