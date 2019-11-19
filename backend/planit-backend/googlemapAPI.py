@@ -101,7 +101,7 @@ def crawlLocationsSygic(coordinate, preference_list, trip_filter, max_act):
         query = i
         area = coordinate + "," + str(int(trip_filter['radius']) * 1000) # convert km unit to m unit
         params = {"area":area, "categories":categories, "query":query,"limit":20} # only look for 3 iterms per preference
-        response = requests.get(placeListURL, params=params, headers=SygicHeadersOld).json().get("data").get("places")
+        response = requests.get(placeListURL, params=params, headers=SygicHeadersNew).json().get("data").get("places")
         # get attributes we want
         result += response
     # we could use some random algorithum or optimize algorithum (such as: seperate restaruent with others etc.)
@@ -129,7 +129,7 @@ def parsingLocationSygic(places, start, end):
             perex = response.get('perex')
         params = {"from":start[:-6], "to":end[:-6], "id":response.get("id")}
         # get API response
-        openTime = requests.get(openTimeURL, params = params, headers=SygicHeadersOld).json().get('data')
+        openTime = requests.get(openTimeURL, params = params, headers=SygicHeadersNew).json().get('data')
         parsed_place = {
             'id':response.get('id'),
             'name':response.get('name'),

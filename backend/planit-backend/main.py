@@ -1,4 +1,5 @@
 import random
+import requests
 from .Models.Filter import Filter
 from .Models.Location import Location
 from .Models.user import User
@@ -192,11 +193,14 @@ def getAPIList():
     # call generateItinery to get list from api
     APIlist = generateItinerary()
     # get the name of list
+    return getNameList()
+    '''
     result = []
     for i in APIlist:
         result.append(i.get("name"))
     resp = jsonify(result)
     return resp
+    '''
 
 
 @main.route('/getname', methods=['GET','POST'])
@@ -307,6 +311,7 @@ def generateItinerary():
         preference_list = user.get('preference')
         # check the max activity numbers wanted
         max_act = user.get('filter').get('activity_num')
+        print(max_act)
         # all the locations that fits the requirement
         #print(preference_list)
         #print(trip_filter)
