@@ -18,9 +18,9 @@ User Stories (PB.md, sprint1.md) (Max 10 marks)
 -Recorded on Jira
  [2 marks=all stories in PB.md recorded on the Tracker]
 -Broken down into tasks 
-[0 marks=the majority of the Sprint1.md stories not recorded on the tracker]
+[2 marks]
 -Estimated
- [0 marks=the majority of the stories in PB.md are not point estimated or the point value is not recorded in the Tracker]
+ [2 marks]
 -Prioritized	
  [2 marks=all stories in PB.md are prioritized and the order of priority in PB.md matches the order of priority on the Tracker]
  
@@ -50,3 +50,4 @@ Note: UML is used in place of CRC.
 - Software Architecture Diagram 
   [4 marks: The Architecture Diagram is present, it is formatted using proper graphic symbols, and it follows a known Architecture diagram.
   If the system achitecture does not follow the MVC (studied in class), a web link or reference has been provided to support the used architecture]
+
