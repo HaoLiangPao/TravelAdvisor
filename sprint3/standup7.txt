@@ -14,10 +14,12 @@ Participation:
     Hao has shown the sample JSON file to the rest of the team.
     Jingwei finished talk with Moham about the design update for Filter.
     Mohan finished testing the backend endpoints and fixing bugs for it
+    David discussed with Hao about errors shown in the generateItinerary method
     
 * 2. What will I do today to help the development team meet the sprint goal?
     Hao is going to discuss with the team for a new Sygic API key since the old one reach the limit.
    Jingwei will also need to talk with Guikang about the design update for Feedbacks.
    Mohan will try to finish a skeleton for the frontend for navigation
+   David implemented getnamelist method.
 * 3. Do I see any impediment that prevents me or the development team from meeting the sprint goal?
     We need to get another API Key so that we dont have to pay extra money.
