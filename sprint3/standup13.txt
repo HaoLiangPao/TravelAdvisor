@@ -1,5 +1,5 @@
-Date: 2019.11.07
-Documentation: 5 mins
+Date: 2019.11.17
+Documentation: 8 mins
 Participation:
     * Jingwei Wang    wangj589
     * Guikang Zhong   zhonggui
@@ -11,12 +11,12 @@ Participation:
 
 * Three Questions:
 * 1. What did I do yesterday that helped the development team meet the sprint goal?
-    Hao did not did much for the team today as he is working on the the assignment
-    Jingwei finished the implementation of Feedback object.
-    Mohan finished the prototype for the naivigation screen
+    Guikang and Javie successfully finished the rating and comment feature on branch
+    Hao, David worked on communication between backend and frontend.
+    
 * 2. What will I do today to help the development team meet the sprint goal?
-    The whole team prepared a great presentation to the TA during today's tutorial
-    Jingwei will finished the endpoint to store feedback in backend main.py
-    Mohan will work on fixing bugs in the navigation screen
+    Guikang will merge the CommentSection Branch to master
+    Hao will work with David with more backend features.
+
 * 3. Do I see any impediment that prevents me or the development team from meeting the sprint goal?
-    Currently No.
+    Merging is a bit diffcult
