@@ -298,7 +298,7 @@ const FiltersScreen = ({ navigation }) => {
           title="Go Back"
           type="clear"
           onPress={() => {
-            navigation.navigate("preference", { email });
+            navigation.navigate("location", { email });
           }}
         />
       </View>

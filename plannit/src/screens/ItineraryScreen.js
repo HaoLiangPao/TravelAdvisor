@@ -105,7 +105,11 @@ const ItineraryScreen = ({ navigation }) => {
             }}
           />
         </ScrollView>
-        <Button style={{ margin: 15 }} title="Next" type="clear" />
+        <Button style={{ margin: 15 }} title="Next" type="clear" 
+          onPress={() => {
+            navigation.navigate("rating", { email });
+          }}
+        />
         <Button
           style={{ margin: 15 }}
           title="Back to the Filters"

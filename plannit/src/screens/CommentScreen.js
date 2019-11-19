@@ -13,14 +13,9 @@ const CommentScreen = ({ navigation }) => {
         return response;
       };
 
-    const DismissKeyboard = ({children}) => (
-        <TouchableWithoutFeedback onPress={()=>Keyboard.dismiss()}>
-            {children}
-        </TouchableWithoutFeedback>
-    );
 
     return (
-        // <DismissKeyboard>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <View style={styles.container}>
             <View>
                 <StatusBar backgroundColor="#121212" barStyle="light-content" />
@@ -54,13 +49,13 @@ const CommentScreen = ({ navigation }) => {
                     style={{ margin: 5, alignSelf:"center"}}
                     title="Back to rating" 
                     onPress={()=>{
-                        navigation.navigate("Rating",{email});
+                        navigation.navigate("rating",{email});
                     }}
                     type="clear"
                 />
             </View>
         </View>
-        // </DismissKeyboard>
+        </TouchableWithoutFeedback>
 )};
 
 const styles = StyleSheet.create({
