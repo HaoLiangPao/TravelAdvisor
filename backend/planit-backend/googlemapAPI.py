@@ -117,53 +117,65 @@ def crawlLocationsSygic(coordinate, preference_list, trip_filter, max_act):
 
 def parsingLocationSygic(places, start, end):
     parsed_list = []
+    name_list = []
     for response in places:
-        #placeID = place.get('id')
-        #placeDetailURL = 'https://api.sygictravelapi.com/1.1/en/places/' + placeID
-        #response = requests.get(placeDetailURL, headers=SygicHeaders).json().get('data').get('place')
-        # some places dont have a reasonable duratino in Sygic database, so we multiply the original value by 10
-        if response.get('duration') < 600:
-            duration = response.get('duration') * 10
-        else:
-            duration = response.get('duration')
-        # some places dont have a perex, show the default error message to the user
-        if response.get('perex') is None:
-            perex = "Sorry! The description of this place is currently not availabel, will be implemented soon"
-        else:
-            perex = response.get('perex')
-        params = {"from":start[:-6], "to":end[:-6], "id":response.get("id")}
-        # get google query
-        # the coordinate
         loc = response.get('location')
         coordinate = str(loc.get('lat')) + ", " + str(loc.get('lng'))
         # google query object
-        googleobj = gmaps.places_nearby(location = coordinate, radius = 1000, keyword = response.get('name')).get('results')[0]
-        pid = googleobj.get('place_id')
-        # reverse to compute address
-        address = gmaps.reverse_geocode(pid)[0].get('formatted_address')
-        # get API response
-        openTime = requests.get(openTimeURL, params = params, headers=SygicHeadersNew).json().get('data')
-        parsed_place = {
-            'google_pid':pid,
-            'id':response.get('id'),
-            'name':response.get('name'),
-            'name_suffix':response.get('name_suffix'),
-            'location':response.get('location'),
-            'duration':duration, # average time people spent in this place
-            'perex':perex, # please include this perex in detail page
-            'thumbnail_url':response.get('thumbnail_url'), # please get thumbnails from this url in detail page
-            'url':response.get('url'), # a url to the SygicMap webpage, we can also show this in the detail when we have time for this feature (maybe can be used in Navigation)
-            'email':response.get('email'),
-            'phone':response.get('phone'),
-            'address':address,
-            # in a form of {\d{4}-\d{2}-\d{2}: [{opening: ,closing: }], (more date)}
-            # string(~\d{2}:\d{2}:\d{2}~)h:m:s (24h) format.
-            'open':openTime.get('opening_hours').get(start[:-6])[0].get('opening'),
-            'close':openTime.get('opening_hours').get(start[:-6])[0].get('closing'),
-            'vicinity':googleobj.get('vicinity'),
-            'photo':googleobj.get('photos')[0].get('photo_reference')
-        }
-        parsed_list.append(parsed_place)
+        print(response.get('url'))
+        googlequery = gmaps.places_nearby(location = coordinate, radius = 10000, keyword = response.get('name')).get('results')
+        # if it exist in google search
+        if googlequery != None and googlequery != []:
+            if response.get('name') not in name_list:
+                googleobj = googlequery[0]
+                pid = googleobj.get('place_id')
+                address = gmaps.reverse_geocode(pid)[0].get('formatted_address')
+                if googleobj.get('photos') != None:
+                    photo = googleobj.get('photos')[0].get('photo_reference')
+                else:
+                    photo = None
+                vicinity = googleobj.get('vicinity')
+                #placeID = place.get('id')
+                #placeDetailURL = 'https://api.sygictravelapi.com/1.1/en/places/' + placeID
+                #response = requests.get(placeDetailURL, headers=SygicHeaders).json().get('data').get('place')
+                # some places dont have a reasonable duratino in Sygic database, so we multiply the original value by 10
+                if response.get('duration') < 600:
+                    duration = response.get('duration') * 10
+                else:
+                    duration = response.get('duration')
+                # some places dont have a perex, show the default error message to the user
+                if response.get('perex') is None:
+                    perex = "Sorry! The description of this place is currently not availabel, will be implemented soon"
+                else:
+                    perex = response.get('perex')
+                params = {"from":start[:-6], "to":end[:-6], "id":response.get("id")}
+                # get google query
+                # the coordinate
+                print(response.get('url'))
+                # reverse to compute address
+                # get API response
+                openTime = requests.get(openTimeURL, params = params, headers=SygicHeadersNew).json().get('data')
+                parsed_place = {
+                    'id':response.get('id'),
+                    'name':response.get('name'),
+                    'name_suffix':response.get('name_suffix'),
+                    'location':response.get('location'),
+                    'duration':duration, # average time people spent in this place
+                    'perex':perex, # please include this perex in detail page
+                    'thumbnail_url':response.get('thumbnail_url'), # please get thumbnails from this url in detail page
+                    'url':response.get('url'), # a url to the SygicMap webpage, we can also show this in the detail when we have time for this feature (maybe can be used in Navigation)
+                    'email':response.get('email'),
+                    'phone':response.get('phone'),
+                    'address':address,
+                    # in a form of {\d{4}-\d{2}-\d{2}: [{opening: ,closing: }], (more date)}
+                    # string(~\d{2}:\d{2}:\d{2}~)h:m:s (24h) format.
+                    'open':openTime.get('opening_hours').get(start[:-6])[0].get('opening'),
+                    'close':openTime.get('opening_hours').get(start[:-6])[0].get('closing'),
+                    'vicinity':vicinity,
+                    'photo':photo
+                }
+                parsed_list.append(parsed_place)
+                name_list.append(response.get('name'))
     print('parsinglocation finished...')
     return parsed_list
 
