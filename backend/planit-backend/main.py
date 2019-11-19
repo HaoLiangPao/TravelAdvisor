@@ -241,7 +241,7 @@ def get_detail():
             for i in search_history:
                 if i['name'] == place_name:
                     result['vicinity'] = i.get('vicinity')
-                    result['photos'] = i.get('photos')
+                    result['photos'] = i.get('photo')
         else:
             result = None
     else:
