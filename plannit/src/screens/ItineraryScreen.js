@@ -17,36 +17,46 @@ import moment from 'moment';
 const ItineraryScreen = ({ navigation }) => {
     console.disableYellowBox = true;
     const [pressed,setPressed] = useState(false);
-    const [change,setChange] = useState(true);
+    const [change,setChange] = useState(false);
     const email = navigation.getParam("email", "NO-ID");
+    const back = navigation.getParam("pressed", "NO-ID");
     const [listItinerary,setlistItinerary] = useState([]);
     const TIME_NOW_IN_UTC = moment.utc();
     const getItineraryApi = () => {
         Alert.alert("Please Wait while we load the best itinerary for you ")
-        const response = planitApi.post("/getAPIList",{email});
+        const response =  planitApi.post("/getAPIList",{email});
         response.then(result => {
-          setlistItinerary(result.data);
+        setlistItinerary(result.data);
+        setChange(!change);
         })
         return response;
       };
-      const getItineraryDB = () => {
-        const response = planitApi.post("/getname",{email,pressed});
+      const  getItineraryDB = () => {
+        if(back==true){
+        setPressed(true)
+        const response = planitApi.post("/getname",{email,'pressed':true});
         response.then(result => {
           setlistItinerary(result.data);
           console.log(result.data)
         })
+        return response
+      }
+      else{
+        const response = planitApi.post("/getname",{email,pressed});
+        response.then(result => {
+          setlistItinerary(result.data);
+          console.log(result.data)
+      })
+      return response;
+    }
         
-        return response;
       }; 
       const utcDateToString = (momentInUTC) => {
         let s = moment.utc(momentInUTC).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
         return s;
       }
     useEffect(() => {
-      const timer = setTimeout(() => {
         getItineraryDB();
-      }, 2000);
-      return () => clearTimeout(timer);
     }, [change]);
    
     
@@ -76,7 +86,7 @@ const ItineraryScreen = ({ navigation }) => {
     title="Generate Intinerary" 
     onPress={()=>{
         setPressed(true);
-        setChange(false);
+        // setChange(false);
         const intinerary = getItineraryApi();
     }}
     type="clear"
@@ -100,7 +110,7 @@ const ItineraryScreen = ({ navigation }) => {
     title="Export calendar for itinerary" 
     onPress={()=>{
       // addEventCalender();
-        setChange(false);
+        // setChange(change + 1);
 
     }}
     type="clear"
@@ -115,7 +125,7 @@ const ItineraryScreen = ({ navigation }) => {
     title="Back to the Filters" 
     onPress={()=>{
         navigation.navigate("filter",{email})
-        setChange(false);
+        setChange(!change);
 
     }}
     type="clear"

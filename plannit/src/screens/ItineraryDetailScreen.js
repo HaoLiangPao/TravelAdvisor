@@ -166,7 +166,7 @@ const ItineraryDetailScreen = ({ navigation }) => {
           style={{ margin: 15 }}
           title="Back to the List"
           onPress={() => {
-            navigation.navigate("itinerary", { email });
+            navigation.navigate("itinerary", { email , "pressed":true});
           }}
           type="clear"
         />

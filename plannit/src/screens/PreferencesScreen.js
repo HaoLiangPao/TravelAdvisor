@@ -12,11 +12,16 @@ const PreferencesScreen = ({ navigation }) => {
     const email = navigation.getParam("email", "NO-ID");
     const enterPreferenceApi = () => {
       const response = planitApi.post("/addPref", {preference,email});
+      response.then(result=>{
+        setChange(!change);
+      })
       return response;
     };
-    const deletePreferenceApi = (item) => {
-      setdelPreference(item)
+    const deletePreferenceApi = () => {
       const responseDel = planitApi.post("/deletePref", {delpreference,email});
+      responseDel.then(result=>{
+        setChange(!change);
+      })
       // console.log(delpreference);
       return responseDel;
     };
@@ -29,12 +34,8 @@ const PreferencesScreen = ({ navigation }) => {
       return response2;
     };
     useEffect(() => {
-      const timer = setTimeout(() => {
         getPreferenceApi();
-      }, 5000);
-      return () => clearTimeout(timer);
       // Your code here
-      
     }, [change]);
    
     return (
@@ -65,33 +66,10 @@ const PreferencesScreen = ({ navigation }) => {
       data={listPreferences} 
       renderItem={({item})=>{
         return <TouchableOpacity onPress={()=>{
-          setdelPreference(item);
-          console.log(delpreference);
+          
           // setChange(false);
-          // deletePreferenceApi();
-          Alert.alert(
-            'Do you want to delete this preference',
-            '',
-            [
-              {
-                text: 'Cancel',
-                onPress: () => console.log('Cancel Pressed'),
-                style: 'cancel',
-              },
-              {text: 'OK', onPress: () => {console.log('OK Pressed');
-              const del = deletePreferenceApi(item);
-              setChange(false);
-             del
-              .then(result => {
-              if(result.data=="Success"){
-              Alert.alert("Preference deleted succesfully");
-              getPreferenceApi();
-              }
-              })
-            }},
-            ],
-            {cancelable: false},
-          )
+          setdelPreference(item)
+            deletePreferenceApi()          
         }}>
         <ListItem chevron title={item}
          containerStyle={styles.containerListStyle}
@@ -114,12 +92,7 @@ const PreferencesScreen = ({ navigation }) => {
       title="Add" 
       type="clear"
       onPress={()=>{
-        setChange(false);
-        const get_pref = getPreferenceApi();
-        get_pref.then(result2 => {
-          console.log(result2.data);
-          setlistPreferences(result2.data);
-        })
+        
         if(preference.length>0){
         const my_pref = enterPreferenceApi();
           my_pref

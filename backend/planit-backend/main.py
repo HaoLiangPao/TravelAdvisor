@@ -211,6 +211,9 @@ def getNameList():
     content = request.get_json(silent = True)
     # user inputs, get user from the input of the user
     pressed = content.get('pressed')
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+    print(pressed)
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
     email = content.get('email')
     user = CheckIfUserExists(email)
     if pressed:  
@@ -224,9 +227,10 @@ def getNameList():
                 for i in itinerarylist:
                     result.append(i.get('name'))
             resp = jsonify(result)
+            
     else:
         resp = jsonify([])
-        return resp
+    return resp
 
 
 @main.route('/getDetail', methods=['GET', 'POST'])
