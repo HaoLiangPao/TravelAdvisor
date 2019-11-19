@@ -210,18 +210,22 @@ def getAPIList():
 def getNameList():
     content = request.get_json(silent = True)
     # user inputs, get user from the input of the user
+    pressed = content.get('pressed')
     email = content.get('email')
     user = CheckIfUserExists(email)
-    if user is not None:
-        # if the user is not none, get the itinerary list in the user
-        itinerarylist = user.get("itinerary")
-        result = []
-        # if the user does not have itinerary list, result is empty list
-        if itinerarylist is not None:
-            # else, result is all the name in itinerary list
-            for i in itinerarylist:
-                result.append(i.get('name'))
-        resp = jsonify(result)
+    if pressed:  
+        if user is not None:
+            # if the user is not none, get the itinerary list in the user
+            itinerarylist = user.get("itinerary")
+            result = []
+            # if the user does not have itinerary list, result is empty list
+            if itinerarylist is not None:
+                # else, result is all the name in itinerary list
+                for i in itinerarylist:
+                    result.append(i.get('name'))
+            resp = jsonify(result)
+    else:
+        resp = jsonify([])
         return resp
 
 
