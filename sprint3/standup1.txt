@@ -13,9 +13,10 @@ Participation:
 * 1. What did I do yesterday that helped the development team meet the sprint goal?
     Hao finished the Sygic backend set up, futher testing should be done with Sygic backend branch
     Soham added a loading alert for itinerary generation. zongda fixed logical error regarding radius of search.
+    David communicated with Hao for Sygic methods usage.
     
 * 2. What will I do today to help the development team meet the sprint goal?
-    Hao is going to get familiar with frontend code so he doesnt have to check the data type or meaning of the data passed from the fronend. Soham will help Guikang in implementing more details in the ItineraryDetails screen.
+    Hao is going to get familiar with frontend code so he doesnt have to check the data type or meaning of the data passed from the fronend. Soham will help Guikang in implementing more details in the ItineraryDetails screen. David is going to start coding itinerary related methods based Sygic methods.
 
 * 3. Do I see any impediment that prevents me or the development team from meeting the sprint goal?
     Currently No.
