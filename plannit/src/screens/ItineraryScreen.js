@@ -16,6 +16,7 @@ import moment from 'moment';
 
 const ItineraryScreen = ({ navigation }) => {
     console.disableYellowBox = true;
+    const [pressed,setPressed] = useState(false);
     const [change,setChange] = useState(true);
     const email = navigation.getParam("email", "NO-ID");
     const [listItinerary,setlistItinerary] = useState([]);
@@ -29,19 +30,18 @@ const ItineraryScreen = ({ navigation }) => {
         return response;
       };
       const getItineraryDB = () => {
-        const response = planitApi.post("/getname",{email});
+        const response = planitApi.post("/getname",{email,pressed});
         response.then(result => {
           setlistItinerary(result.data);
+          console.log(result.data)
         })
+        
         return response;
       }; 
       const utcDateToString = (momentInUTC) => {
         let s = moment.utc(momentInUTC).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
         return s;
       }
-     const addEventCalender = (eventConfig) => {
-      
-     };
     useEffect(() => {
       const timer = setTimeout(() => {
         getItineraryDB();
@@ -75,6 +75,7 @@ const ItineraryScreen = ({ navigation }) => {
     style={{ margin: 15 }}
     title="Generate Intinerary" 
     onPress={()=>{
+        setPressed(true);
         setChange(false);
         const intinerary = getItineraryApi();
     }}

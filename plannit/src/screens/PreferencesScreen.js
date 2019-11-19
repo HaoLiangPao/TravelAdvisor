@@ -14,7 +14,8 @@ const PreferencesScreen = ({ navigation }) => {
       const response = planitApi.post("/addPref", {preference,email});
       return response;
     };
-    const deletePreferenceApi = () => {
+    const deletePreferenceApi = (item) => {
+      setdelPreference(item)
       const responseDel = planitApi.post("/deletePref", {delpreference,email});
       // console.log(delpreference);
       return responseDel;
@@ -65,8 +66,8 @@ const PreferencesScreen = ({ navigation }) => {
       renderItem={({item})=>{
         return <TouchableOpacity onPress={()=>{
           setdelPreference(item);
-          console.log(item);
-          setChange(false);
+          console.log(delpreference);
+          // setChange(false);
           // deletePreferenceApi();
           Alert.alert(
             'Do you want to delete this preference',
@@ -78,7 +79,8 @@ const PreferencesScreen = ({ navigation }) => {
                 style: 'cancel',
               },
               {text: 'OK', onPress: () => {console.log('OK Pressed');
-              const del = deletePreferenceApi();
+              const del = deletePreferenceApi(item);
+              setChange(false);
              del
               .then(result => {
               if(result.data=="Success"){

@@ -63,7 +63,7 @@ const FiltersScreen = ({ navigation }) => {
           bottom: 80
         }}
       >
-        <View style={styles.centerBox}>
+        <ScrollView style={styles.centerBox}>
           <Text h3 style={{ color: "white", textAlign: "center" }}>
             Filters
           </Text>
@@ -260,7 +260,7 @@ const FiltersScreen = ({ navigation }) => {
           <View style={{ top: 20, flex: 1 }}>
             <Picker
               selectedValue={transport}
-              style={styles.picker}
+              itemStyle={styles.picker}
               onValueChange={value => setTransport(value)}
             >
               <Picker.Item label="Car" value="driving" />
@@ -269,7 +269,7 @@ const FiltersScreen = ({ navigation }) => {
               <Picker.Item label="Bicycling" value="bicycling" />
             </Picker>
           </View>
-        </View>
+        </ScrollView>
 
         <View style={{ top: 20 }}>
           <Button
