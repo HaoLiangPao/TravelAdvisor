@@ -242,6 +242,8 @@ def get_detail():
                 if i['name'] == place_name:
                     result['vicinity'] = i.get('vicinity')
                     result['photos'] = i.get('photo')
+                    result['start_time'] = i.get('startTimeTrip')
+                    result['end_time'] = i.get('endTimeTrip')
         else:
             result = None
     else:
