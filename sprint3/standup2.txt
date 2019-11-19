@@ -15,10 +15,12 @@ Participation:
     Jingwei figured out the structure for feedback.
     Mohan continued research, unable to create a prototype
     David met error on depended methods and discussed with team members.
+    Soham changed the front of itinerary to match the new API. 
 * 2. What will I do today to help the development team meet the sprint goal?
     Hao is going to focus on CSCC01 A2 for today and dont have time working on the project, will continue doing it tomorrow.
     Jingwei will create a class for feedback with desired attributes.
     Mohan will implement a prototype for navigation
     David will solve the error and implement get APIList method
+    Soham will Research the different calendar modules he can use for the sprint goal.
 * 3. Do I see any impediment that prevents me or the development team from meeting the sprint goal?
     Currently No.
