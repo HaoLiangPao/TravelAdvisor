@@ -14,11 +14,13 @@ Participation:
     Hao has generated a list of places.
     Jingwei tested his code and it's working perfectly.
     Mohan finished the backend navigation endpoints 
+    David did not do much since preparing midterm
     
 * 2. What will I do today to help the development team meet the sprint goal?
     Hao is going to add duration and start/end time to the generated itinerary.
     Jingwei will merge the branch with Guikang's and do intergration testings.
     Mohan will test the navigation enpoint
+    David will keep trying for Sygic API key
     
 * 3. Do I see any impediment that prevents me or the development team from meeting the sprint goal?
     Currently No.
