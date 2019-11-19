@@ -2,7 +2,6 @@ import React , { useState, useEffect} from "react";
 import { View, StyleSheet, Button, TextInput, ScrollView, FlatList, Alert, TouchableOpacity} from "react-native";
 import { Text, ListItem} from "react-native-elements";
 import planitApi from "../api/planitApi";
-import * as calendar from "react-native-add-calendar-event";
 import * as CalendarExpo from 'expo-calendar';
 import moment from 'moment';
 
@@ -34,24 +33,10 @@ const ItineraryScreen = ({ navigation }) => {
       }
      const addEventCalender = (eventConfig) => {
       
-      console.log(eventConfig);
-      calendar.presentEventCreatingDialog(eventConfig)
-      .then(
-        (eventInfo) => {
-          alert('eventInfo -> ' + JSON.stringify(eventInfo));
-        }
-      )
-      .catch((error) => {
-        // handle error such as when user rejected permissions
-        alert('Error -> ' + error);
-      });
      };
     useEffect(() => {
         Alert.alert("Please wait while we load the itinerary ")
         getItineraryDB();
-        const promise = CalendarExpo.requestRemindersPermissionsAsync()
-        console.log(promise);
-        
     }, [change]);
    
     
@@ -89,14 +74,6 @@ const ItineraryScreen = ({ navigation }) => {
         horizontal = {false}
         data={listItinerary}
         renderItem={({item})=>{
-          // setTitle(item);
-          const eventConfig = {
-            item,
-            startDate: utcDateToString(TIME_NOW_IN_UTC),
-            endDate: utcDateToString(TIME_NOW_IN_UTC),
-          };
-          
-          addEventCalender(eventConfig);
         return <TouchableOpacity onPress={()=>{navigation.navigate("itineraryDetail",{"name":item,email})}}>
         <ListItem chevron title={item}
          containerStyle={styles.containerListStyle}

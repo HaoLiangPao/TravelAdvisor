@@ -1,7 +1,6 @@
 import React , { useState, useEffect} from "react";
 import { View, StyleSheet, Button, TextInput, ScrollView, FlatList, Alert, TouchableOpacity} from "react-native";
 import { Text, Image} from "react-native-elements";
-import * as calendar from "react-native-add-calendar-event";
 import * as Calendar from 'expo-calendar';
 import planitApi from "../api/planitApi";
 import moment from 'moment';
@@ -12,8 +11,19 @@ const ItineraryDetailScreen = ({ navigation }) => {
     const name = navigation.getParam("name", "NO-ID");
     const email = navigation.getParam("email", "NO-ID");
     const [vicinity,setVicinity] = useState("");
+    const [calendarid,setCalendarid] = useState("");
     const [photo,setPhoto] = useState([]);
-    const TIME_NOW_IN_UTC = moment.utc();
+    const details = {
+        startDate: new Date(),
+        title:"my first event calendar",
+        timeZone: "GMT-5",
+        status:Calendar.EventStatus.CONFIRMED,
+        accessLevel:Calendar.EventAccessLevel.DEFAULT,
+        isDetached:true,    
+        allDay:true,
+        availability:Calendar.Availability.FREE,
+
+    };
     const getItineraryDetailApi = () => {
         const response = planitApi.post("/getDetail",{email, name});
         response.then(result => {
@@ -26,20 +36,24 @@ const ItineraryDetailScreen = ({ navigation }) => {
         let s = moment.utc(momentInUTC).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
         return s;
       }
-    const addEventCalender = (eventConfig) => {
-      console.log(eventConfig);
-      calendar.presentEventCreatingDialog(eventConfig)
-      .then(
-        (eventInfo) => {
-          alert('eventInfo -> ' + JSON.stringify(eventInfo));
-        }
-      )
-      .catch((error) => {
-        // handle error such as when user rejected permissions
-        alert('Error -> ' + error);
-      });
-      };
-
+    const addEventCalender = async () => {
+    const hasCalendarPermission = await Calendar.requestPermissionsAsync();
+    if (hasCalendarPermission.status === 'granted') {
+      const calendar = await Calendar.getDefaultCalendarAsync()
+      console.log({ calendar });
+      try {
+        const res = await Calendar.createEventAsync(calendar.id, {
+          endDate: new Date(),
+          startDate: new Date(),
+          title: name,
+        });
+        console.log(res);
+        Alert.alert('Created event in Calendar');
+      } catch (e) {
+        console.log({ e });
+      }
+    } 
+    }
     useEffect(() => {
       getItineraryDetailApi();
     }, []);
@@ -64,7 +78,7 @@ const ItineraryDetailScreen = ({ navigation }) => {
       </View>
     <View style={styles.middleBox}>
     <Text style={styles.textStyle}>{name}</Text>
-    <Text style={styles.textStyle}>{email}</Text>
+    <Text style={styles.textStyle}>{calendarid}</Text>
     <ScrollView  style={styles.containerListStyle} scrollEnabled={true}>
         <Text style={styles.detailStyle}>Location: {vicinity + "\n"}</Text>
         <Text style={styles.detailStyle}>Photo{"\n"}</Text>
@@ -81,12 +95,7 @@ const ItineraryDetailScreen = ({ navigation }) => {
     style={{ margin: 15 }}
     title="Create Event"
     onPress={()=>{
-      const eventConfig = {
-        name,
-        startDate: utcDateToString(TIME_NOW_IN_UTC),
-        endDate: utcDateToString(TIME_NOW_IN_UTC.add(1, 'hours')),
-      };
-      addEventCalender(eventConfig);
+      addEventCalender(details);
     }} 
     type="clear"
     />
