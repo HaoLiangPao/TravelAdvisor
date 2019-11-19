@@ -191,9 +191,8 @@ def popularlist():
 @main.route('/getAPIList', methods=['GET','POST'])
 def getAPIList():
     # call generateItinery to get list from api
-    APIlist = generateItinerary()
+    generateItinerary()
     # get the name of list
-    return getNameList()
     '''
     result = []
     for i in APIlist:
@@ -201,6 +200,8 @@ def getAPIList():
     resp = jsonify(result)
     return resp
     '''
+    return getNameList()
+   
 
 
 @main.route('/getname', methods=['GET','POST'])
@@ -315,7 +316,7 @@ def generateItinerary():
         # all the locations that fits the requirement
         #print(preference_list)
         #print(trip_filter)
-        result_locations = crawlLocations(coordinate, preference_list, trip_filter)
+        # result_locations = crawlLocations(coordinate, preference_list, trip_filter)
         result_locations, result_locations_sub = crawlLocationsSygic(coordinate, preference_list, trip_filter, max_act)
         # extract the information we want, change the unreasonable time duration and stored opening hours
         print(result_locations)
@@ -326,6 +327,8 @@ def generateItinerary():
         # print(itinerary)
         mongo.db.users.update_one(
             {'email': email}, {'$set': {'itinerary': itinerary}})
+        mongo.db.users.update_one(
+            {'email': email}, {'$set': {'choice_itinerary': result_locations_sub}})
         resp = jsonify(itinerary)
     else:
         resp = None
