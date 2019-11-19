@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, TextInput, Alert } from "react-native";
+import { View, StyleSheet, TextInput, Alert, StatusBar } from "react-native";
 import { Text, Button } from "react-native-elements";
 import planitApi from "../api/planitApi";
 
@@ -15,6 +15,7 @@ const SignUpScreen = ({ navigation }) => {
   };
   return (
     <View style={{ flex: 1, backgroundColor: "#121212" }}>
+      <StatusBar barStyle="light-content"/>
       <View
         style={{
           flex: 2,
