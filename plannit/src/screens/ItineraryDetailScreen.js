@@ -11,8 +11,8 @@ const ItineraryDetailScreen = ({ navigation }) => {
     const name = navigation.getParam("name", "NO-ID");
     const email = navigation.getParam("email", "NO-ID");
     const [vicinity,setVicinity] = useState("");
-    const [startTime,setStartTime] = useState("");
-    const [endTime,setEndTime] = useState("");
+    const [startTime,setStartTime] =  useState("");
+    const [endTime,setEndTime] =  useState("");
     const [photo,setPhoto] = useState([]);
     const [currentLatitude, setLatitude] = useState("");
   const [currentLongitude, setLongitude] = useState("");
@@ -33,14 +33,16 @@ const ItineraryDetailScreen = ({ navigation }) => {
     const getItineraryDetailApi = () => {
         const response = planitApi.post("/getDetail",{email, name});
         response.then(result => {
-          console.log(result)
+          console.log(result.data)
           setVicinity(result.data.vicinity);
           setPhoto(result.data.photos);
+          setEndTime(result.data.end_time);
+          setStartTime(result.data.start_time);
         })
         return response;
       };
-    const utcDateToString = (momentInUTC) => {
-      let s = moment.utc(momentInUTC).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+    const DateToString = (time) => {
+      let s = time.split("");
       return s;
     }
     const addEventCalender = async () => {
@@ -50,11 +52,12 @@ const ItineraryDetailScreen = ({ navigation }) => {
       console.log({ calendar });
       try {
         const res = await Calendar.createEventAsync(calendar.id, {
-          endDate: new Date(),
-          startDate: new Date(),
+          endDate: new Date(endTime),
+          startDate: new Date(startTime),
           title: name,
         });
         console.log(res);
+        
         Alert.alert('Created event in Calendar');
       } catch (e) {
         console.log({ e });
