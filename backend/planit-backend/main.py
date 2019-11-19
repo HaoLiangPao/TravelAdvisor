@@ -107,14 +107,16 @@ def addPreference():
         mongo.db.users.update_one(
             {'email': email}, {'$set': {'preference': user_preference}})
     return return_message
-
-
-@main.route('/deletePref', methods=['DELETE'])
+        
+@main.route('/deletePref', methods=['DELETE','POST'])
 def deletePreference():
     return_message = "Success"
     content = request.get_json(silent=True)
     email = content.get('email')
-    del_pre = content.get('preference')
+    del_pre = content.get('delpreference')
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+    print(del_pre)
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
     user = CheckIfUserExists(email)
     user_pre = user.get('preference')
     if user_pre is not None:
@@ -246,49 +248,47 @@ def get_detail():
     resp = jsonify(result)
     return resp
 
-'''
-@main.route('/generateTrip', methods=['POST'])
-def generateTrip():
-    content = request.get_json(silent=True)
-    # user inputs
-    email = content.get('email')
-    trip_filter = content.get('filter')
-    user = CheckIfUserExists(email)
-    max_activity_num = int(trip_filter.get('activity_num'))
-    if user != None:
-        # starting location, parsing into coordinate
-        location = user.get('location')
-        coordinate = str(location.get('lat')) + ", " + str(location.get('lng'))
-        # list of possible preferences
-        preference_list = user.get('preference')
-        # all the locations that fits the requirement
-        result_locations = crawlLocations(
-            coordinate, preference_list, trip_filter)
-        # maps pid to their "type" and their corresponding location object
-        pidToType, pidtoloc = parsingLocation(result_locations)
-        # maps pid to their value, higher the value, more willingness from the
-        # user for that location(activity)
-        pidtoval = dict()
-        # generating random rating for current user for each type he likes
-        TypeToRating = dict()
-        for i in preference_list:
-            TypeToRating[i] = random.random() * 10
-        # compute pid and their corresponding value
-        for i in pidToType.keys():
-            pidtoval[i] = 0
-            for j in pidToType.get(i):
-                if TypeToRating.get(j) != None:
-                    pidtoval[i] = pidtoval.get(i) + TypeToRating[j]
-        result = list()
-        # get top results
-        if max_activity_num < len(pidtoloc.keys()):
-            while len(result) < max_activity_num:
-                max_pid = max(pidtoval.items(), key=lambda x: x[1])[0]
-                result.append(pidtoloc[max_pid].serialization())
-                pidtoval.pop(max_pid)
-        resp = jsonify(result)
-        return resp
-'''
+# @main.route('/generateTrip', methods=['POST'])
+# def generateTrip():
+#     content = request.get_json(silent=True)
+#     # user inputs
+#     email = content.get('email')
+#     trip_filter = content.get('filter')
+#     user = CheckIfUserExists(email)
+#     max_activity_num = int(trip_filter.get('activity_num'))
+#     if user != None:
+#         # starting location, parsing into coordinate
+#         location = user.get('location')
+#         coordinate = str(location.get('lat')) + ", " + str(location.get('lng'))
+#         # list of possible preferences
+#         preference_list = user.get('preference')
+#         # all the locations that fits the requirement
+#         result_locations = crawlLocations(
+#             coordinate, preference_list, trip_filter)
+#         # maps pid to their "type" and their corresponding location object
+#         pidToType, pidtoloc = parsingLocation(result_locations)
+#         # maps pid to their value, higher the value, more willingness from the
+#         # user for that location(activity)
+#         pidtoval = dict()
+#         # generating random rating for current user for each type he likes
+#         TypeToRating = dict()
+#         for i in preference_list:
+#             TypeToRating[i] = random.random() * 10
+#         # compute pid and their corresponding value
+#         for i in pidToType.keys():
+#             pidtoval[i] = 0
+#             for j in pidToType.get(i):
+#                 if TypeToRating.get(j) != None:
+#                     pidtoval[i] = pidtoval.get(i) + TypeToRating[j]
+#         result = list()
+#         # get top results
+#         if max_activity_num < len(pidtoloc.keys()):
+#             while len(result) < max_activity_num:
+#                 max_pid = max(pidtoval.items(), key=lambda x: x[1])[0]
+#                 result.append(pidtoloc[max_pid].serialization())
+#                 pidtoval.pop(max_pid)
+#         resp = jsonify(result)
+#         return resp
 
 @main.route('/generateItinerary', methods=['POST', 'GET'])
 def generateItinerary():

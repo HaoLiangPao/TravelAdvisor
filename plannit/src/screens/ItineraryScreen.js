@@ -10,27 +10,49 @@ import {
 } from "react-native";
 import { Text, ListItem, Button } from "react-native-elements";
 import planitApi from "../api/planitApi";
+import * as CalendarExpo from 'expo-calendar';
+import moment from 'moment';
 
 const ItineraryScreen = ({ navigation }) => {
-  console.disableYellowBox = true;
-  const [change, setChange] = useState(true);
-  const email = navigation.getParam("email", "NO-ID");
-  const [listItinerary, setlistItinerary] = useState([]);
-  const getItineraryApi = () => {
-    const response = planitApi.post("/popularlist", { email });
-    response.then(result => {
-      setlistItinerary(result.data);
-    });
-    return response;
-  };
-
-  useEffect(() => {
-    Alert.alert("Please wait while we load the itinerary ");
-    getItineraryApi();
-  }, [change]);
-
-  return (
-    <View style={{ flex: 1, backgroundColor: "black" }}>
+    console.disableYellowBox = true;
+    const [title,setTitle] = useState("");
+    const [startDate,setTtartDate] = useState("");
+    const [change,setChange] = useState(true);
+    const email = navigation.getParam("email", "NO-ID");
+    const [listItinerary,setlistItinerary] = useState([]);
+    const TIME_NOW_IN_UTC = moment.utc();
+    const getItineraryApi = () => {
+        Alert.alert("Please Wait while we load the best itinerary for you ")
+        const response = planitApi.post("/getAPIList",{email});
+        response.then(result => {
+          setlistItinerary(result.data);
+        })
+        return response;
+      };
+      const getItineraryDB = () => {
+        const response = planitApi.post("/getname",{email});
+        response.then(result => {
+          setlistItinerary(result.data);
+        })
+        return response;
+      }; 
+      const utcDateToString = (momentInUTC) => {
+        let s = moment.utc(momentInUTC).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+        return s;
+      }
+     const addEventCalender = (eventConfig) => {
+      
+     };
+    useEffect(() => {
+      const timer = setTimeout(() => {
+        getItineraryDB();
+      }, 2000);
+      return () => clearTimeout(timer);
+    }, [change]);
+   
+    
+    return (
+    <View style={{flex:1, backgroundColor:'black'}}>
       <View
         style={{
           flex: 2,
@@ -47,75 +69,57 @@ const ItineraryScreen = ({ navigation }) => {
           </Text>
         </View>
       </View>
-      <View style={styles.middleBox}>
-        <Text style={styles.textStyle}>Your Itinerary:</Text>
-        <Button
-          style={{ margin: 15 }}
-          title="Generate Intinerary"
-          onPress={() => {
-            setChange(false);
-            const intinerary = getItineraryApi();
-          }}
-          type="clear"
-        />
-        {/* <Button 
+    <View style={styles.middleBox}>
+    <Text style={styles.textStyle}>Your Itinerary:</Text>
+    <Button 
     style={{ margin: 15 }}
-    title="Re Generate Intinerary" 
+    title="Generate Intinerary" 
     onPress={()=>{
-        Alert.alert(
-            'Do you want to generate a new Intinerary',
-            '',
-            [
-              {
-                text: 'Cancel',
-                onPress: () => console.log('Cancel Pressed'),
-                style: 'cancel',
-              },
-              {text: 'OK', onPress: () => console.log('OK Pressed')},
-            ],
-            {cancelable: false},
-          )
         setChange(false);
         const intinerary = getItineraryApi();
     }}
     type="clear"
-    /> */}
-        <ScrollView style={styles.containerStyle} scrollEnabled={true}>
-          <FlatList
-            horizontal={false}
-            data={listItinerary}
-            renderItem={({ item }) => {
-              return (
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate("itineraryDetail", {
-                      name: item,
-                      email
-                    });
-                  }}
-                >
-                  <ListItem
-                    chevron
-                    title={item}
-                    containerStyle={styles.containerListStyle}
-                    titleStyle={styles.textStyle}
-                  />
-                </TouchableOpacity>
-              );
-            }}
-          />
-        </ScrollView>
-        <Button style={{ margin: 15 }} title="Next" type="clear" />
-        <Button
-          style={{ margin: 15 }}
-          title="Back to the Filters"
-          onPress={() => {
-            navigation.navigate("filter", { email });
-            setChange(false);
-          }}
-          type="clear"
-        />
-      </View>
+    />
+    <ScrollView style={styles.containerStyle} scrollEnabled={true}>
+    <FlatList
+        horizontal = {false}
+        data={listItinerary}
+        renderItem={({item})=>{
+        return <TouchableOpacity onPress={()=>{navigation.navigate("itineraryDetail",{"name":item,email})}}>
+        <ListItem chevron title={item}
+         containerStyle={styles.containerListStyle}
+         titleStyle={styles.textStyle}
+         />
+        </TouchableOpacity>
+    }}
+    />
+  </ScrollView> 
+  <Button 
+    style={{ margin: 15 }}
+    title="Export calendar for itinerary" 
+    onPress={()=>{
+      // addEventCalender();
+        setChange(false);
+
+    }}
+    type="clear"
+    />  
+    <Button 
+    style={{ margin: 15 }}
+    title="Next" 
+    type="clear"
+    />
+    <Button 
+    style={{ margin: 15 }}
+    title="Back to the Filters" 
+    onPress={()=>{
+        navigation.navigate("filter",{email})
+        setChange(false);
+
+    }}
+    type="clear"
+    />
+    </View>
     </View>
   );
 };

@@ -1,36 +1,64 @@
-import React, { useState, useEffect } from "react";
-import {
-  View,
-  StyleSheet,
-  TextInput,
-  ScrollView,
-  FlatList,
-  Alert,
-  TouchableOpacity
-} from "react-native";
-import { Text, Image, Button } from "react-native-elements";
+import React , { useState, useEffect} from "react";
+import { View, StyleSheet, Button, TextInput, ScrollView, FlatList, Alert, TouchableOpacity} from "react-native";
+import { Text, Image} from "react-native-elements";
+import * as Calendar from 'expo-calendar';
 import planitApi from "../api/planitApi";
-import getDirections from "react-native-google-maps-directions";
+import moment from 'moment';
+
 
 const ItineraryDetailScreen = ({ navigation }) => {
-  console.disableYellowBox = true;
-  const name = navigation.getParam("name", "NO-ID");
-  const email = navigation.getParam("email", "NO-ID");
-  const [vicinity, setVicinity] = useState("");
-  const [photo, setPhoto] = useState([]);
-  const [currentLatitude, setLatitude] = useState("");
+    console.disableYellowBox = true;
+    const name = navigation.getParam("name", "NO-ID");
+    const email = navigation.getParam("email", "NO-ID");
+    const [vicinity,setVicinity] = useState("");
+    const [calendarid,setCalendarid] = useState("");
+    const [photo,setPhoto] = useState([]);
+    const [currentLatitude, setLatitude] = useState("");
   const [currentLongitude, setLongitude] = useState("");
   const [transport, setTransport] = useState("");
   const [locationLat, setLocalLat] = useState("");
   const [locationLong, setLocalLong] = useState("");
-  const getItineraryDetailApi = () => {
-    const response = planitApi.post("/getDetail", { email, name });
-    response.then(result => {
-      setVicinity(result.data.vicinity);
-      setPhoto(result.data.photos[0].photo_reference);
-    });
-    return response;
-  };
+    const details = {
+        startDate: new Date(),
+        title:"my first event calendar",
+        timeZone: "GMT-5",
+        status:Calendar.EventStatus.CONFIRMED,
+        accessLevel:Calendar.EventAccessLevel.DEFAULT,
+        isDetached:true,    
+        allDay:true,
+        availability:Calendar.Availability.FREE,
+
+    };
+    const getItineraryDetailApi = () => {
+        const response = planitApi.post("/getDetail",{email, name});
+        response.then(result => {
+          setVicinity(result.data.vicinity);
+          setPhoto(result.data.photos[0].photo_reference);
+        })
+        return response;
+      };
+      const utcDateToString = (momentInUTC) => {
+        let s = moment.utc(momentInUTC).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+        return s;
+      }
+    const addEventCalender = async () => {
+    const hasCalendarPermission = await Calendar.requestPermissionsAsync();
+    if (hasCalendarPermission.status === 'granted') {
+      const calendar = await Calendar.getDefaultCalendarAsync()
+      console.log({ calendar });
+      try {
+        const res = await Calendar.createEventAsync(calendar.id, {
+          endDate: new Date(),
+          startDate: new Date(),
+          title: name,
+        });
+        console.log(res);
+        Alert.alert('Created event in Calendar');
+      } catch (e) {
+        console.log({ e });
+      }
+    } 
+    }
   function setLocation(position) {
     var latitude = position.coords.latitude;
     var longitude = position.coords.longitude;
@@ -174,7 +202,41 @@ const ItineraryDetailScreen = ({ navigation }) => {
           }}
           type="clear"
         />
-      </View>
+      </View>  
+    <Button 
+    style={{ margin: 15 }}
+    title="Back to the List"
+    onPress={()=>{navigation.navigate("itinerary",{email})}} 
+    type="clear"
+    />
+     <Button 
+    style={{ margin: 15 }}
+    title="Create Event"
+    onPress={()=>{
+      addEventCalender(details);
+    }} 
+    type="clear"
+    />
+    <Button 
+    style={{ margin: 15 }}
+    title="Delete" 
+    onPress={()=>
+      Alert.alert(
+        'Delete this activity?',
+        '',
+        [
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel',
+          },
+          {text: 'OK', onPress: () => console.log('OK Pressed')},
+        ],
+        {cancelable: false},
+      )
+    }
+    type="clear"
+    />
     </View>
   );
 };
