@@ -107,7 +107,7 @@ def crawlLocationsSygic(coordinate, preference_list, trip_filter, max_act):
     # we could use some random algorithum or optimize algorithum (such as: seperate restaruent with others etc.)
     random.shuffle(result)
     if int(max_act) > len(result):
-        place = result
+        places = result
         subPlaces = None
     else:
         places = result[:int(max_act)]

@@ -1,5 +1,5 @@
 import React , { useState, useEffect} from "react";
-import { View, StyleSheet, Button, TextInput, ScrollView, FlatList, Alert, TouchableOpacity} from "react-native";
+import { View, StyleSheet, Button, TextInput, ScrollView, FlatList, Alert, TouchableOpacity, StatusBar} from "react-native";
 import { Text, Image} from "react-native-elements";
 import * as Calendar from 'expo-calendar';
 import planitApi from "../api/planitApi";
@@ -11,7 +11,8 @@ const ItineraryDetailScreen = ({ navigation }) => {
     const name = navigation.getParam("name", "NO-ID");
     const email = navigation.getParam("email", "NO-ID");
     const [vicinity,setVicinity] = useState("");
-    const [calendarid,setCalendarid] = useState("");
+    const [startTime,setStartTime] = useState("");
+    const [endTime,setEndTime] = useState("");
     const [photo,setPhoto] = useState([]);
     const [currentLatitude, setLatitude] = useState("");
   const [currentLongitude, setLongitude] = useState("");
@@ -32,15 +33,16 @@ const ItineraryDetailScreen = ({ navigation }) => {
     const getItineraryDetailApi = () => {
         const response = planitApi.post("/getDetail",{email, name});
         response.then(result => {
+          console.log(result)
           setVicinity(result.data.vicinity);
-          setPhoto(result.data.photos[0].photo_reference);
+          setPhoto(result.data.photos);
         })
         return response;
       };
-      const utcDateToString = (momentInUTC) => {
-        let s = moment.utc(momentInUTC).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
-        return s;
-      }
+    const utcDateToString = (momentInUTC) => {
+      let s = moment.utc(momentInUTC).format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+      return s;
+    }
     const addEventCalender = async () => {
     const hasCalendarPermission = await Calendar.requestPermissionsAsync();
     if (hasCalendarPermission.status === 'granted') {
@@ -124,6 +126,7 @@ const ItineraryDetailScreen = ({ navigation }) => {
 
   return (
     <View style={{ flex: 1, backgroundColor: "black" }}>
+      <StatusBar barStyle="light-content"/>
       <View
         style={{
           flex: 2,

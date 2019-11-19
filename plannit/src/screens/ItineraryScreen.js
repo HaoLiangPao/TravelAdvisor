@@ -6,7 +6,8 @@ import {
   ScrollView,
   FlatList,
   Alert,
-  TouchableOpacity
+  TouchableOpacity,
+  StatusBar
 } from "react-native";
 import { Text, ListItem, Button } from "react-native-elements";
 import planitApi from "../api/planitApi";
@@ -15,8 +16,6 @@ import moment from 'moment';
 
 const ItineraryScreen = ({ navigation }) => {
     console.disableYellowBox = true;
-    const [title,setTitle] = useState("");
-    const [startDate,setTtartDate] = useState("");
     const [change,setChange] = useState(true);
     const email = navigation.getParam("email", "NO-ID");
     const [listItinerary,setlistItinerary] = useState([]);
@@ -53,6 +52,7 @@ const ItineraryScreen = ({ navigation }) => {
     
     return (
     <View style={{flex:1, backgroundColor:'black'}}>
+      <StatusBar barStyle="light-content"/>
       <View
         style={{
           flex: 2,
@@ -120,6 +120,15 @@ const ItineraryScreen = ({ navigation }) => {
     type="clear"
     />
     </View>
+    <View style={{ position: "absolute", top: 40, alignSelf: "flex-end" }}>
+        <Button
+          title="Sign Out"
+          type="clear"
+          onPress={() => {
+            navigation.navigate("SignIn");
+          }}
+        />
+      </View>
     </View>
   );
 };

@@ -6,7 +6,8 @@ import {
   ScrollView,
   FlatList,
   Alert,
-  Picker
+  Picker,
+  StatusBar
 } from "react-native";
 import { Text, Button, Slider } from "react-native-elements";
 import DatePicker from "react-native-datepicker";
@@ -39,6 +40,7 @@ const FiltersScreen = ({ navigation }) => {
 
   return (
     <View style={{ flex: 1, backgroundColor: "#121212" }}>
+      <StatusBar barStyle="light-content"/>
       <View
         style={{
           flex: 2,
@@ -292,7 +294,7 @@ const FiltersScreen = ({ navigation }) => {
         </View>
       </View>
       <View
-        style={{ position: "absolute", bottom: 0, alignSelf: "flex-start" }}
+        style={{ position: "absolute", bottom: 20, alignSelf: "center" }}
       >
         <Button
           title="Go Back"
@@ -302,7 +304,7 @@ const FiltersScreen = ({ navigation }) => {
           }}
         />
       </View>
-      <View style={{ position: "absolute", bottom: 0, alignSelf: "flex-end" }}>
+      <View style={{ position: "absolute", top: 40, alignSelf: "flex-end" }}>
         <Button
           title="Sign Out"
           type="clear"

@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { View, StyleSheet, TextInput, Alert } from "react-native";
+import { View, StyleSheet, TextInput, Alert, StatusBar } from "react-native";
 import { Text, Button } from "react-native-elements";
 import planitApi from "../api/planitApi";
 
@@ -13,6 +13,7 @@ const LocationScreen = ({ navigation }) => {
   };
   return (
     <View style={styles.container}>
+    <StatusBar barStyle="light-content"/>
       <View style={styles.upperBox}>
         <Text h1 style={styles.headline1}>
           Plan
@@ -49,6 +50,15 @@ const LocationScreen = ({ navigation }) => {
         }
         />
       </View>
+      <View style={{ position: "absolute", top: 40, alignSelf: "flex-end" }}>
+        <Button
+          title="Sign Out"
+          type="clear"
+          onPress={() => {
+            navigation.navigate("SignIn");
+          }}
+        />
+      </View>
     </View>
   );
 };
@@ -62,7 +72,7 @@ const styles = StyleSheet.create({
     flex: 4,
     flexDirection: "column",
     justifyContent: "center",
-    bottom: 80
+    bottom: 120
   },
   upperBox: {
     flex: 2,

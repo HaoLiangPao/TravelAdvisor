@@ -1,5 +1,5 @@
 import React , { useState, useEffect} from "react";
-import { View, StyleSheet, Button, TextInput, ScrollView, FlatList, Alert,TouchableOpacity } from "react-native";
+import { View, StyleSheet, Button, TextInput, ScrollView, FlatList, Alert,TouchableOpacity, StatusBar } from "react-native";
 import { Text ,ListItem} from "react-native-elements";
 import planitApi from "../api/planitApi";
 
@@ -38,6 +38,7 @@ const PreferencesScreen = ({ navigation }) => {
    
     return (
     <View style={{flex:1, backgroundColor:'black'}}>
+      <StatusBar barStyle="light-content"/>
       <View
         style={{
           flex: 2,
@@ -138,20 +139,29 @@ const PreferencesScreen = ({ navigation }) => {
     }
     />
     <Button 
-    style={{ margin: 15 }}
-    title="Next" 
-    type="clear"
-    onPress={()=>{
-      navigation.navigate("filter",{email});
-    }}
+      style={{ margin: 15 }}
+      title="Next" 
+      type="clear"
+      onPress={()=>{
+        navigation.navigate("filter",{email});
+      }}
     />
     <Button 
-    style={{ margin: 15 }}
-    title="Back to the Location" 
-    onPress={()=>{navigation.navigate("location",{email})}}
-    type="clear"
+      style={{ margin: 15 }}
+      title="Back to the Location" 
+      onPress={()=>{navigation.navigate("location",{email})}}
+      type="clear"
     />
     </View>
+    <View style={{ position: "absolute", top: 40, alignSelf: "flex-end" }}>
+        <Button
+          title="Sign Out"
+          type="clear"
+          onPress={() => {
+            navigation.navigate("SignIn");
+          }}
+        />
+      </View>
     </View>
     )};
     
