@@ -20,6 +20,6 @@ Participation:
     Hao is going to discuss with the team for a new Sygic API key since the old one reach the limit.
    Jingwei will also need to talk with Guikang about the design update for Feedbacks.
    Mohan will try to finish a skeleton for the frontend for navigation
-   David implemented getnamelist method.
+   David implemented getnamelist method in the backend.
 * 3. Do I see any impediment that prevents me or the development team from meeting the sprint goal?
     We need to get another API Key so that we dont have to pay extra money.
