@@ -133,15 +133,18 @@ def parsingLocationSygic(places, start, end):
             perex = response.get('perex')
         params = {"from":start[:-6], "to":end[:-6], "id":response.get("id")}
         # get google query
+        # the coordinate
         loc = response.get('location')
         coordinate = str(loc.get('lat')) + ", " + str(loc.get('lng'))
-        print(coordinate)
-        print(response.get('name'))
-        googleobj = gmaps.places_nearby(location = coordinate, radius = 1000, keyword = response.get('address')).get('results')[0]
-        print(googleobj)
+        # google query object
+        googleobj = gmaps.places_nearby(location = coordinate, radius = 1000, keyword = response.get('name')).get('results')[0]
+        pid = googleobj.get('place_id')
+        # reverse to compute address
+        address = gmaps.reverse_geocode(pid)[0].get('formatted_address')
         # get API response
         openTime = requests.get(openTimeURL, params = params, headers=SygicHeadersNew).json().get('data')
         parsed_place = {
+            'google_pid':pid,
             'id':response.get('id'),
             'name':response.get('name'),
             'name_suffix':response.get('name_suffix'),
@@ -152,7 +155,7 @@ def parsingLocationSygic(places, start, end):
             'url':response.get('url'), # a url to the SygicMap webpage, we can also show this in the detail when we have time for this feature (maybe can be used in Navigation)
             'email':response.get('email'),
             'phone':response.get('phone'),
-            'address':response.get('address'),
+            'address':address,
             # in a form of {\d{4}-\d{2}-\d{2}: [{opening: ,closing: }], (more date)}
             # string(~\d{2}:\d{2}:\d{2}~)h:m:s (24h) format.
             'open':openTime.get('opening_hours').get(start[:-6])[0].get('opening'),
