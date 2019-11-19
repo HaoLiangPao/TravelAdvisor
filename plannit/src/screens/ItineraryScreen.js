@@ -1,6 +1,14 @@
-import React , { useState, useEffect} from "react";
-import { View, StyleSheet, Button, TextInput, ScrollView, FlatList, Alert, TouchableOpacity} from "react-native";
-import { Text, ListItem} from "react-native-elements";
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  StyleSheet,
+  TextInput,
+  ScrollView,
+  FlatList,
+  Alert,
+  TouchableOpacity
+} from "react-native";
+import { Text, ListItem, Button } from "react-native-elements";
 import planitApi from "../api/planitApi";
 import * as CalendarExpo from 'expo-calendar';
 import moment from 'moment';
@@ -14,14 +22,15 @@ const ItineraryScreen = ({ navigation }) => {
     const [listItinerary,setlistItinerary] = useState([]);
     const TIME_NOW_IN_UTC = moment.utc();
     const getItineraryApi = () => {
-        const response = planitApi.post("/popularlist",{email});
+        Alert.alert("Please Wait while we load the best itinerary for you ")
+        const response = planitApi.post("/getAPIList",{email});
         response.then(result => {
           setlistItinerary(result.data);
         })
         return response;
       };
       const getItineraryDB = () => {
-        const response = planitApi.post("/popularlist",{email});
+        const response = planitApi.post("/getname",{email});
         response.then(result => {
           setlistItinerary(result.data);
         })
@@ -35,8 +44,10 @@ const ItineraryScreen = ({ navigation }) => {
       
      };
     useEffect(() => {
-        Alert.alert("Please wait while we load the itinerary ")
+      const timer = setTimeout(() => {
         getItineraryDB();
+      }, 2000);
+      return () => clearTimeout(timer);
     }, [change]);
    
     
@@ -49,14 +60,14 @@ const ItineraryScreen = ({ navigation }) => {
           justifyContent: "center"
         }}
       >
-      <View style={styles.upperBox}>
-        <Text h1 style={styles.headline1}>
-          Plan
-        </Text>
-        <Text h1 style={styles.headline2}>
-          It
-        </Text>
-      </View>
+        <View style={styles.upperBox}>
+          <Text h1 style={styles.headline1}>
+            Plan
+          </Text>
+          <Text h1 style={styles.headline2}>
+            It
+          </Text>
+        </View>
       </View>
     <View style={styles.middleBox}>
     <Text style={styles.textStyle}>Your Itinerary:</Text>
@@ -110,74 +121,74 @@ const ItineraryScreen = ({ navigation }) => {
     />
     </View>
     </View>
-    )};
-    
-    const styles = StyleSheet.create({
-      container:{
-        flex:1,
-        backgroundColor: '#121212',
-      }, 
-      middleBox: {
-        flex: 4,
-        flexDirection: "column",
-        justifyContent: "center",
-        bottom: 80
-      },
-      upperBox: {
-        flex: 2,
-        flexDirection: "row",
-        justifyContent: "center"
-      },
-      headline1: {
-        color: "#FFFFFF",
-        top: 80,
-        fontSize:40
-      },
-      headline2: {
-        color: "#0092CC",
-        top: 80,
-        fontSize:40
-      },
-    textStyle: {
-        fontSize: 25,
-        color: 'white',
-        textAlign: 'center'
-        },
-    HeaderTwo: {
-        fontSize: 30
-    },
-    textInput: {
-        backgroundColor: "#292929",
-        color: "white",
-        margin: 15,
-        height: 50,
-        borderWidth: 2,
-        
-        borderColor: "#02DAC5",
-        borderRadius: 20
-      },
-      TextCheck:{
-        color: 'white',
-        fontSize: 20
-      },
-      containerStyle: {
-        backgroundColor: "#292929",
-        margin: 15,
-        alignSelf: 'center',
-        textAlign: 'center',
-        borderWidth: 2,
-        borderColor: "#02DAC5",
-        borderRadius: 20,
-        width: '100%'
-      },
-      containerListStyle: {
-        backgroundColor: "#292929",
-        margin: 15,
-        alignSelf: 'center',
-        // textAlign: 'center',
-        width: '100%'
-      }
-    });
+  );
+};
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#121212"
+  },
+  middleBox: {
+    flex: 4,
+    flexDirection: "column",
+    justifyContent: "center",
+    bottom: 80
+  },
+  upperBox: {
+    flex: 2,
+    flexDirection: "row",
+    justifyContent: "center"
+  },
+  headline1: {
+    color: "#FFFFFF",
+    top: 80,
+    fontSize: 40
+  },
+  headline2: {
+    color: "#0092CC",
+    top: 80,
+    fontSize: 40
+  },
+  textStyle: {
+    fontSize: 25,
+    color: "white",
+    textAlign: "center"
+  },
+  HeaderTwo: {
+    fontSize: 30
+  },
+  textInput: {
+    backgroundColor: "#292929",
+    color: "white",
+    margin: 15,
+    height: 50,
+    borderWidth: 2,
 
-export default  ItineraryScreen;
+    borderColor: "#02DAC5",
+    borderRadius: 20
+  },
+  TextCheck: {
+    color: "white",
+    fontSize: 20
+  },
+  containerStyle: {
+    backgroundColor: "#292929",
+    margin: 15,
+    alignSelf: "center",
+    textAlign: "center",
+    borderWidth: 2,
+    borderColor: "#02DAC5",
+    borderRadius: 20,
+    width: "100%"
+  },
+  containerListStyle: {
+    backgroundColor: "#292929",
+    margin: 15,
+    alignSelf: "center",
+    // textAlign: 'center',
+    width: "100%"
+  }
+});
+
+export default ItineraryScreen;
