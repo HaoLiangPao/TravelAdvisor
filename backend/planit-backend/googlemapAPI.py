@@ -106,8 +106,12 @@ def crawlLocationsSygic(coordinate, preference_list, trip_filter, max_act):
         result += response
     # we could use some random algorithum or optimize algorithum (such as: seperate restaruent with others etc.)
     random.shuffle(result)
-    places = result[:max_act]
-    subPlaces = result[max_act:]
+    if int(max_act) > len(result):
+        place = result
+        subPlaces = None
+    else:
+        places = result[:int(max_act)]
+        subPlaces = result[int(max_act):]
     print('crawl palces finished...')
     return places, subPlaces
 
@@ -128,6 +132,13 @@ def parsingLocationSygic(places, start, end):
         else:
             perex = response.get('perex')
         params = {"from":start[:-6], "to":end[:-6], "id":response.get("id")}
+        # get google query
+        loc = response.get('location')
+        coordinate = str(loc.get('lat')) + ", " + str(loc.get('lng'))
+        print(coordinate)
+        print(response.get('name'))
+        googleobj = gmaps.places_nearby(location = coordinate, radius = 1000, keyword = response.get('address')).get('results')[0]
+        print(googleobj)
         # get API response
         openTime = requests.get(openTimeURL, params = params, headers=SygicHeadersNew).json().get('data')
         parsed_place = {
@@ -145,7 +156,9 @@ def parsingLocationSygic(places, start, end):
             # in a form of {\d{4}-\d{2}-\d{2}: [{opening: ,closing: }], (more date)}
             # string(~\d{2}:\d{2}:\d{2}~)h:m:s (24h) format.
             'open':openTime.get('opening_hours').get(start[:-6])[0].get('opening'),
-            'close':openTime.get('opening_hours').get(start[:-6])[0].get('closing')
+            'close':openTime.get('opening_hours').get(start[:-6])[0].get('closing'),
+            'vicinity':googleobj.get('vicinity'),
+            'photo':googleobj.get('photos')[0].get('photo_reference')
         }
         parsed_list.append(parsed_place)
     print('parsinglocation finished...')
