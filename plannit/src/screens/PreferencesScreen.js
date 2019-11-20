@@ -1,6 +1,6 @@
 import React , { useState, useEffect} from "react";
-import { View, StyleSheet, Button, TextInput, ScrollView, FlatList, Alert,TouchableOpacity, StatusBar } from "react-native";
-import { Text ,ListItem} from "react-native-elements";
+import { View, StyleSheet, TextInput, ScrollView, FlatList, Alert,TouchableOpacity, StatusBar } from "react-native";
+import { Text ,ListItem,Button} from "react-native-elements";
 import planitApi from "../api/planitApi";
 
 const PreferencesScreen = ({ navigation }) => {
@@ -17,8 +17,9 @@ const PreferencesScreen = ({ navigation }) => {
       })
       return response;
     };
-    const deletePreferenceApi = () => {
-      const responseDel = planitApi.post("/deletePref", {delpreference,email});
+    const deletePreferenceApi = (item) => {
+      // console.log(delpreference)
+      const responseDel = planitApi.post("/deletePref", {"delpreference":item,email});
       responseDel.then(result=>{
         setChange(!change);
       })
@@ -66,10 +67,9 @@ const PreferencesScreen = ({ navigation }) => {
       data={listPreferences} 
       renderItem={({item})=>{
         return <TouchableOpacity onPress={()=>{
-          
-          // setChange(false);
-          setdelPreference(item)
-            deletePreferenceApi()          
+          console.log(item)
+          // setdelPreference(item)
+            deletePreferenceApi(item)          
         }}>
         <ListItem chevron title={item}
          containerStyle={styles.containerListStyle}
