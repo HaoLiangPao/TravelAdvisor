@@ -1,4 +1,4 @@
-Date: 2019.11.13
+Date: 2019.11.17
 Documentation: 8 mins
 Participation:
     * Jingwei Wang    wangj589
@@ -11,16 +11,14 @@ Participation:
 
 * Three Questions:
 * 1. What did I do yesterday that helped the development team meet the sprint goal?
-    Hao and David has got the API key from Sygic team and start testing with New API key.
-    Mohan worked on the styling for navigation
-    Zongda planed code refactoring on backend
-    Jingwei finihsed the design update.
+    Guikang and Javie successfully finished the rating and comment feature on branch
+    Hao, David worked on communication between backend and frontend.
+    Mohan finished testing naviagtion on ios
     
 * 2. What will I do today to help the development team meet the sprint goal?
-    Hao will write help functions to calculate durating got from Sygic Server.
-    Mohan will finish the styling for navigation
-    David will implement getAPIList method
-    Jingwei will do unit tests for all models
+    Guikang will merge the CommentSection Branch to master
+    Hao will work with David with more backend features.
+    Mohan will fix the styling bugs from navigation - ios version
 
 * 3. Do I see any impediment that prevents me or the development team from meeting the sprint goal?
-    
+    Merging is a bit diffcult

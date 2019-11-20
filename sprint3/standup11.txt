@@ -12,9 +12,17 @@ Participation:
 * Three Questions:
 * 1. What did I do yesterday that helped the development team meet the sprint goal?
     Guikang finished the rating screen and the transition to the comment screen.
+    Hao changed a bug in TimeItinerary
+    Mohan finished testing the android version of navigation
+    David kept testing and discuss errors with team members
+    Jingwei finished all unit tests.
     
 * 2. What will I do today to help the development team meet the sprint goal?
     Guikang communicate with Jingwei about how to send the rating and comment to the backend.
-
-* 3. Do I see any impediment that prevents me or the development team from meeting the sprint goal?
+    Hao will stay alert for any design changes from the frontend and change the backend accordingly.
+    Mohan will finishsh fixing the bugs encountered in the android version of navigation
+    David will keep testing
+    Jingwei will merge the unitTests branch to master. And himself will resolve any conflit.
     
+* 3. Do I see any impediment that prevents me or the development team from meeting the sprint goal?
+    Currently No.

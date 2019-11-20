@@ -37,8 +37,7 @@ const LocationScreen = ({ navigation }) => {
             my_promise
               .then(result => {
                 if (result.data.success === "Success") {
-                  console.log("success");
-                  navigation.navigate("preference",{email});
+                  navigation.navigate("filter",{email});
                 } else {
                   Alert.alert("Location not found. Please try again");
                 }
@@ -48,6 +47,12 @@ const LocationScreen = ({ navigation }) => {
             Alert.alert("Please Enter Valid Location");
           }}
         }
+        />
+        <Button 
+          style={{ margin: 15 }}
+          title="Back to Preference" 
+          onPress={()=>{navigation.navigate("preference",{email})}}
+          type="clear"
         />
       </View>
       <View style={{ position: "absolute", top: 40, alignSelf: "flex-end" }}>
