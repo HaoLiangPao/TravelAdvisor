@@ -250,8 +250,9 @@ def get_detail():
                 if i['name'] == place_name:
                     result['vicinity'] = i.get('vicinity')
                     result['photos'] = i.get('photo')
-                    format_start_time = i.get('startTimeTrip').split()[0] +"T"+i.get('startTimeTrip').split()[1]
-                    format_end_time = i.get('endTimeTrip').split()[0] +"T"+i.get('endTimeTrip').split()[1]
+                    format_start_time = i.get('startTimeTrip').split()[0] +"T"+i.get('startTimeTrip').split()[1]+":00-05:30"
+                    format_end_time = i.get('endTimeTrip').split()[0] +"T"+i.get('endTimeTrip').split()[1]+":00-05:30"
+                    print(format_start_time,format_end_time)
                     result['start_time'] = format_start_time
                     result['end_time'] = format_end_time
         else:

@@ -54,7 +54,7 @@ const ItineraryDetailScreen = ({ navigation }) => {
         const res = await Calendar.createEventAsync(calendar.id, {
           endDate: new Date(endTime),
           startDate: new Date(startTime),
-          title: name,
+          title: name
         });
         console.log(res);
         
