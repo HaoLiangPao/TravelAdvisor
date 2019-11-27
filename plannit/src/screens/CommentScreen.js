@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { View, StyleSheet, TextInput, StatusBar, TouchableWithoutFeedback, Keyboard } from "react-native";
+import { View, StyleSheet, TextInput, StatusBar, TouchableWithoutFeedback, Keyboard, Alert } from "react-native";
 import { Text, Button } from "react-native-elements";
 import planitApi from "../api/planitApi";
 
@@ -39,7 +39,14 @@ const CommentScreen = ({ navigation }) => {
                     onPress={()=>{
                         const my_promise = addFeedbackAPI();
                         my_promise.then(result => {
-                            navigation.navigate("preference",{email});
+                            Alert.alert(
+                                "Thanks for using PlanIt!",
+                                "We will generate a better trip based on your feedback",
+                                [
+                                  { text: "OK", onPress: () => navigation.navigate("preference",{email})}
+                                ],
+                                { cancelable: false }
+                              )
                             })
                           }
                     }

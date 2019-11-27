@@ -126,7 +126,6 @@ const FiltersScreen = ({ navigation }) => {
               keyboardType="numeric"
               placeholderTextColor="white"
               onChangeText={value => {
-                console.log(value);
                 setMaxactivity(value);
               }}
               placeholder="Click here to enter a number"
@@ -299,7 +298,6 @@ const FiltersScreen = ({ navigation }) => {
               } else {
                 const Promise = SendFilterApi();
                 Promise.then(result => {
-                  console.log(result.data === "Success");
                   navigation.navigate("itinerary", { email });
                 });
               }
