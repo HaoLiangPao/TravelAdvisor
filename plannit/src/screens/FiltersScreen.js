@@ -112,7 +112,6 @@ const FiltersScreen = ({ navigation }) => {
             <TextInput
               style={styles.textInput}
               onChangeText={value => {
-                console.log(value);
                 setMaxactivity(value);
               }}
               placeholder="Enter Number"
@@ -285,7 +284,6 @@ const FiltersScreen = ({ navigation }) => {
               } else {
                 const Promise = SendFilterApi();
                 Promise.then(result => {
-                  console.log(result.data === "Success");
                   navigation.navigate("itinerary", { email });
                 });
               }

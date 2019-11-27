@@ -39,7 +39,6 @@ const CommentScreen = ({ navigation }) => {
                     onPress={()=>{
                         const my_promise = addFeedbackAPI();
                         my_promise.then(result => {
-                            console.log("enteres")
                             Alert.alert(
                                 "Thanks for using PlanIt!",
                                 "We will generate a better trip based on your feedback",
