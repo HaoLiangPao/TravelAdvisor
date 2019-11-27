@@ -1,7 +1,8 @@
 import React , { useState, useEffect} from "react";
 import { View, StyleSheet, TextInput, ScrollView, FlatList, Alert,TouchableOpacity, StatusBar } from "react-native";
-import { Text ,ListItem,Button} from "react-native-elements";
+import { Text ,ListItem,Button,Icon} from "react-native-elements";
 import planitApi from "../api/planitApi";
+import Swipeable from 'react-native-swipeable-row';
 
 const PreferencesScreen = ({ navigation }) => {
     console.disableYellowBox = true;
@@ -10,6 +11,7 @@ const PreferencesScreen = ({ navigation }) => {
     const [delpreference,setdelPreference]= useState("");
     const [listPreferences,setlistPreferences] = useState([]);
     const email = navigation.getParam("email", "NO-ID");
+    const rightButtons = [];
     const enterPreferenceApi = () => {
       const response = planitApi.post("/addPref", {preference,email});
       response.then(result=>{
@@ -68,12 +70,31 @@ const PreferencesScreen = ({ navigation }) => {
       renderItem={({item})=>{
         return <TouchableOpacity onPress={()=>{
           console.log(item)
+          title="Delete"
+            Alert.alert(
+              "Are you sure you want to delete this preference?",
+              "",
+              [
+                {
+                  text: "Cancel",
+                  onPress: () => console.log("Cancel Pressed"),
+                  style: "cancel"
+                },
+                { text: "OK", onPress: () => {
+                  deletePreferenceApi(item) 
+                  console.log("OK Pressed") 
+                }
+              }
+              ],
+              { cancelable: false }
+            )
+          type="clear"
           // setdelPreference(item)
-            deletePreferenceApi(item)          
+                     
         }}>
-        <ListItem chevron title={item}
+        <ListItem title={item}
          containerStyle={styles.containerListStyle}
-         titleStyle={styles.textStyle}
+         titleStyle={styles.textStyle} rightIcon={<Icon type="antdesign" name="delete" color="red"/>}
          />
         </TouchableOpacity>}}
 />

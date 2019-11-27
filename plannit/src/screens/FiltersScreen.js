@@ -106,18 +106,32 @@ const FiltersScreen = ({ navigation }) => {
               flexDirection: "row"
             }}
           >
-            <Text h4 style={{ color: "white", textAlign: "left", margin: 3 }}>
-              Number of activities:
+            <Text
+              h4
+              style={{
+                color: "white",
+                textAlign: "left",
+                margin: 5,
+                bottom: 5
+              }}
+            >
+              Input number of activities:
             </Text>
+          </View>
+          <View style={{top: 20 }} >
             <TextInput
+            autoFocus={true}
+            
               style={styles.textInput}
+              keyboardType="numeric"
+              placeholderTextColor="white"
               onChangeText={value => {
                 console.log(value);
                 setMaxactivity(value);
               }}
-              placeholder="Enter Number"
+              placeholder="Click here to enter a number"
             />
-          </View>
+            </View>
           <View
             style={{
               top: 17,
@@ -331,9 +345,12 @@ const styles = StyleSheet.create({
   },
   textInput: {
     color: "white",
-    textAlign: "center",
+    textAlign: "auto",
     fontWeight: "bold",
-    fontSize: 18
+    fontSize: 18,
+    height:"20%",
+    borderWidth: 2,
+    borderColor: "white"
   },
   centerBox: {
     backgroundColor: "#292929",
