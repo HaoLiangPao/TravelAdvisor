@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   StatusBar
 } from "react-native";
-import { Text, ListItem, Button } from "react-native-elements";
+import { Text, ListItem, Button, Overlay,Icon } from "react-native-elements";
 import planitApi from "../api/planitApi";
 import * as CalendarExpo from 'expo-calendar';
 import moment from 'moment';
@@ -17,6 +17,7 @@ import moment from 'moment';
 const ItineraryScreen = ({ navigation }) => {
     console.disableYellowBox = true;
     const [pressed,setPressed] = useState(false);
+    const [loading,setLoading] = useState(true);
     const [change,setChange] = useState(false);
     const email = navigation.getParam("email", "NO-ID");
     const back = navigation.getParam("pressed", "NO-ID");
@@ -28,6 +29,7 @@ const ItineraryScreen = ({ navigation }) => {
         response.then(result => {
         setlistItinerary(result.data);
         setChange(!change);
+        setLoading(true)
         })
         return response;
       };
@@ -38,6 +40,7 @@ const ItineraryScreen = ({ navigation }) => {
         response.then(result => {
           setlistItinerary(result.data);
           console.log(result.data)
+          setLoading(true)
         })
         return response
       }
@@ -45,7 +48,6 @@ const ItineraryScreen = ({ navigation }) => {
         const response = planitApi.post("/getname",{email,pressed});
         response.then(result => {
           setlistItinerary(result.data);
-          console.log(result.data)
       })
       return response;
     }
@@ -59,9 +61,13 @@ const ItineraryScreen = ({ navigation }) => {
         getItineraryDB();
     }, [change]);
    
-    
+   
     return (
     <View style={{flex:1, backgroundColor:'black'}}>
+       {/* <Overlay isVisible={loading}>
+      <Icon type="antdesign" name="loading"/>
+      <Button onPress={()=>{setLoading(false)}}></Button>
+    </Overlay> */}
       <StatusBar barStyle="light-content"/>
       <View
         style={{

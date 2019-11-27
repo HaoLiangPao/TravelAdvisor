@@ -26,6 +26,15 @@ const RatingScreen = ({ navigation }) => {
                 onPress={()=>navigation.navigate("comment",{email,input})}
             />
             </View>
+            <View style={{ position: "absolute", top: 40, alignSelf: "flex-end" }}>
+            <Button
+            title="Sign Out"
+            type="clear"
+            onPress={() => {
+                navigation.navigate("SignIn");
+            }}
+            />
+      </View>
         </View>
 )};
 

@@ -33,7 +33,6 @@ const ItineraryDetailScreen = ({ navigation }) => {
     const getItineraryDetailApi = () => {
         const response = planitApi.post("/getDetail",{email, name});
         response.then(result => {
-          console.log(result.data)
           setVicinity(result.data.vicinity);
           setPhoto(result.data.photos);
           setEndTime(result.data.end_time);
@@ -49,14 +48,12 @@ const ItineraryDetailScreen = ({ navigation }) => {
     const hasCalendarPermission = await Calendar.requestPermissionsAsync();
     if (hasCalendarPermission.status === 'granted') {
       const calendar = await Calendar.getDefaultCalendarAsync()
-      console.log({ calendar });
       try {
         const res = await Calendar.createEventAsync(calendar.id, {
           endDate: new Date(endTime),
           startDate: new Date(startTime),
           title: name
         });
-        console.log(res);
         
         Alert.alert('Created event in Calendar');
       } catch (e) {
@@ -69,29 +66,20 @@ const ItineraryDetailScreen = ({ navigation }) => {
     var longitude = position.coords.longitude;
     setLatitude(latitude);
     setLongitude(longitude);
-    console.log(latitude);
-    console.log(longitude);
   }
   if (currentLatitude === "") {
     navigator.geolocation.getCurrentPosition(setLocation);
   }
   const getModeOfTransportation = () => {
-    console.log("entered");
     const response = planitApi.post("/getFilter", { email });
-    console.log(response);
     response.then(result => {
-      console.log(result);
-      console.log("above setter");
       setTransport(result.data.transport_method);
     });
     return response;
   };
   const getLatLong = () => {
-    console.log(vicinity);
     const response = planitApi.post("/getLatLong", { vicinity });
     response.then(result => {
-      console.log(result);
-      console.log("in get lat long");
       setLocalLat(result.data.latitude);
       setLocalLong(result.data.longitude);
     });
@@ -172,34 +160,10 @@ const ItineraryDetailScreen = ({ navigation }) => {
         />
         <Button
           style={{ margin: 15 }}
-          title="Delete"
-          onPress={() =>
-            Alert.alert(
-              "Delete this activity?",
-              "",
-              [
-                {
-                  text: "Cancel",
-                  onPress: () => console.log("Cancel Pressed"),
-                  style: "cancel"
-                },
-                { text: "OK", onPress: () => console.log("OK Pressed") }
-              ],
-              { cancelable: false }
-            )
-          }
-          type="clear"
-        />
-        <Button
-          style={{ margin: 15 }}
           title="Launch Maps Navigation"
           onPress={() => {
-            console.log("ok");
             const response = getModeOfTransportation();
-            console.log("here");
-            console.log(response);
             response.then(result => {
-              console.log("in response");
               const response_lat_long = getLatLong();
               response_lat_long.then(result => {
                 handleGetDirections();
@@ -208,16 +172,15 @@ const ItineraryDetailScreen = ({ navigation }) => {
           }}
           type="clear"
         />
-         <Button 
-    style={{ margin: 15 }}
-    title="Create Event"
-    onPress={()=>{
-      addEventCalender(details);
-    }} 
-    type="clear"
-    />
+        <Button 
+          style={{ margin: 15 }}
+          title="Create Event"
+          onPress={()=>{
+            addEventCalender(details);
+          }} 
+          type="clear"
+        />
       </View>  
-    
     </View>
   );
 };
