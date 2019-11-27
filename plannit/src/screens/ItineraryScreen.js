@@ -48,7 +48,6 @@ const ItineraryScreen = ({ navigation }) => {
         const response = planitApi.post("/getname",{email,pressed});
         response.then(result => {
           setlistItinerary(result.data);
-          console.log(result.data)
       })
       return response;
     }
