@@ -16,3 +16,4 @@
 
 
 ### Ideal Process for Our Team:
+**Our team’s process has been working fine. Tasks were fairly distributed to members. Although sometimes the working burndown chart is not fluently completed, but most of our tasks are completed. If we were going to keep going, our process would continue following our agile procedure to complete the rest of tasks in Jira.**
