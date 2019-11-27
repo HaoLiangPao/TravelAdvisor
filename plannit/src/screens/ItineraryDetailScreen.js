@@ -157,7 +157,7 @@ const ItineraryDetailScreen = ({ navigation }) => {
               uri:
                 "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" +
                 photo +
-                "&key=AIzaSyCGK-PEKgnOj4ilFbm2cw7cwi2btYwWXIQ"
+                "&key=AIzaSyATFRxyeltFvAKm-F9b9etga1ToMuiTSE8"
             }}
             style={{ width: 300, height: 300, alignSelf: "center" }}
           />
