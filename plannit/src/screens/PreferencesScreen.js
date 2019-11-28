@@ -1,6 +1,6 @@
 import React , { useState, useEffect} from "react";
-import { View, StyleSheet, TextInput, ScrollView, FlatList, Alert,TouchableOpacity, StatusBar } from "react-native";
-import { Text ,ListItem,Button,Icon} from "react-native-elements";
+import { View, StyleSheet, TextInput, ScrollView, FlatList, Alert,TouchableOpacity, StatusBar, KeyboardAvoidingView } from "react-native";
+import { Text ,ListItem,Button, Icon} from "react-native-elements";
 import planitApi from "../api/planitApi";
 
 const PreferencesScreen = ({ navigation }) => {
@@ -30,7 +30,6 @@ const PreferencesScreen = ({ navigation }) => {
     const getPreferenceApi = () => {
       const response2 = planitApi.post("/getPref",{email});
       response2.then(result2 => {
-        console.log(result2.data);
         setlistPreferences(result2.data);
       })
       return response2;
@@ -41,7 +40,7 @@ const PreferencesScreen = ({ navigation }) => {
     }, [change]);
    
     return (
-    <View style={{flex:1, backgroundColor:'black'}}>
+      <KeyboardAvoidingView style={{flex:1, backgroundColor:'black'}} behavior="padding" enabled> 
       <StatusBar barStyle="light-content"/>
       <View
         style={{
@@ -108,7 +107,6 @@ const PreferencesScreen = ({ navigation }) => {
     />
     
     <Button
-     style={{ margin: 15 }}
       title="Add" 
       type="clear"
       onPress={()=>{
@@ -134,7 +132,6 @@ const PreferencesScreen = ({ navigation }) => {
     }
     />
     <Button 
-      style={{ margin: 15 }}
       title="Next" 
       type="clear"
       onPress={()=>{
@@ -151,7 +148,7 @@ const PreferencesScreen = ({ navigation }) => {
           }}
         />
       </View>
-    </View>
+      </KeyboardAvoidingView>
     )};
     
   const styles = StyleSheet.create({
@@ -172,12 +169,12 @@ const PreferencesScreen = ({ navigation }) => {
     },
     headline1: {
       color: "#FFFFFF",
-      top: 80,
+      top: 70,
       fontSize: 40
     },
     headline2: {
       color: "#0092CC",
-      top: 80,
+      top: 70,
       fontSize: 40
     },
     textStyle: {
