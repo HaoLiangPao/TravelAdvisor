@@ -10,7 +10,7 @@ import requests
 import random
 
 # define my api_key -- GoogleMapAPI
-API_KEY = "AIzaSyATFRxyeltFvAKm-F9b9etga1ToMuiTSE8"
+API_KEY = "AIzaSyCa5EwjgiZ_7HxCM3HebOyOT-YVhVOwVOY"
 # define my api_key -- SygicAPI
 Sygic_API = "MiFCBUZaa078n2SuYEf4r6JFV5l9l0rJ1OfgyDQv"
 Sygic_API2 = "GMH5swhpCA3g1mvvykU5s7worRP1GTywaNrQUC0X"
