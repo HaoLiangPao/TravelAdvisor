@@ -120,13 +120,11 @@ const FiltersScreen = ({ navigation }) => {
           </View>
           <View style={{top: 20 }} >
             <TextInput
-            autoFocus={true}
-            
               style={styles.textInput}
               keyboardType="numeric"
               placeholderTextColor="white"
               onChangeText={value => {
-                setMaxactivity(value);
+              setMaxactivity(value);
               }}
               placeholder="Click here to enter a number"
             />
@@ -134,7 +132,7 @@ const FiltersScreen = ({ navigation }) => {
           <View
             style={{
               top: 17,
-              borderBottomColor: "white",
+              borderBottomColor: "#0092CC",
               borderBottomWidth: 2
             }}
           />
@@ -346,8 +344,10 @@ const styles = StyleSheet.create({
     textAlign: "auto",
     fontWeight: "bold",
     fontSize: 18,
-    height:"20%",
+    height:40,
     borderWidth: 2,
+    borderBottomColor:"gray",
+    borderColor:"gray",
     borderColor: "white"
   },
   centerBox: {

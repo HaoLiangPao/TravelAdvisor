@@ -2,7 +2,6 @@ import React , { useState, useEffect} from "react";
 import { View, StyleSheet, TextInput, ScrollView, FlatList, Alert,TouchableOpacity, StatusBar } from "react-native";
 import { Text ,ListItem,Button,Icon} from "react-native-elements";
 import planitApi from "../api/planitApi";
-import Swipeable from 'react-native-swipeable-row';
 
 const PreferencesScreen = ({ navigation }) => {
     console.disableYellowBox = true;
