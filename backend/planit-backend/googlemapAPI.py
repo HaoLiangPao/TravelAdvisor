@@ -12,24 +12,16 @@ import random
 # define my api_key -- GoogleMapAPI
 API_KEY = "AIzaSyCa5EwjgiZ_7HxCM3HebOyOT-YVhVOwVOY"
 # define my api_key -- SygicAPI
-Sygic_API = "MiFCBUZaa078n2SuYEf4r6JFV5l9l0rJ1OfgyDQv"
-Sygic_API2 = "GMH5swhpCA3g1mvvykU5s7worRP1GTywaNrQUC0X"
+Sygic_API = "OFOY8kJBZIPIcaigwD5O72sW3l7bD9V5jUTaWZe0"
 
 # way to get locations from Sygic API with requests
-SygicHeaders = {"x-api-key":Sygic_API}
 placeListURL = 'https://api.sygictravelapi.com/1.1/en/places/list'
 placeDetailURL = 'https://api.sygictravelapi.com/1.1/en/places/'
 openTimeURL = 'https://api.sygictravelapi.com/1.1/en/places/poi:530/opening-hours'
-SygicHeadersOld = {"x-api-key":Sygic_API}
-SygicHeadersNew = {"x-api-key":Sygic_API2}
-
-
-
+SygicHeaders = {"x-api-key":Sygic_API}
 
 # define client
 gmaps = googlemaps.Client(key=API_KEY)
-
-
 
 def addPlace(prefs, location, radiusSearch):
     # search type 1: nearSearch
@@ -41,9 +33,6 @@ def addPlace(prefs, location, radiusSearch):
         # put the location info searched into database
         for places in places_result['results']:
             addPlaceDB(places)
-        # if more than one page of results searched
-        #if nextPageToken != None:
-        #    places_result = gmaps.places_nearby(page_token = places_result['next_page_token']
 
 
 # help function: add ID, Name, Lng, Lat info to database as 'interested places'
@@ -101,7 +90,7 @@ def crawlLocationsSygic(coordinate, preference_list, trip_filter, max_act):
         query = i
         area = coordinate + "," + str(int(trip_filter['radius']) * 1000) # convert km unit to m unit
         params = {"area":area, "categories":categories, "query":query,"limit":20} # only look for 3 iterms per preference
-        response = requests.get(placeListURL, params=params, headers=SygicHeadersNew).json().get("data").get("places")
+        response = requests.get(placeListURL, params=params, headers=SygicHeaders).json().get("data").get("places")
         # get attributes we want
         result += response
     # we could use some random algorithum or optimize algorithum (such as: seperate restaruent with others etc.)
@@ -135,9 +124,6 @@ def parsingLocationSygic(places, start, end):
                 else:
                     photo = None
                 vicinity = googleobj.get('vicinity')
-                #placeID = place.get('id')
-                #placeDetailURL = 'https://api.sygictravelapi.com/1.1/en/places/' + placeID
-                #response = requests.get(placeDetailURL, headers=SygicHeaders).json().get('data').get('place')
                 # some places dont have a reasonable duratino in Sygic database, so we multiply the original value by 10
                 if response.get('duration') < 600:
                     duration = response.get('duration') * 10
@@ -154,7 +140,7 @@ def parsingLocationSygic(places, start, end):
                 print(response.get('url'))
                 # reverse to compute address
                 # get API response
-                openTime = requests.get(openTimeURL, params = params, headers=SygicHeadersNew).json().get('data')
+                openTime = requests.get(openTimeURL, params = params, headers=SygicHeaders).json().get('data')
                 parsed_place = {
                     'id':response.get('id'),
                     'name':response.get('name'),
@@ -248,6 +234,5 @@ def TimeItineraryFactory(parsed_list, start, end):
             place['duration'] = duration
             place['endTimeTrip'] = end
         Itinerary.append(place)
-    #print(Itinerary)
     print('TimeItineraryFactory finished...')
     return Itinerary

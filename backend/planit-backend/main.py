@@ -94,7 +94,6 @@ def addPreference():
     email = content.get('email')
     preference = content.get('preference')
     user = CheckIfUserExists(email)
-    # print(user)
     user_preference = user.get('preference')
     if user_preference is None:
         pref_list = [preference]
@@ -147,9 +146,7 @@ def popularlist():
     content = request.get_json(silent=True)
     # user inputs
     email = content.get('email')
-    # trip_filter = content.get('filter')
     user = CheckIfUserExists(email)
-    # max_activity_num = int(trip_filter.get('activity_num'))
     trip_filter = user.get("filter")
     if user != None:
         # starting location, parsing into coordinate
@@ -162,8 +159,6 @@ def popularlist():
         print(max_act)
 
         # all the locations that fits the requirement
-        # print(preference_list)
-        # print(trip_filter)
         result_locations = crawlLocations(
             coordinate, preference_list, trip_filter)
         # list store the duplicating place
@@ -177,7 +172,6 @@ def popularlist():
         # remove the duplicating elements in result_location
         for j in duplicate:
             result_locations.remove(j)
-        # print(nameList)
         # use the limitation of max activity numbers to chop the list
         if (max_act is None):
             return_list = nameList
@@ -262,57 +256,13 @@ def get_detail():
     resp = jsonify(result)
     return resp
 
-# @main.route('/generateTrip', methods=['POST'])
-# def generateTrip():
-#     content = request.get_json(silent=True)
-#     # user inputs
-#     email = content.get('email')
-#     trip_filter = content.get('filter')
-#     user = CheckIfUserExists(email)
-#     max_activity_num = int(trip_filter.get('activity_num'))
-#     if user != None:
-#         # starting location, parsing into coordinate
-#         location = user.get('location')
-#         coordinate = str(location.get('lat')) + ", " + str(location.get('lng'))
-#         # list of possible preferences
-#         preference_list = user.get('preference')
-#         # all the locations that fits the requirement
-#         result_locations = crawlLocations(
-#             coordinate, preference_list, trip_filter)
-#         # maps pid to their "type" and their corresponding location object
-#         pidToType, pidtoloc = parsingLocation(result_locations)
-#         # maps pid to their value, higher the value, more willingness from the
-#         # user for that location(activity)
-#         pidtoval = dict()
-#         # generating random rating for current user for each type he likes
-#         TypeToRating = dict()
-#         for i in preference_list:
-#             TypeToRating[i] = random.random() * 10
-#         # compute pid and their corresponding value
-#         for i in pidToType.keys():
-#             pidtoval[i] = 0
-#             for j in pidToType.get(i):
-#                 if TypeToRating.get(j) != None:
-#                     pidtoval[i] = pidtoval.get(i) + TypeToRating[j]
-#         result = list()
-#         # get top results
-#         if max_activity_num < len(pidtoloc.keys()):
-#             while len(result) < max_activity_num:
-#                 max_pid = max(pidtoval.items(), key=lambda x: x[1])[0]
-#                 result.append(pidtoloc[max_pid].serialization())
-#                 pidtoval.pop(max_pid)
-#         resp = jsonify(result)
-#         return resp
-
 @main.route('/generateItinerary', methods=['POST', 'GET'])
 def generateItinerary():
     # getting the popular lactivities in user's location and preference
     content = request.get_json(silent=True)
     # user inputs
     email = content.get('email')
-    # trip_filter = content.get('filter')
     user = CheckIfUserExists(email)
-    # max_activity_num = int(trip_filter.get('activity_num'))
     trip_filter = user.get("filter")
     if user != None:
         # starting location, parsing into coordinate
@@ -327,9 +277,6 @@ def generateItinerary():
         max_act = user.get('filter').get('activity_num')
         print(max_act)
         # all the locations that fits the requirement
-        #print(preference_list)
-        #print(trip_filter)
-        # result_locations = crawlLocations(coordinate, preference_list, trip_filter)
         result_locations, result_locations_sub = crawlLocationsSygic(coordinate, preference_list, trip_filter, max_act)
         # extract the information we want, change the unreasonable time duration and stored opening hours
         print(result_locations)
@@ -337,7 +284,6 @@ def generateItinerary():
         print(parsed_list)
         # generate an Itinerary with time attributes
         itinerary = TimeItineraryFactory(parsed_list, start, end)
-        # print(itinerary)
         mongo.db.users.update_one(
             {'email': email}, {'$set': {'itinerary': itinerary}})
         mongo.db.users.update_one(
