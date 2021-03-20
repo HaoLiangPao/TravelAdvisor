@@ -10,7 +10,7 @@ flask-ngrok==0.0.25
 Flask-PyMongo==2.3.0
 idna==2.8
 itsdangerous==1.1.0
-Jinja2==2.10.3
+Jinja2==2.11.3
 MarkupSafe==1.1.1
 mongoengine==0.18.2
 pycparser==2.19
